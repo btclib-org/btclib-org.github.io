@@ -1,0 +1,20 @@
+# typos' configuration, in a file of its own because typos has no flag
+# for it: the command line carries --exclude, which blinds a whole file,
+# and nothing that says a particular word is not a misspelling. codespell
+# does have one, so what it needs is written beside its hook in
+# .pre-commit-config.yaml instead of here, and the asymmetry is that
+# difference and not a preference.
+#
+# What this file costs the tree is itself: it is why the tree holds any
+# toml at all, so .taplo.toml and .pre-commit-config.yaml's toml hooks
+# arrive with it. Section 14 of the organization's standard is that rule
+# -- a rule whose subject the tree does not hold asks nothing of it, and
+# a rule arrives with its subject.
+[default.extend-identifiers]
+# GitHub Pages' name-with-owner variable, which jekyll-github-metadata
+# reads to resolve `site.github` and which website.yml passes the
+# repository in. The hook runs with --write-changes, so without this
+# line it rewrites `NWO` as `NOW` -- measured, on the first run of the
+# gate here -- and the build then resolves the metadata of no
+# repository at all
+PAGES_REPO_NWO = "PAGES_REPO_NWO"

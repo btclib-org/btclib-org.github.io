@@ -1,0 +1,17 @@
+# What a local Jekyll build leaves behind. `bundle exec jekyll build`
+# writes _site/ and the two caches beside it; GitHub Pages builds on its
+# own side and none of this is ever served from here.
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+
+# Gemfile names one gem and that gem pins everything under it exactly,
+# so the version in Gemfile is the lock and there is no second file to
+# commit -- the Gemfile's own header says so. `bundle install` writes
+# this one anyway, on whatever ruby the machine happens to have
+Gemfile.lock
+vendor/
+
+# what macOS writes into a directory it has been looked at in
+.DS_Store

@@ -1,0 +1,173 @@
+---
+name: homepage
+
+# index.md is generated from btclib-org/.github's profile/README.md, and
+# .github/scripts/derive-homepage.sh is what generates it. This is the
+# pair of questions that mechanism needs somebody to keep asking:
+#
+#   verify -- is the committed index.md what its own pin derives to? A
+#     hand edit is then a refusal rather than a convention, which is the
+#     whole reason the file records the commit it came from.
+#   stale  -- does btclib-org/.github's profile/README.md still say what
+#     this site says? The pin is a commit, so it goes out of date on
+#     every landing there; what matters is the text, and that is what
+#     this compares.
+#
+# They run on different events because they answer to different people.
+# verify is about the branch in front of you and runs on every pull
+# request. stale is about another repository moving, which no pull
+# request here introduces and no merge here should wait on -- so it runs
+# on main and on demand, and a red run of it is a notification rather
+# than a gate. CONTRIBUTING.md's "Changing the homepage" is the one
+# command that answers it.
+#
+# What would answer it without anybody asking is a weekly schedule.
+# Section 10 of the organization's standard is a calendar of two tables
+# that names an instant for every `cron:` in the organization, and
+# `tests/grid_test.py` there fails on a schedule no row names and on a
+# scheduling repository with no minute -- this repository has neither
+# yet. The row lands in that tree before the `cron:` lands here, which
+# that section states as the order.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    # closed too, though the jobs below decline the real work on it: the
+    # landing then lands in this pull request's own concurrency group and
+    # cancels the run still holding it
+    types: [opened, reopened, synchronize, ready_for_review, closed]
+  # no paths filter, on either event. What verify reads is index.md and
+  # the script, and what stale reads is another repository -- so a filter
+  # over this tree's paths would leave the second unable to run at all,
+  # and both jobs together are seconds
+  workflow_dispatch:
+
+# least privilege for the GITHUB_TOKEN. Nothing here writes: the script
+# rewrites a checkout that is thrown away, and what a difference means is
+# reported rather than committed
+permissions:
+  contents: read
+
+concurrency:
+  # named literally, never through github.workflow. Keyed on the pull
+  # request's number rather than on github.head_ref, which two forks each
+  # pushing "patch-1" would share; a run with no pull request falls back
+  # to github.ref
+  group: homepage-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: The homepage is what its pin derives to
+    if: ${{ !github.event.pull_request.draft && github.event.action != 'closed' }}
+    runs-on: ubuntu-latest
+    # a curl, a gh call and a diff
+    timeout-minutes: 10
+    steps:
+      # every action pinned to a commit SHA with the tag in the comment
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # the script reads the network and writes the checkout;
+          # nothing pushes it back
+          persist-credentials: false
+      # read out of the front matter and not out of the body: the body is
+      # somebody else's prose and may one day contain a line shaped like
+      # a key. awk stops at the second `---`, which is where the front
+      # matter ends -- the source's own thematic break is further down
+      # and is not counted
+      - name: Read the commit index.md records
+        id: pin
+        run: |
+          pin=$(awk '$0=="---"{n++;next} n==1&&$1=="source_commit:"{print $2;exit}' index.md)
+          if [ -z "$pin" ]; then
+            echo "::error::index.md carries no source_commit in its" \
+                 "front matter, so nothing says which text it is."
+            exit 1
+          fi
+          echo "commit=$pin" >> "$GITHUB_OUTPUT"
+      # a commit that is in that repository but not on its main is a pin
+      # to something nobody landed -- a branch, a fork's head.
+      # `compare/<base>...<head>` answers about the *head*, so with the
+      # pin as base and main as head it says `ahead` where the pin is an
+      # ancestor of main and `identical` where it is main itself; a pin
+      # off main answers `diverged`, and a commit that repository does
+      # not have at all answers 404, which fails this step on gh's own
+      # message. Measured both green ways against btclib-org/.github --
+      # `behind` is what the pair answers written the other way round
+      - name: The pin names a commit on that repository's main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PIN: ${{ steps.pin.outputs.commit }}
+        run: |
+          # `relation` rather than `status`, which zsh reserves: this
+          # runs under bash, and the name is what somebody reproducing
+          # the step by hand types into whatever shell they have
+          relation=$(gh api "repos/btclib-org/.github/compare/$PIN...main" \
+                       --jq '.status')
+          case "$relation" in
+            ahead | identical) echo "the pin is on main ($relation)" ;;
+            *)
+              echo "::error::index.md pins $PIN, which compares" \
+                   "$relation against btclib-org/.github's main: the" \
+                   "homepage is derived from a commit nobody landed."
+              exit 1
+              ;;
+          esac
+      # the script rewrites index.md whole, so what git reports
+      # afterwards is every way the committed file differs from what its
+      # own pin derives to -- a hand edit to the body, a hand edit to the
+      # front matter, a pin moved without re-deriving
+      - name: Re-derive at that commit and compare
+        env:
+          PIN: ${{ steps.pin.outputs.commit }}
+        run: |
+          ./.github/scripts/derive-homepage.sh "$PIN"
+          if ! git diff --exit-code -- index.md; then
+            echo "::error::index.md is not what its own pin derives" \
+                 "to. It is generated: CONTRIBUTING.md's \"Changing the" \
+                 "homepage\" is how it is changed, and a correction to" \
+                 "what the page says belongs in btclib-org/.github."
+            exit 1
+          fi
+
+  stale:
+    name: The homepage still says what the organization page says
+    # never on a pull request: what this reports is that another
+    # repository moved, which is nothing a branch here introduced
+    if: ${{ github.event_name != 'pull_request' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # the same read the verify job makes, and it is repeated rather
+      # than shared: a job cannot read another job's step output without
+      # `needs`, and making this job wait on that one would leave the
+      # notification unsent whenever the gate is red
+      - name: Read the commit index.md records
+        id: pin
+        run: |
+          pin=$(awk '$0=="---"{n++;next} n==1&&$1=="source_commit:"{print $2;exit}' index.md)
+          echo "commit=$pin" >> "$GITHUB_OUTPUT"
+      # the text and not the commit. That repository lands changes for
+      # its own reasons every week, so a pin behind its main says
+      # nothing; what this site owes is the same prose, and two fetches
+      # are what answer it
+      - name: Compare the pinned text against that repository's main
+        env:
+          PIN: ${{ steps.pin.outputs.commit }}
+          RAW: https://raw.githubusercontent.com/btclib-org/.github
+        run: |
+          curl -fsSL "$RAW/$PIN/profile/README.md" > pinned.md
+          curl -fsSL "$RAW/main/profile/README.md" > current.md
+          if ! cmp -s pinned.md current.md; then
+            diff -u pinned.md current.md || true
+            echo "::error::btclib-org/.github's profile/README.md has" \
+                 "moved and this site has not. CONTRIBUTING.md's" \
+                 "\"Changing the homepage\" is the command that moves it."
+            exit 1
+          fi
