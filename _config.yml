@@ -1,0 +1,74 @@
+---
+# The btclib-org organization site, served by GitHub Pages from main's
+# root with the classic builder:
+#
+#   $ gh api repos/btclib-org/btclib-org.github.io/pages
+#   {"cname": null, "build_type": "legacy",
+#    "source": {"branch": "main", "path": "/"}}
+#
+# REPOSITORY.md records that setting and is where it is read back. What
+# it means here is that this file, Gemfile and index.md are website
+# sources, and that every other file in main's root is a URL under
+# btclib-org.github.io whether it was meant to be one or not -- which is
+# what the exclude list below is for.
+#
+# The theme is the one btclib.org already runs, so the organization's two
+# sites are one look rather than two.
+title: btclib-org
+theme: jekyll-theme-minimal
+
+# the minimal theme offers zip and tar buttons on a project page. This is
+# an organization page, where `site.github.is_project_page` is false and
+# the buttons do not render in any case; the key says so rather than
+# leaving a reader to work out that they cannot appear
+show_downloads: false
+
+# There is no `description` here, deliberately. The theme falls back to
+# the repository's own GitHub description, which is a setting outside the
+# tree and recorded in REPOSITORY.md -- where a copy of the text here
+# would be a second place for the organization's one-line summary to
+# live and to disagree.
+
+# The homepage is index.md, which is generated: it is
+# btclib-org/.github's profile/README.md under front matter, and
+# .github/scripts/derive-homepage.sh is what writes it.
+#
+# The first block below repeats Jekyll's own default exclude, because
+# this key *replaces* that default rather than adding to it: without
+# those entries back, declaring this list would publish the Gemfile.
+#
+# Everything after it is this repository's own process, which is read on
+# github.com where it is rendered and current rather than served here as
+# raw markdown. Two are named for a reason of their own: README.md is the
+# repository's README and not the site's homepage, the two being
+# different documents here where a tree with no index.md has only one;
+# and CLAUDE.md and REPOSITORY.md are what a session and a maintainer
+# read, not a visitor.
+#
+# Not excluded, deliberately: index.md is the homepage, and LICENSE is
+# the licence of what the page says.
+#
+# Anything whose name begins with a dot needs no entry -- Jekyll's own
+# EntryFilter drops those before this list is consulted, which is why
+# .github/ and .claude/ are absent from it.
+exclude:
+  # Jekyll's defaults, restored
+  - .sass-cache
+  - .jekyll-cache
+  - gemfiles
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor/bundle/
+  - vendor/cache/
+  - vendor/gems/
+  - vendor/ruby/
+  # this repository's own documents
+  - AUTHORS.md
+  - CHANGELOG.md
+  - CLAUDE.md
+  - CONTRIBUTING.md
+  - COPYRIGHT
+  - README.md
+  - REPOSITORY.md
+  - REVIEWING.md

@@ -1,2 +1,67 @@
-# btclib-org.github.io
-The btclib-org organization site
+# The btclib-org organization site
+
+<!-- The badge row is section 2 of the organization standard's, and what
+a tree carries is read off the tree rather than curated: every repository
+carries the lint workflow's badge, and the rest are property-driven --
+what an index says about a published package, a suite, a documentation
+build, a sentinel section 10's record names this tree in. This repository
+publishes nothing, holds no suite, builds no documentation and is in no
+sentinel's record, so the row is one badge.
+
+website.yml and homepage.yml have no badge for the same reason read the
+other way: the row is the standard's list, and adding a workflow to it
+here would make this tree's row a curation rather than a reading. -->
+[![lint](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/lint.yml/badge.svg)](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/lint.yml)
+
+The site served at
+[btclib-org.github.io](https://btclib-org.github.io/), and nothing else:
+no package, no suite, no documentation build. GitHub Pages builds it from
+this repository's `main` branch at the root, with the classic Jekyll
+builder — `REPOSITORY.md` reads that setting back from the endpoint.
+
+## The homepage is generated
+
+`index.md` is
+[btclib-org/.github](https://github.com/btclib-org/.github)'s
+`profile/README.md` under Jekyll front matter, and that file is the
+organization's page — what github.com/btclib-org renders. One text, one
+place it is written, and a second copy of it here is the thing this
+arrangement exists to avoid: a transcription is the copy that goes stale.
+
+`.github/scripts/derive-homepage.sh` is what writes it, from the commit
+its own front matter records, and the file's body is the source's bytes
+with nothing added or rewritten. So the derivation is checkable by
+anybody in one command, without reading the script:
+
+```shell
+awk 'n>=2 {print} $0=="---" {n++}' index.md | cmp - <(curl -fsSL \
+  "https://raw.githubusercontent.com/btclib-org/.github/$(awk \
+  '$0=="---"{n++;next} n==1&&$1=="source_commit:"{print $2;exit}' \
+  index.md)/profile/README.md")
+```
+
+`homepage.yml` asks the same question on every pull request, and asks a
+second one on `main`: whether that source still says what this site says.
+`CONTRIBUTING.md`'s *Changing the homepage* is what to do about either
+answer, and the script's own header has the alternatives that were
+weighed against deriving — transcribing the page, a git submodule, a
+fetch at build time — and what rejects each.
+
+## The rest of the tree
+
+`_config.yml` is the site's configuration and decides what else in the
+root is published at all: the `exclude:` list there **replaces** Jekyll's
+default rather than adding to it, so a file added to this directory
+without an entry becomes a URL under `btclib-org.github.io` whether
+anybody meant it to or not.
+
+`Gemfile` names the `github-pages` release GitHub's own builder runs, so
+`website.yml` can build the site with the same toolchain and fail out
+loud where the builder on GitHub's side fails silently.
+
+The rest is what section 2 of
+[the organization's standard](https://github.com/btclib-org/.github)
+gives a tier-3 repository: `CONTRIBUTING.md` and `REVIEWING.md`, each the
+same file in every repository up to its last section, `REPOSITORY.md` for
+the settings that live outside the tree, `CLAUDE.md` for what a session
+needs, and `CHANGELOG.md`, `LICENSE`, `COPYRIGHT` and `AUTHORS.md`.
