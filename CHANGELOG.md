@@ -92,3 +92,21 @@ serves it.
   exist and that `links.yml` is not a required check and must not become
   one; `homepage.yml`'s header stops waiting on the calendar, which has
   named its instant too, and names the issue where taking it is weighed.
+
+### The badge row is the whole of what section 2 derives for this tree
+
+- Section 10's record names this tree in two sentinel entries and the row
+  carried one of them (closes #8); it now carries both, in the order that
+  section's calendar gives them. `homepage.yml` runs on every push to
+  `main`, so the badge answers with a measurement rather than `no
+  status`.
+- The row carries pre-commit.ci's badge (closes #10), section 2 giving
+  one to a tree on the service and putting it first among the gates.
+  `results.pre-commit.ci/badge/…/main.svg` answers `passed` here and
+  `unknown` for a tree that is not on it, which is the control. It takes
+  no `?branch=main`: section 2 puts the service's own badge outside that
+  rule, its branch being in its path.
+- The comment above the row is corrected with them. It had enumerated the
+  properties section 2 reads and left pre-commit.ci out of the list,
+  which is the omission that let the row look complete while it was short
+  two badges.

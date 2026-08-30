@@ -3,25 +3,31 @@
 <!-- The badge row is section 2 of the organization standard's, and what
 a tree carries is read off the tree rather than curated: every repository
 carries the lint workflow's badge, and the rest are property-driven --
-what an index says about a published package, a suite, a documentation
-build, a sentinel section 10's record names this tree in. This repository
-publishes nothing, holds no suite and builds no documentation, and that
-record names it in two sentinel entries: `links`, which it gives every
-repository, and `homepage`, which it gives this tree by name. So the row
-below is short of what the record says, and knowingly: it carries the
-gate a commit meets and the `links` sentinel after it, and the `homepage`
-badge that belongs beside them is issue #8.
+being on pre-commit.ci, what an index says about a published package, a
+suite, a documentation build, a sentinel section 10's record names this
+tree in. This repository publishes nothing, holds no suite and builds no
+documentation; it is on pre-commit.ci, and that record names it in two
+sentinel entries: `links`, which it gives every repository, and
+`homepage`, which it gives this tree by name. So the row is the two
+gates, in the order section 2 fixes, and then those two sentinels, in the
+order section 10's calendar gives them. Both orders are read rather than
+chosen here, and so are the instants: a reader wanting any of them reads
+them there, where they are still true.
 
-Every badge here carries `?branch=main`, which section 2 asks of the
-gates' and the sentinels' alike. The row is an audit of `main`, and an
-unqualified badge is not always `main`'s: a workflow with no run there
-renders some other branch's, a deleted branch's included, with nothing in
-the render to say so.
+Every workflow-status badge here carries `?branch=main`, which section 2
+asks of the gates' and the sentinels' alike. The row is an audit of
+`main`, and an unqualified badge is not always `main`'s: a workflow with
+no run there renders some other branch's, a deleted branch's included,
+with nothing in the render to say so. The pre-commit.ci badge carries no
+qualifier and section 2 puts it outside the rule, its branch being in its
+path already.
 
 website.yml has no badge for the same reason read the other way: the row
 is the standard's list, and adding a workflow to it here would make this
 tree's row a curation rather than a reading. -->
+[![pre-commit.ci status](https://results.pre-commit.ci/badge/github/btclib-org/btclib-org.github.io/main.svg)](https://results.pre-commit.ci/latest/github/btclib-org/btclib-org.github.io/main)
 [![lint](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/lint.yml)
+[![homepage](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/homepage.yml/badge.svg?branch=main)](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/homepage.yml)
 [![links](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/links.yml/badge.svg?branch=main)](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/links.yml)
 
 The organization site served at [btclib.org](https://btclib.org/), and
