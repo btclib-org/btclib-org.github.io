@@ -22,3 +22,21 @@ that serves it.
   shared half every repository shares and a last section of this tree's
   own; `REPOSITORY.md` records the settings that live outside the tree,
   the Pages configuration among them.
+
+### Changed
+
+- **`.gitattributes` states the union price as section 9 of the
+  standard does** (issue btclib-org/.github#423): the driver is a
+  checkout's and the forge does not apply it, so a pull request whose
+  `CHANGELOG.md` overlaps its base is reported `CONFLICTING` however
+  cleanly the pair merges locally, and a rebase on a checkout is what
+  clears it.
+- **`.markdownlint.jsonc` points at section 14 of the standard for who
+  carries it** (issue btclib-org/.github#316), in place of an
+  enumeration of trees.
+- **`CONTRIBUTING.md`'s shared half is btclib-org/.github's** (issue
+  btclib-org/.github#281): the half is replaced whole rather than each
+  change applied by hand, a hand-written list of them being what comes
+  up short. Among them, *The landing queue* points at `REPOSITORY.md`'s
+  *Plan-gated settings* for the ceiling's figure (issue
+  btclib-org/.github#412).
