@@ -110,3 +110,21 @@ serves it.
   properties section 2 reads and left pre-commit.ci out of the list,
   which is the omission that let the row look complete while it was short
   two badges.
+
+### `CLAUDE.md` says where the next changelog entry goes
+
+- The open section carries `### Added` and `### Changed`, and section 9
+  of the standard now gives a `###` to one entry and never to a theme
+  several entries share (issue btclib-org/.github#586). They are landed
+  text and stay; what the file says is that a new entry takes a heading
+  of its own after them, with nothing above it moving. That is the
+  section's own rule for a file already carrying such headings, and it
+  presupposes them rather than defining them — so nobody here has to
+  rule on whether a `Keep a Changelog` bucket is a theme, which would be
+  a change to the standard made outside its own README.
+- Beside it, the command that reads whether that held, pointing at
+  section 9's *A rebase's result is read* for the rule and adding an exit
+  code to it: whether the base is still a byte-for-byte prefix of the
+  file. `merge=union` never conflicts and no gate reads the order two
+  `###` sections sit in, so a rebase can move a block with nothing going
+  red anywhere.

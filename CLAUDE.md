@@ -109,6 +109,33 @@ Section 9 of the standard is the prose style and governs this file too.
 `CONTRIBUTING.md`'s *Pull requests* has what a title does with the issue
 it closes, and section 9's changelog bullets what an entry cites.
 
+**`CHANGELOG.md`'s `### Added` and `### Changed` are landed text, not the
+shape to copy.** Section 9 gives a `###` to one entry and never to a
+theme several entries share, so a new entry takes a heading of its own at
+the end of the open section — after those two, with nothing above it
+moving, which is that section's own rule for a file that already carries
+them. The two stay: *Nothing already written is rewritten*, and a branch
+that reshapes them edits the record rather than adding to it.
+
+That the entry landed where it belongs is read rather than assumed, and
+section 9's *A rebase's result is read* is where that rule and its
+`git diff origin/main..HEAD -- CHANGELOG.md` live. What the command below
+adds is an exit code: the same question asked so that a script, or a
+session with a hundred lines of diff in front of it, gets an answer
+rather than something to look at.
+
+```shell
+n=$(git show origin/main:CHANGELOG.md | wc -c)
+head -c "$n" CHANGELOG.md | cmp - <(git show origin/main:CHANGELOG.md)
+```
+
+Exit 0 says nothing above the new block moved. Read it *after* the
+rebase and against the base you rebased onto: run before one, on a branch
+whose `origin/main` has since gained an entry, it exits 1 with nothing
+wrong with the branch at all. And prove it can fail before believing a
+zero — rename one of the two headings in a copy and it exits 1, naming
+the line.
+
 ## Verifying
 
 Run the command as documented before claiming it works, and read its exit
