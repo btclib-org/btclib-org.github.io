@@ -318,6 +318,11 @@ request: what it reports is that `btclib-org/.github` has moved and this
 site has not, which is nothing a pull request here introduced and
 nothing a merge should wait on.
 
+`links.yml` reports for the same reason at a different distance: a link
+rots with nobody touching this tree, so it runs weekly and on demand
+rather than per commit, and its own header says why a merge must not
+wait on it. A pull request sees it only when it changes that file.
+
 ### A version, and no release
 
 Nothing here is released: no index carries it, no GitHub release cuts it,

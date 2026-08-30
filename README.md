@@ -5,13 +5,24 @@ a tree carries is read off the tree rather than curated: every repository
 carries the lint workflow's badge, and the rest are property-driven --
 what an index says about a published package, a suite, a documentation
 build, a sentinel section 10's record names this tree in. This repository
-publishes nothing, holds no suite, builds no documentation and is in no
-sentinel's record, so the row is one badge.
+publishes nothing, holds no suite and builds no documentation, and that
+record names it in two sentinel entries: `links`, which it gives every
+repository, and `homepage`, which it gives this tree by name. So the row
+below is short of what the record says, and knowingly: it carries the
+gate a commit meets and the `links` sentinel after it, and the `homepage`
+badge that belongs beside them is issue #8.
 
-website.yml and homepage.yml have no badge for the same reason read the
-other way: the row is the standard's list, and adding a workflow to it
-here would make this tree's row a curation rather than a reading. -->
-[![lint](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/lint.yml/badge.svg)](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/lint.yml)
+Every badge here carries `?branch=main`, which section 2 asks of the
+gates' and the sentinels' alike. The row is an audit of `main`, and an
+unqualified badge is not always `main`'s: a workflow with no run there
+renders some other branch's, a deleted branch's included, with nothing in
+the render to say so.
+
+website.yml has no badge for the same reason read the other way: the row
+is the standard's list, and adding a workflow to it here would make this
+tree's row a curation rather than a reading. -->
+[![lint](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/lint.yml)
+[![links](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/links.yml/badge.svg?branch=main)](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/links.yml)
 
 The organization site served at [btclib.org](https://btclib.org/), and
 nothing else: no package, no suite, no documentation build. GitHub Pages

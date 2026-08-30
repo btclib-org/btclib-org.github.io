@@ -25,9 +25,10 @@ name: homepage
 # Section 10 of the organization's standard is a calendar of two tables
 # that names an instant for every `cron:` in the organization, and
 # `tests/grid_test.py` there fails on a schedule no row names and on a
-# scheduling repository with no minute -- this repository has neither
-# yet. The row lands in that tree before the `cron:` lands here, which
-# that section states as the order.
+# scheduling repository with no minute. Both rows now exist -- links.yml
+# reads its own instant off them -- so what this workflow is waiting on
+# is no longer the calendar but the decision, which is
+# btclib-org/.github#558's.
 
 on:
   push:
