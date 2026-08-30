@@ -79,12 +79,17 @@ yours.**
   machine that has that ruby. A session on a machine that does not has no
   way to answer whether the site renders, and says so rather than
   reasoning about it.
-- **No workflow here may carry a `cron:`.** Section 10 of the standard is
-  a calendar of two tables naming an instant for every scheduled run in
-  the organization, and `tests/grid_test.py` in `btclib-org/.github`
-  fails on a schedule no row names and on a scheduling repository with no
-  minute — this repository has neither. The row lands in that tree
-  before the `cron:` lands here, which that section states as the order.
+- **A `cron:` here is section 10's to name, never this tree's to
+  choose.** That section of the standard is a calendar of two tables —
+  one giving a workflow its day and hour, the other giving a repository
+  its minute — and `tests/grid_test.py` in `btclib-org/.github` fails on
+  a schedule no row names and on a scheduling repository with no minute.
+  `links.yml` carries the only one so far, `36 4 * * 6`, which is that
+  calendar read and not a time anybody picked here. What still has no
+  `cron:` is `homepage.yml`, and no longer for want of a row — the
+  calendar names its instant too, and btclib-org/.github#558 is where
+  taking it is weighed. A schedule for anything else needs its row in
+  that tree first, which is the order that section states.
 - **`CNAME` is the domain claim, and Pages reads it out of the *built*
   site.** So `btclib.org` is released by anything that keeps that file
   out of `_site` — a `_config.yml` exclude entry, a rename, a deletion —

@@ -1,0 +1,140 @@
+---
+name: links
+
+# What this repository serves is index.md, whose body is
+# btclib-org/.github's profile/README.md byte for byte, and its link
+# destinations are absolute -- all but one of them pointing outside this
+# tree. Nothing else here asks whether they still resolve:
+# .pre-commit-config.yaml's local-link-prefix is about how a destination
+# is *spelled*, and website.yml builds the site without fetching anything
+# it links to. So the organization's most public page is what this asks
+# about.
+#
+# The exception is the interesting one. index.md links to
+# https://btclib.org/, which is this tree's own product, so this is the
+# only thing here that fetches the deployed site at all -- and the
+# failure CLAUDE.md warns about, a CNAME that stops reaching _site,
+# releases the domain with no error anywhere. It would surface in this
+# run and in nothing else that is scheduled.
+#
+# Not a merge gate, and that is the design rather than an omission. A
+# link rots without anybody touching the repository, so asking per commit
+# reports the internet's weather on somebody else's branch, and a third
+# party answering 502 or throttling a runner turns a red merge into a
+# thing to re-run rather than a thing to fix. Weekly, on demand, and red
+# in the Actions tab is where this belongs -- REPOSITORY.md's "What gates
+# a merge" is where it is written that this is not a required check and
+# must not become one.
+#
+# A finding here is often not this repository's to fix. index.md is
+# generated, so a rotted link in its body is a pull request against
+# btclib-org/.github; CLAUDE.md's own note on that file is the rule, and
+# what lands here afterwards is CONTRIBUTING.md's one command.
+
+on:
+  schedule:
+    # the instant is section 10 of btclib-org/.github's to name and not
+    # this file's to restate: one of its two tables gives the workflow
+    # its day and hour, the other gives this repository its minute, and
+    # tests/grid_test.py there is red on a schedule no row names.
+    # Only the default branch schedules workflows, so on any other branch
+    # this is reachable through the dispatch below alone
+    - cron: "36 4 * * 6"
+  # the escape hatch, and the way to ask on demand after a link is
+  # reported dead
+  workflow_dispatch:
+  # so a change to this file is checked by the thing it configures. The
+  # filter means most pull requests here produce no run at all, which is
+  # the second reason this must not be a required check: a context
+  # nothing produces blocks a merge where a skipped one satisfies it
+  pull_request:
+    # closed too, though the job below declines the real work on it: the
+    # landing then lands in this pull request's own concurrency group and
+    # cancels the run still holding it
+    types: [opened, reopened, synchronize, ready_for_review, closed]
+    paths:
+      - .github/workflows/links.yml
+
+# least privilege for the GITHUB_TOKEN. lychee is given it for github.com
+# links alone, where an unauthenticated runner is rate limited hard enough
+# to look like rot; contents: read is all that needs.
+# Deliberately not issues: write. An automatic "link rot" issue is the
+# usual next step, and it would make this the only workflow here that can
+# write anything, to save a maintainer from reading a failure
+# notification they already get
+permissions:
+  contents: read
+
+concurrency:
+  # named literally, never through github.workflow, and keyed on the pull
+  # request's number rather than on github.head_ref -- the reasoning is
+  # lint.yml's, which this tree's other workflows follow
+  group: links-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  links:
+    # not a required context, and nothing binds this name; it is written
+    # to read as what a run in the Actions tab did
+    name: Check the links
+    # a draft pull request is work its author is not asking anyone to
+    # read yet and spends no runner. A closed one spends none either --
+    # the trigger above takes the closed event only to supersede a run
+    # this pull request's own group is still holding
+    if: ${{ !github.event.pull_request.draft && github.event.action != 'closed' }}
+    runs-on: ubuntu-latest
+    # a couple of hundred requests with retries; a job past this is hung
+    # on one rather than working
+    timeout-minutes: 15
+    steps:
+      # every action pinned to a commit SHA with the tag in the comment:
+      # a tag, let alone a branch, is a name its owner can move
+      - name: Check out the repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # lychee reads the tree and nothing pushes it back
+          persist-credentials: false
+
+      - name: Check the links
+        uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
+        with:
+          # "*.md" is the root markdown, index.md included, and that is
+          # the whole of what a reader of this site or of this repository
+          # is invited to follow. It does not reach .claude/commands, a
+          # glob not crossing a separator -- deliberately, btclib
+          # excluding its own review.md the same way: that file is a
+          # command for a session, not prose for a reader. There is no
+          # docs/ here and no tests/, so no companion glob is owed.
+          # --no-progress because the log is not a terminal; the retries,
+          # the wait and the timeout are what keep a slow or throttling
+          # host from being reported as a dead one.
+          # No --cache: lychee keeps it under the workspace, a run starts
+          # from a fresh one, and nothing here restores it.
+          # --accept is lychee's own default range with 429 added rather
+          # than a list of codes, the flag replacing the default instead
+          # of extending it: a shorter list would make a 201 or a 204 a
+          # dead link, and a rate limit is an answer from a host that is
+          # alive.
+          # --include-fragments, so a link into a heading is checked as
+          # an anchor and not only as a page. Not this file's choice:
+          # section 10 puts the flag in every links.yml, and
+          # tests/links_test.py in btclib-org/.github asks each tree's
+          # lychee step for it. What it does not reach is a
+          # github.com/<owner>/<repo>#heading link, lychee falling back
+          # to the repositories API once it holds the token below and
+          # taking the repository's existence as the answer;
+          # btclib-org/.github#630 is where that is weighed
+          args: >-
+            --no-progress
+            --max-retries 3
+            --retry-wait-time 10
+            --timeout 45
+            --accept 100..=103,200..=299,429
+            --include-fragments
+            "*.md"
+          # fail the job rather than only summarizing: a green run that
+          # found dead links is the state this workflow exists to end
+          fail: true
+        env:
+          # for github.com links only, per the permissions comment above
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -22,6 +22,23 @@ serves it.
   shared half every repository shares and a last section of this tree's
   own; `REPOSITORY.md` records the settings that live outside the tree,
   the Pages configuration among them.
+- **`.github/workflows/links.yml`, the `links` sentinel section 10 gives
+  every repository** (closes #1). What this tree serves is `index.md`,
+  whose body is `btclib-org/.github`'s `profile/README.md` byte for byte
+  and whose link destinations all point outside this repository; nothing
+  here asked whether they still resolve, `local-link-prefix` being about
+  how a destination is spelled and `website.yml` fetching nothing it
+  builds a link to. Weekly and on demand, never a merge gate: a link rots
+  with nobody touching the tree, so a red run is a notification rather
+  than something to re-run.
+- **The badge row reads section 10's record correctly, and carries
+  `?branch=main`** (issue #1). That record names this tree in two
+  sentinel entries, `links` and `homepage`, where the row's own comment
+  had said it is in none; the row now carries the `links` badge and says
+  the missing `homepage` one is issue #8. Both badges are qualified,
+  which section 2 asks of gates and sentinels alike: unqualified, a
+  workflow with no run on `main` renders some other branch's, a deleted
+  branch's included, with nothing in the render to say so.
 
 ### Changed
 
@@ -66,3 +83,12 @@ serves it.
   does not print. No date is written down for the certificate: the
   commands recorded are the two whose *agreement* is the evidence, and a
   certificate's own dates rotate at every renewal.
+
+- **The tree stops saying it carries no schedule** (issue #1).
+  `36 4 * * 6` is section 10's calendar read — Saturday 04 for `links`,
+  minute 36 for this repository — and not a time chosen here, so
+  `CLAUDE.md`'s rule is now which section names a `cron:` rather than
+  that none may exist. `REPOSITORY.md` records that both rows
+  exist and that `links.yml` is not a required check and must not become
+  one; `homepage.yml`'s header stops waiting on the calendar, which has
+  named its instant too, and names the issue where taking it is weighed.

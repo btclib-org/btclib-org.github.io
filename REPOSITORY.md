@@ -175,12 +175,15 @@ Until it exists, what holds a pull request is the review the ruleset
 below asks for, and what holds every commit reaching `main` is
 `main-integrity`.
 
-`website.yml` and `homepage.yml` are not required checks and must not
-become them. The first carries a `paths` filter, and a required check
-that produces no run blocks a merge where a skipped one satisfies it. The
-second has a job that runs only off a pull request — what it reports is
-that another repository moved, which is nothing a merge here should wait
-on. `claude-review.yml` is not one either, and its own header says why.
+`website.yml`, `homepage.yml` and `links.yml` are not required checks and
+must not become them. The first carries a `paths` filter, and a required
+check that produces no run blocks a merge where a skipped one satisfies
+it. The second has a job that runs only off a pull request — what it
+reports is that another repository moved, which is nothing a merge here
+should wait on. The third is both at once: a `paths` filter narrower
+still, and a weekly question about the internet that no branch here
+introduced. `claude-review.yml` is not one either, and its own header
+says why.
 
 ## Branch protection and the rulesets
 
@@ -342,8 +345,8 @@ gh api repos/btclib-org/btclib-org.github.io/actions/permissions/workflow
 `read` is the floor every workflow here starts from. `claude-review.yml`
 is the only one whose jobs elevate it — `pull-requests: write` to post a
 comment and `id-token: write` for the OIDC token the action mints at
-startup. `lint.yml`, `website.yml` and `homepage.yml` read the tree and
-the network and write nothing back.
+startup. `lint.yml`, `website.yml`, `homepage.yml` and `links.yml` read
+the tree and the network and write nothing back.
 
 **What this call cannot say is whether that value is this repository's
 own or the organization's**, there being no endpoint that answers.
@@ -460,10 +463,12 @@ published.
   --jq .state` answers `not-configured`. There is no language CodeQL
   analyses in this tree — markdown, yaml, one shell script — and what
   reads the script instead is `shellcheck`, in `.pre-commit-config.yaml`.
-- **No scheduled workflow.** Section 10 of the standard is a calendar of
-  two tables that names an instant for every `cron:` in the organization,
-  and this repository has a row in neither. `homepage.yml`'s own header
-  says which schedule it would take and what has to land first.
+- **No schedule for `homepage.yml`.** Section 10 of the standard is a
+  calendar of two tables that names an instant for every `cron:` in the
+  organization, and this repository now has a row in both — which is what
+  `links.yml`'s weekly run reads its own instant off. `homepage.yml`'s
+  header says which schedule it would take, and
+  btclib-org/.github#558 is where taking it is weighed.
 - **No `SECURITY.md`, `RELEASING.md` or `RELEASE_NOTES.md`.** Those are
   the rows section 2 of the standard marks for a repository that
   publishes.
