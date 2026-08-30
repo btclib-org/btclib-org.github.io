@@ -47,3 +47,22 @@ serves it.
   deletion hands the domain back with a green build and no log anywhere
   — `website.yml` asserts the built copy for that reason, and
   `REPOSITORY.md` records what the endpoint answers.
+- **`REPOSITORY.md` records the certificate, and the readback of a
+  released domain prints what the command prints** (issue
+  btclib-org/.github#530). `https_enforced` is back in the Pages
+  selection with the answer it gives: `true`, and already `true` on the
+  first read after the claim, GitHub having carried
+  `btclib-org/btclib`'s certificate across rather than issuing one —
+  which is why the window the move was budgeted for did not happen.
+  `domains` names the apex alone, so `https://www.btclib.org/` fails
+  TLS, which predates the move and is issue #6. Recorded beside them:
+  the `*.github.io` host redirects here rather than serving a second
+  copy, and a project site of the organization is served under this
+  domain.
+
+  The readback of `btclib`'s released domain asks for `{cname}` and not
+  `.cname`, because `gh api --jq '.cname'` prints an empty line for a
+  JSON `null` — so the comment beside it had quoted a word the command
+  does not print. No date is written down for the certificate: the
+  commands recorded are the two whose *agreement* is the evidence, and a
+  certificate's own dates rotate at every renewal.

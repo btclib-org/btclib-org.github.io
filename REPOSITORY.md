@@ -51,17 +51,50 @@ This is the setting the repository exists for:
 
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/pages \
-  --jq '{build_type, source, cname, public, status}'
-# {"build_type":"legacy","cname":"btclib.org","public":true,
-#  "source":{"branch":"main","path":"/"},"status":"built"}
+  --jq '{build_type, source, cname, https_enforced, public, status}'
+# {"build_type":"legacy","cname":"btclib.org","https_enforced":true,
+#  "public":true,"source":{"branch":"main","path":"/"},"status":"built"}
 ```
 
-**`https_enforced` is missing from that selection deliberately, and it
-comes back with the answer rather than with a guess.** GitHub issues the
-certificate for a custom domain on its own once the domain resolves
-here, so the field answers `false` for a window after the claim and
-`true` afterwards; this file's own opening asks for the answer a call
-gives, and there is no honest value to write until one has been taken.
+**`https_enforced` is `true`, and a certificate is what that field is
+about.** GitHub issues one for a custom domain on its own, so claiming a
+domain is expected to cost a window without HTTPS while that happens.
+It did not: the certificate serving `btclib.org` here is the one that
+served it from `btclib-org/btclib`, carried across rather than
+reissued.
+
+```shell
+gh api repos/btclib-org/btclib-org.github.io/pages \
+  --jq '.https_certificate | {state, domains}'
+# {"domains":["btclib.org"],"state":"approved"}
+```
+
+Two commands say so, and neither writes down a date, a certificate's own
+dates rotating at every renewal. The endpoints agree because there is
+one certificate answering on both:
+
+```shell
+for r in btclib-org.github.io btclib; do
+  gh api "repos/btclib-org/$r/pages" --jq '.https_certificate.expires_at'
+done
+# the same date twice
+```
+
+and it is older than the claim, which nothing issued at the claim could
+be — compare its `notBefore` against the commit that added `CNAME`:
+
+```shell
+echo | openssl s_client -connect btclib.org:443 -servername btclib.org \
+  2>/dev/null | openssl x509 -noout -dates
+git log -1 --format=%cI $(git log --diff-filter=A --format=%H -- CNAME)
+```
+
+**`domains` names the apex alone**, so `https://www.btclib.org/` fails
+TLS — which is #6 rather than a consequence of the move, `btclib`'s
+certificate having answered the same single name. Over plain HTTP the
+host reaches the site, GitHub redirecting it to the apex rather than to
+`https://www.`, which is why the `www` spelling works without a scheme
+and fails with one.
 
 `legacy` is GitHub's own Jekyll builder, run on GitHub's side from
 `main`'s root. It writes no log a maintainer can read and reports a
@@ -82,8 +115,33 @@ sequence, and `btclib`'s own `REPOSITORY.md` records that it no longer
 holds the domain.
 
 ```shell
-gh api repos/btclib-org/btclib/pages --jq '.cname'
-# null
+gh api repos/btclib-org/btclib/pages --jq '{cname}'
+# {"cname":null}
+```
+
+The object form is not decoration: `--jq '.cname'` on a JSON `null`
+prints an **empty line** and not the word, so a comment reading `# null`
+beside that spelling transcribes what the reader expected rather than
+what the command answered.
+
+**`btclib-org.github.io` is not a second site**: with a custom domain
+set, GitHub redirects the `*.github.io` host to it, so the two names are
+one site and not two copies to keep in step.
+
+```shell
+curl -sS -o /dev/null -w '%{http_code} %{url_effective}\n' -L \
+  https://btclib-org.github.io/
+# 200 https://btclib.org/
+```
+
+A project site of the organization is served *under* this domain, which
+is what makes it the organization's rather than this repository's:
+GitHub moved `btclib-org/btclib`'s own `html_url` there without being
+asked, and does so for as long as that repository has a site at all.
+
+```shell
+gh api repos/btclib-org/btclib/pages --jq '.html_url'
+# https://btclib.org/btclib/
 ```
 
 The apex carries A records to Pages and `www` a `CNAME` to the apex, and
