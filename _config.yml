@@ -1,19 +1,19 @@
 ---
-# The btclib-org organization site, served by GitHub Pages from main's
-# root with the classic builder:
+# The btclib-org organization site, which is btclib.org, served by
+# GitHub Pages from main's root with the classic builder:
 #
 #   $ gh api repos/btclib-org/btclib-org.github.io/pages
-#   {"cname": null, "build_type": "legacy",
+#   {"cname": "btclib.org", "build_type": "legacy",
 #    "source": {"branch": "main", "path": "/"}}
 #
 # REPOSITORY.md records that setting and is where it is read back. What
-# it means here is that this file, Gemfile and index.md are website
-# sources, and that every other file in main's root is a URL under
-# btclib-org.github.io whether it was meant to be one or not -- which is
+# it means here is that this file, CNAME, Gemfile and index.md are
+# website sources, and that every other file in main's root is a URL
+# under btclib.org whether it was meant to be one or not -- which is
 # what the exclude list below is for.
 #
-# The theme is the one btclib.org already runs, so the organization's two
-# sites are one look rather than two.
+# The theme is the one btclib-org/btclib's site runs, so the
+# organization's sites are one look rather than two.
 title: btclib-org
 theme: jekyll-theme-minimal
 
@@ -45,8 +45,10 @@ show_downloads: false
 # and CLAUDE.md and REPOSITORY.md are what a session and a maintainer
 # read, not a visitor.
 #
-# Not excluded, deliberately: index.md is the homepage, and LICENSE is
-# the licence of what the page says.
+# Not excluded, deliberately: index.md is the homepage, LICENSE is the
+# licence of what the page says, and CNAME is what Pages reads from the
+# built site to know the custom domain -- excluding it would release
+# btclib.org on the next build.
 #
 # Anything whose name begins with a dot needs no entry -- Jekyll's own
 # EntryFilter drops those before this list is consulted, which is why

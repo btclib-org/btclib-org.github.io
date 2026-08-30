@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Write index.md, the homepage of https://btclib-org.github.io/, from
+# Write index.md, the homepage of https://btclib.org/, from
 # btclib-org/.github's profile/README.md at the commit named on the
 # command line.
 #

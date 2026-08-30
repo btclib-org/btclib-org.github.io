@@ -322,8 +322,8 @@ nothing a merge should wait on.
 
 Nothing here is released: no index carries it, no GitHub release cuts it,
 and `.github/workflows/` holds no `release.yml`. What this repository
-ships, it ships by being served at `https://btclib-org.github.io/`, and a
-served page has no version for a tag to name. So this tree carries no
+ships, it ships by being served at `https://btclib.org/`, and a served
+page has no version for a tag to name. So this tree carries no
 `RELEASING.md` and no `RELEASE_NOTES.md`, and a file whose content is its
 own absence is this section instead. Measured rather than asserted, and
 re-derivable:

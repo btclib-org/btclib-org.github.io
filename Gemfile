@@ -1,5 +1,5 @@
-# The btclib-org.github.io website, and only that: GitHub Pages builds it
-# on its own side, so nothing here is installed to serve the site. What
+# The btclib.org website, and only that: GitHub Pages builds it on its
+# own side, so nothing here is installed to serve the site. What
 # this file is for is a build that can fail out loud --
 # .github/workflows/website.yml -- and a local `bundle exec jekyll serve`
 # preview.

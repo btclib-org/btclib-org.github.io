@@ -491,8 +491,12 @@ because that document, and not this one, is where the rule lives.
 - **Does a root file reach the site that was not meant to?** `_config.yml`
   is what decides, and its `exclude:` list replaces Jekyll's default
   rather than adding to it: a file added to the root with no entry there
-  is a URL under `btclib-org.github.io` whether anybody meant it to be
-  one or not.
+  is a URL under `btclib.org` whether anybody meant it to be one or not.
+- **Does the diff keep `CNAME` in the built site?** Pages reads the
+  custom domain from `_site`, so an exclude entry, a rename or a
+  deletion releases `btclib.org` on the next build and reports it
+  nowhere. `website.yml` asserts the built copy, and a diff that reaches
+  that file or that list is read against it.
 - **Does a claim about what Pages serves come from `gh api`?** The build
   type, the source branch and the custom domain are settings outside the
   tree; `REPOSITORY.md` is where they are read back, and a sentence about

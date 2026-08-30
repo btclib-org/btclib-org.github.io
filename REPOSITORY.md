@@ -45,17 +45,23 @@ gh api repos/btclib-org/btclib-org.github.io \
 # {"has_issues":true,"visibility":"public"}
 ```
 
-## Pages
+## Pages, which is btclib.org
 
 This is the setting the repository exists for:
 
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/pages \
-  --jq '{build_type, source, cname, https_enforced, public, status}'
-# {"build_type":"legacy","cname":null,
-#  "https_enforced":true,"public":true,
+  --jq '{build_type, source, cname, public, status}'
+# {"build_type":"legacy","cname":"btclib.org","public":true,
 #  "source":{"branch":"main","path":"/"},"status":"built"}
 ```
+
+**`https_enforced` is missing from that selection deliberately, and it
+comes back with the answer rather than with a guess.** GitHub issues the
+certificate for a custom domain on its own once the domain resolves
+here, so the field answers `false` for a window after the claim and
+`true` afterwards; this file's own opening asks for the answer a call
+gives, and there is no honest value to write until one has been taken.
 
 `legacy` is GitHub's own Jekyll builder, run on GitHub's side from
 `main`'s root. It writes no log a maintainer can read and reports a
@@ -64,19 +70,33 @@ ruby and the gem `Gemfile` pins: that workflow's own header has the
 argument, and a red check there is the only thing that says the site
 stopped rendering.
 
-**`cname` is `null`, and that is the state this repository is meant to be
-in for now.** `btclib.org` is held by `btclib-org/btclib`, whose own
-`REPOSITORY.md` records it; a custom domain belongs to one repository at
-a time, so claiming it here means releasing it there first.
-btclib-org/.github#530 is the decision and the sequence.
+**`cname` is what this repository claims the organization's domain
+with, and `CNAME` in the root is the same value.** Pages reads that file
+out of the *built* site on each build, which is what makes the setting a
+file here rather than only a setting: `_config.yml` excluding it, or a
+deletion, releases `btclib.org` on the next build, and `website.yml`
+asserts the built site's copy for that reason. A custom domain belongs
+to one repository at a time, so the claim required `btclib-org/btclib`
+to release it first; btclib-org/.github#530 is the decision and the
+sequence, and `btclib`'s own `REPOSITORY.md` records that it no longer
+holds the domain.
 
 ```shell
 gh api repos/btclib-org/btclib/pages --jq '.cname'
-# btclib.org
+# null
 ```
 
-`https_enforced` is on, which GitHub sets itself for a `*.github.io`
-host: the certificate is its own and there is no domain to validate.
+The apex carries A records to Pages and `www` a `CNAME` to the apex, and
+neither is this repository's to set: the zone is at the registrar, and
+what a `CNAME` here decides is which repository GitHub serves to a
+request those records already deliver.
+
+```shell
+dig +short btclib.org A | sort | tr '\n' ' '
+# 185.199.108.153 185.199.109.153 185.199.110.153 185.199.111.153
+dig +short www.btclib.org | head -1
+# btclib.org.
+```
 
 ## Required checks on main
 
