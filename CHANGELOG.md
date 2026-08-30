@@ -1,8 +1,8 @@
 # Changelog
 
 Every user-visible change to this repository, by group. A user here is a
-visitor to <https://btclib-org.github.io/> and whoever maintains the tree
-that serves it.
+visitor to <https://btclib.org/> and whoever maintains the tree that
+serves it.
 
 ## Unreleased
 
@@ -40,3 +40,10 @@ that serves it.
   up short. Among them, *The landing queue* points at `REPOSITORY.md`'s
   *Plan-gated settings* for the ceiling's figure (issue
   btclib-org/.github#412).
+- **The site is served at `btclib.org`** (issue btclib-org/.github#530):
+  `CNAME` claims the organization's domain, which `btclib-org/btclib`
+  released for this tree to hold. Pages reads that file out of the
+  *built* site on each build, so an `exclude:` entry, a rename or a
+  deletion hands the domain back with a green build and no log anywhere
+  — `website.yml` asserts the built copy for that reason, and
+  `REPOSITORY.md` records what the endpoint answers.

@@ -3,8 +3,8 @@
 This file provides guidance to Claude Code (claude.ai/code) when working
 with code in this repository.
 
-This repository is the site served at <https://btclib-org.github.io/> and
-nothing else. `README.md` says what the tree holds; `CONTRIBUTING.md` is
+This repository is the site served at <https://btclib.org/> and nothing
+else. `README.md` says what the tree holds; `CONTRIBUTING.md` is
 how to work here, the commands and the gates being its last section;
 `REPOSITORY.md` is the settings that live outside the tree — read it
 before changing a workflow, a branch rule or a setting. `REVIEWING.md` is
@@ -70,8 +70,8 @@ yours.**
   public URL.** The `exclude:` list there *replaces* Jekyll's default
   rather than adding to it, which is why it opens by restoring those
   defaults: dropping them would publish the `Gemfile`. A file added to
-  the root with no entry is served at `btclib-org.github.io/<name>`
-  whether anybody meant it to be or not.
+  the root with no entry is served at `btclib.org/<name>` whether
+  anybody meant it to be or not.
 - **The site build is not part of the lint gate and cannot be run with
   uv.** jekyll wants a ruby and the `github-pages` gem, both pinned to
   what GitHub Pages itself runs; `website.yml` is where that build
@@ -85,11 +85,14 @@ yours.**
   fails on a schedule no row names and on a scheduling repository with no
   minute — this repository has neither. The row lands in that tree
   before the `cron:` lands here, which that section states as the order.
-- **`btclib.org` is not this repository's.** It is a custom domain held
-  by `btclib-org/btclib`, and a domain belongs to one repository at a
-  time. Nothing here carries a `CNAME`, and adding one claims a domain
-  another repository has not released — `REPOSITORY.md`'s *Pages* has the
-  state and btclib-org/.github#530 the sequence.
+- **`CNAME` is the domain claim, and Pages reads it out of the *built*
+  site.** So `btclib.org` is released by anything that keeps that file
+  out of `_site` — a `_config.yml` exclude entry, a rename, a deletion —
+  on the next build, with no error anywhere; `website.yml` asserts the
+  built copy for that reason. A domain belongs to one repository at a
+  time, and `btclib-org/btclib` released this one for this tree to claim
+  it: `REPOSITORY.md`'s *Pages, which is btclib.org* has the state and
+  btclib-org/.github#530 the sequence.
 - **A finding about the text the site serves is filed in
   `btclib-org/.github`**, that being the tree the text lives in. This
   repository's own tracker is for the site's configuration, the

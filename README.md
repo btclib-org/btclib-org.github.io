@@ -13,11 +13,11 @@ other way: the row is the standard's list, and adding a workflow to it
 here would make this tree's row a curation rather than a reading. -->
 [![lint](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/lint.yml/badge.svg)](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/lint.yml)
 
-The site served at
-[btclib-org.github.io](https://btclib-org.github.io/), and nothing else:
-no package, no suite, no documentation build. GitHub Pages builds it from
-this repository's `main` branch at the root, with the classic Jekyll
-builder — `REPOSITORY.md` reads that setting back from the endpoint.
+The organization site served at [btclib.org](https://btclib.org/), and
+nothing else: no package, no suite, no documentation build. GitHub Pages
+builds it from this repository's `main` branch at the root, with the
+classic Jekyll builder, and `CNAME` is what claims the domain —
+`REPOSITORY.md` reads both settings back from the endpoint.
 
 ## The homepage is generated
 
@@ -52,8 +52,13 @@ fetch at build time — and what rejects each.
 `_config.yml` is the site's configuration and decides what else in the
 root is published at all: the `exclude:` list there **replaces** Jekyll's
 default rather than adding to it, so a file added to this directory
-without an entry becomes a URL under `btclib-org.github.io` whether
-anybody meant it to or not.
+without an entry becomes a URL under `btclib.org` whether anybody meant
+it to or not.
+
+`CNAME` holds `btclib.org`, and Pages reads it out of the built site on
+every build: it is the domain claim as a file rather than only as a
+setting, which is why `website.yml` asserts that the site it builds
+still carries it.
 
 `Gemfile` names the `github-pages` release GitHub's own builder runs, so
 `website.yml` can build the site with the same toolchain and fail out

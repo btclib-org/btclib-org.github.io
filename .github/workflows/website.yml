@@ -1,7 +1,7 @@
 ---
 name: website
 
-# https://btclib-org.github.io/ is this repository's own root, served by
+# https://btclib.org/ is this repository's own root, served by
 # GitHub Pages from main with the classic builder --
 # `gh api repos/btclib-org/btclib-org.github.io/pages` answers
 # `build_type: legacy`, and REPOSITORY.md records the setting. That
@@ -35,12 +35,14 @@ on:
     # actually builds
     branches: [main]
     # what a Jekyll build reads, and nothing else. index.md is the
-    # homepage and _config.yml decides what else in the root is published
-    # at all. Written out twice rather than through a yaml anchor, which
-    # the workflow parser does not promise
+    # homepage, _config.yml decides what else in the root is published at
+    # all, and CNAME is copied into the built site, which is where Pages
+    # reads the custom domain from. Written out twice rather than through
+    # a yaml anchor, which the workflow parser does not promise
     paths:
       - index.md
       - _config.yml
+      - CNAME
       - Gemfile
       - .github/workflows/website.yml
   pull_request:
@@ -53,6 +55,7 @@ on:
     paths:
       - index.md
       - _config.yml
+      - CNAME
       - Gemfile
       - .github/workflows/website.yml
   # the escape hatch: a run on demand for a branch whose pull request is
@@ -117,10 +120,10 @@ jobs:
       # the defect the build cannot report on itself. A layout whose
       # baseurl is empty renders `{{ '/x' | relative_url }}` as `/%20/x`
       # and jekyll exits zero, so the page is served with a script tag
-      # pointing at a path nothing answers. btclib.org served exactly
-      # that for as long as it took somebody to read the HTML. The build
-      # is the claim about the sources; this is the same claim made about
-      # the artifact.
+      # pointing at a path nothing answers. btclib-org/btclib's site
+      # served exactly that for as long as it took somebody to read the
+      # HTML. The build is the claim about the sources; this is the same
+      # claim made about the artifact.
       #
       # An attribute of a real tag, not the string anywhere on the page:
       # a page describing the defect carries it with the `<` escaped as
@@ -149,3 +152,13 @@ jobs:
         run: |
           test -s _site/index.html
           grep -q '<html' _site/index.html
+      # Pages reads the custom domain from the *built* site, so an
+      # exclude entry, a rename or a deletion that keeps CNAME out of
+      # _site releases btclib.org on the next build -- and releases it
+      # the way this workflow exists to catch, with a green build and no
+      # log anywhere saying so. The value is asserted and not only the
+      # file's presence: a CNAME holding some other name hands the
+      # domain over just as completely
+      - name: The built site claims btclib.org
+        run: |
+          test "$(cat _site/CNAME)" = "btclib.org"
