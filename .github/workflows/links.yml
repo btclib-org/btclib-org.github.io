@@ -10,12 +10,12 @@ name: links
 # it links to. So the organization's most public page is what this asks
 # about.
 #
-# The exception is the interesting one. index.md links to
-# https://btclib.org/, which is this tree's own product, so this is the
-# only thing here that fetches the deployed site at all -- and the
-# failure CLAUDE.md warns about, a CNAME that stops reaching _site,
-# releases the domain with no error anywhere. It would surface in this
-# run and in nothing else that is scheduled.
+# The exception is the interesting one. https://btclib.org/ is this
+# tree's own product, and the root markdown links it. So this is the only
+# thing here that fetches the deployed site at all. The failure CLAUDE.md warns
+# about, a CNAME that stops reaching _site, releases the domain with no
+# error anywhere; it would surface in this run and in nothing else that
+# is scheduled.
 #
 # Not a merge gate, and that is the design rather than an omission. A
 # link rots without anybody touching the repository, so asking per commit
@@ -98,19 +98,63 @@ jobs:
       - name: Check the links
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
-          # "*.md" is the root markdown, index.md included, which is
-          # what a reader of this repository is invited to follow. It is
-          # not everything the served page offers a visitor:
-          # _layouts/default.html carries the theme's own destinations
-          # into this tree -- the shiv it loads, the credit it prints,
-          # and the profile address it builds out of site.github -- and
-          # none of those is written in a file this reads. Whether they
-          # belong in this gate is #25 rather than a widened glob here.
-          # It does not reach .claude/commands, a glob not crossing a
-          # separator -- deliberately, btclib
-          # excluding its own review.md the same way: that file is a
-          # command for a session, not prose for a reader. There is no
-          # docs/ here and no tests/, so no companion glob is owed.
+          # "*.md" is the root markdown, index.md included, which is what
+          # a reader of this repository is invited to follow. It does not
+          # reach .claude/commands, a glob not crossing a separator --
+          # deliberately, btclib excluding its own review.md the same
+          # way: that file is a command for a session, not prose for a
+          # reader. There is no docs/ here and no tests/, so no companion
+          # glob is owed.
+          #
+          # The markdown is not all the served page offers a visitor,
+          # though. _layouts/default.html builds a profile address out of
+          # site.github and prints the theme's own credit, and no file
+          # the glob reads holds either. So the page itself is the second
+          # input, and it is the page rather than that layout: lychee
+          # reads the layout as html and turns every Liquid expression
+          # standing in an href into a file:// path under _layouts, so
+          # the source would report a run's worth of dead links that are
+          # not links at all. Fetching the rendered page yields absolute
+          # destinations and asks jekyll of nothing here.
+          #
+          # It is the deployed site, so it answers about main rather than
+          # about a branch. That is right for a weekly sentinel, and it
+          # is the arrangement the header above already rests on: the
+          # root markdown links btclib.org, so every run has fetched the
+          # deployed site -- which is what would surface a CNAME that
+          # stopped reaching _site. Adding the page as an input makes
+          # that fetch the thing the run is built on rather than a
+          # by-product of one link.
+          #
+          # The credit is now checked, and it is a destination this tree
+          # cannot edit: it sits outside every fence in
+          # _layouts/default.html, where check-theme-copies.sh compares
+          # the bytes with the gem's. So a red run naming orderedlist is
+          # answered by an --exclude here or by a theme release, and not
+          # by correcting the link, which is the ordinary remedy the
+          # header describes for index.md. Nor by fencing that line: a
+          # fence marks what this tree adds, and the script removes what
+          # it marks before comparing, so fencing a line the gem still
+          # holds fails the comparison rather than excusing it.
+          #
+          # What the page offers and this does not fetch goes unfetched
+          # for two different reasons.
+          #
+          # scale.fix.js, which the theme's layout loads, is excluded by
+          # verbatim handling: lychee treats a script element as
+          # verbatim, and `--include-verbatim` prints it. That flag is
+          # not passed, and the reason is the root markdown rather than
+          # this page -- it would also send lychee after every URL inside
+          # every fenced block here, and this tree's fences are full of
+          # commands quoting addresses that are examples rather than
+          # destinations.
+          #
+          # The IE shiv the theme's head requests is excluded by its
+          # conditional comment, which no flag reverses: that same flag
+          # does not print it either. A cdnjs path that stopped resolving
+          # there would be inert in any browser that runs the page at
+          # all.
+          #
           # --no-progress because the log is not a terminal; the retries,
           # the wait and the timeout are what keep a slow or throttling
           # host from being reported as a dead one.
@@ -138,6 +182,7 @@ jobs:
             --accept 100..=103,200..=299,429
             --include-fragments
             "*.md"
+            https://btclib.org/
           # fail the job rather than only summarizing: a green run that
           # found dead links is the state this workflow exists to end
           fail: true
