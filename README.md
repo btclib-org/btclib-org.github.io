@@ -1,4 +1,4 @@
-# The btclib.org organization site
+# The btclib organization website
 
 <!-- The badge row is section 2 of the organization standard's, and what
 a tree carries is read off the tree rather than curated: every repository

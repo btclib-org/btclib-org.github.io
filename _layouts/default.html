@@ -22,12 +22,13 @@ Which release that is, is a command and not a number written here:
 
   bundle list | grep jekyll-theme-minimal
 
-What the script counts is that the begin fences and the end ones come
-out even, which a block dropped whole satisfies -- so the fences are
-carried across by grepping for the marker in the copy being replaced,
-not by remembering how many there were. A fence is recognized at the
-start of a line only, so a line that mentions the marker part way
-through a sentence is prose and closes nothing.
+What the script counts is that there is at least one begin fence and
+that the end ones match it, which a block dropped whole satisfies as
+long as another remains -- so the fences are carried across by grepping
+for the marker in the copy being replaced, not by remembering how many
+there were. A fence is recognized at the start of a line only, so a
+line that mentions the marker part way through a sentence is prose and
+closes nothing.
 
 The blocks read `site.projects` and `site.supporters`; _config.yml
 defines both and says there what they are for.
@@ -66,7 +67,7 @@ btclib:end {%- endcomment -%}
         {% endif %}
 {%- comment -%} btclib:begin the organization's repositories {%- endcomment -%}
 
-        {% if site.projects %}
+        {% if site.projects and site.projects != empty %}
         <p class="projects">The projects</p>
         <ul class="projects">
           {%- for project in site.projects %}
@@ -94,12 +95,17 @@ btclib:end {%- endcomment -%}
         <p>This project is maintained by <a href="{{ site.github.owner_url }}">{{ site.github.owner_name }}</a></p>
         {% endif %}
 {%- comment -%} btclib:begin the organization's supporters {%- endcomment -%}
-        {% if site.supporters %}
+        {% if site.supporters and site.supporters != empty %}
         <p class="supporters">
           {%- for supporter in site.supporters %}
           <a href="{{ supporter.url }}"><img src="{{ supporter.logo | relative_url }}" alt="{{ supporter.name }}"></a>
           {%- endfor %}
         </p>
+        <p class="supporters-note"><small>The btclib organization and its projects are actively supported by
+          {%- for supporter in site.supporters -%}
+          {%- if forloop.first %} {% elsif forloop.last %} and {% else %}, {% endif -%}
+          <a href="{{ supporter.url }}">{{ supporter.short | default: supporter.name }}</a>
+          {%- endfor %} &mdash;</small></p>
         {% endif %}
 {%- comment -%} btclib:end {%- endcomment -%}
         <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>

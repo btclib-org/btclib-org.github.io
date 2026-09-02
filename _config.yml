@@ -1,5 +1,5 @@
 ---
-# The btclib.org organization site, served by GitHub Pages from
+# The btclib organization website, served by GitHub Pages from
 # main's root with the classic builder:
 #
 #   $ gh api repos/btclib-org/btclib-org.github.io/pages
@@ -20,9 +20,7 @@
 #
 #   curl -sS https://btclib.org/ | grep -e '<title' -e '<h1'
 #
-# The repository description, which the theme renders beside it, spells
-# the organization the same way. Why that one is not set here is the
-# block below.
+# Why the repository description is not set here is the block below.
 title: btclib.org
 theme: jekyll-theme-minimal
 
@@ -77,8 +75,14 @@ projects:
 #     | diff - assets/img/dgi-logo-extended-black.svg
 #   curl -sS https://www.checksig.com/info/logo-black.svg \
 #     | diff - assets/img/checksig-logo-black.svg
+#
+# `name` is the logo's alt text and `short` is how the sentence under
+# them reads the same institution aloud; the layout falls back to `name`
+# where an entry declares no `short`, which is why only one of the two
+# carries one.
 supporters:
   - name: Digital Gold Institute
+    short: DGI
     url: https://dgi.io
     logo: /assets/img/dgi-logo-extended-black.svg
   - name: CheckSig
