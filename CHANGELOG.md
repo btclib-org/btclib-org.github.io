@@ -240,3 +240,12 @@ serves it.
   The second is a floor on the interpreter pre-commit builds the hook
   environment with, recorded here rather than measured against a
   machine.
+
+### CLAUDE.md's worktree removal line stands in a block of its own
+
+- **`git worktree remove --force "$WT"` stands in a block of its own**
+  (issue btclib-org/.github#676): the line above it ends in a
+  placeholder, and a shell that discards that line as a parse error
+  reads the next as a fresh command, so a paste of the block removes
+  whatever `$WT` a session that has already been through it still holds.
+  Its own block is the one CLAUDE.md's reader pastes deliberately.
