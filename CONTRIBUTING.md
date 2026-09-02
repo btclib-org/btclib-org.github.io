@@ -267,7 +267,7 @@ checkout the worktree was made from, so one session installing it
 installs it for every other. Run the gate by hand before committing.
 
 **What the gate does not reach is the site itself.** The hooks read
-prose, yaml and the derivation script; none of them builds Jekyll.
+prose, yaml and the scripts; none of them builds Jekyll.
 `website.yml` does, with the ruby and the gem GitHub Pages runs, and it
 is the only place the build is asked for — a local preview wants that
 same pair:

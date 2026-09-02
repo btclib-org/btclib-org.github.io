@@ -455,8 +455,8 @@ published.
 - **No code scanning**, and GitHub's default setup off with it:
   `gh api repos/btclib-org/btclib-org.github.io/code-scanning/default-setup
   --jq .state` answers `not-configured`. There is no language CodeQL
-  analyses in this tree — markdown, yaml, one shell script — and what
-  reads the script instead is `shellcheck`, in `.pre-commit-config.yaml`.
+  analyses in this tree — markdown, yaml, shell — and what reads the
+  scripts instead is `shellcheck`, in `.pre-commit-config.yaml`.
 - **No schedule for `homepage.yml`.** Section 10 of the standard is a
   calendar of two tables that names an instant for every `cron:` in the
   organization, and this repository now has a row in both — which is what

@@ -190,3 +190,53 @@ serves it.
   with itself. The repository description still spells the organization
   the other way; it is a setting outside the tree rather than a line in
   this diff, and it is issue #18.
+
+### One shellcheck across the tree is a gate rather than a sentence
+
+- `.github/scripts/check-shellcheck-pin.sh` reads the `shellcheck-py`
+  hook's `rev` and actionlint's `shellcheck-py==` pin together and exits
+  `1` where they name two releases (closes #17). `.pre-commit-config.yaml`
+  had stated that invariant in prose since it was written, and nothing
+  read it: `autoupdate` moves the rev weekly and nothing moves the pin,
+  dependabot having no pre-commit ecosystem, so the pair drifts in one
+  direction while every check stays green.
+- The comparison is not string equality, and the script says why. A
+  `rev` is a git tag and the pin is a PyPI version, and upstream re-cuts
+  a tag with a `-N` suffix for a packaging change without moving the
+  version that tag declares — `v0.11.0.1-1` and `v0.11.0.1` both declare
+  `version = 0.11.0.1`, as `v0.7.0.1-1` and `v0.7.0.1` both declare
+  `0.7.0.1`. The tag is normalised for that and the releases compared.
+  What the check trades away is a `-N` re-cut that did move the version,
+  which would pass; the script carries the network command that settles
+  one, since it needs neither that nor a token to answer the drift it is
+  for.
+- Each half is required to appear before anything is compared, and a
+  count of zero fails rather than passes: a pattern that has stopped
+  matching answers zero on both sides, and a check that compares nothing
+  with nothing is green forever. A quoted `rev`, which the `pinned-rev`
+  hook beside this one contemplates, and a commit SHA, which that hook
+  allows and which names no release at all, each get an answer of their
+  own rather than a comparison against a string that is not a version.
+- The sentences that named the derivation script as the tree's only one
+  move with it, `.pre-commit-config.yaml` carrying three of them,
+  `REPOSITORY.md`'s *No code scanning* and `CONTRIBUTING.md`'s *The
+  environment and the gates* one each. The last is below the marker
+  `verbatim_test.py` stops at, so the shared half of that file is
+  untouched — and the third in the config is the contrast beside
+  actionlint, which had named `derive-homepage.sh` as what the other
+  hook reads.
+- The comment above the hook says the same in prose, a review of the
+  revision bump that landed before this having read the two spellings as
+  drift — the hook at `v0.11.0.1-1` beside `shellcheck-py==0.11.0.1` —
+  and offered either pinning the dependency to the tag string or
+  revising the comment. The first was never available: PyPI carries no
+  `0.11.0.1-1`, that spelling normalising to `0.11.0.1.post1`, which it
+  does not carry either.
+- What that re-cut changes upstream is two declarations rather than a
+  release: `.pre-commit-hooks.yaml` gains `exclude_types: [zsh]`, and
+  `setup.cfg` raises `python_requires` from `>=3.9` to `>=3.10`. The
+  first changes nothing here — `identify`, which selects a hook's files,
+  tags no file in this tree `zsh`, so the exclusion selects nothing away.
+  The second is a floor on the interpreter pre-commit builds the hook
+  environment with, recorded here rather than measured against a
+  machine.
