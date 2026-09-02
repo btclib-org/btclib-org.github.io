@@ -27,10 +27,9 @@
 # declaration, and the command for it sits beside the hook in
 # .pre-commit-config.yaml rather than a second time here.
 #
-# Note for whoever edits these comments: a line beginning `# shellcheck`
-# is a directive to the very tool this file is about, and an English
-# sentence wrapped so that the word lands first on a line is SC1072 and
-# a red gate. Wrap around it.
+# Note for whoever edits these comments: the rule for wrapping a
+# sentence that contains the word `shellcheck` is section 9 of
+# btclib-org/.github's README.md.
 
 set -euo pipefail
 
