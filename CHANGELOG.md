@@ -158,3 +158,10 @@ serves it.
   carried — that `gh api --jq '.cname'` prints an empty line for a JSON
   `null`, so a `# null` beside that spelling quotes the reader — stays as
   the rule the file spells its readbacks by.
+
+### `.gitattributes`'s comment names the driver's sides and one anchor
+
+- **The comment keeps `ours` first and `theirs` second, names which side
+  each of a merge and a rebase calls `ours`, and premises the driver on
+  an entry arriving at one shared anchor rather than a bullet appended
+  to one of a few changelog groups** (issue btclib-org/.github#646).
