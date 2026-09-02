@@ -269,3 +269,14 @@ serves it.
   moved, the sentence naming the site rather than the login; and Jekyll
   reads the field at build time, so the served page and the endpoint
   disagree until something pushes.
+
+### The wrapping note in `check-shellcheck-pin.sh` points at section 9
+
+- **The note for whoever edits that header names the rule and where it
+  is read** (closes btclib-org/.github#689): section 9 of the standard
+  states how a sentence containing the word `shellcheck` may wrap, so
+  the note points at it rather than stating it a second time — *One fact
+  in one place*. The pointer names no outcome, where the note it
+  replaces named only `SC1072` and a red gate: the standard also covers
+  the wrap that reads as a valid directive, where the run exits 0 and a
+  real finding beside it is suppressed.
