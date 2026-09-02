@@ -128,3 +128,33 @@ serves it.
   file. `merge=union` never conflicts and no gate reads the order two
   `###` sections sit in, so a rebase can move a block with nothing going
   red anywhere.
+
+### `https://www.btclib.org/` answers, and the record says so
+
+- The Pages certificate names `www.btclib.org` beside the apex (closes
+  #6), and `REPOSITORY.md` records the `.https_certificate.domains` the
+  issue named as its readback. `www` is a `CNAME` to
+  `btclib-org.github.io` and no longer to the apex, that being the target
+  GitHub's documentation asks for; the zone is at the registrar, so the
+  change was not this repository's to make and its answer is what the
+  file records.
+- The certificate answering today is not the one this file recorded when
+  the domain was claimed. That entry read it as `btclib-org/btclib`'s,
+  carried across rather than issued; the one served now has a `notBefore`
+  after the commit that added `CNAME`, and the command whose two answers
+  were that entry's evidence has only one of them left — `btclib` has no
+  Pages site, so its half exits `1` on a `404`. Nothing above is
+  rewritten: what the file carries instead is a pair whose answers can
+  both still be read, the served certificate's own `subjectAltName`
+  beside the endpoint's `domains` — reached with `-text` and a `grep`,
+  `-ext subjectAltName` being an OpenSSL option the LibreSSL macOS ships
+  as `openssl` rejects.
+- Two further readbacks in that section went stale with `btclib`'s site.
+  `{cname}` on the released domain now `404`s where it printed
+  `{"cname":null}`, and is dropped for the pointer to `btclib`'s own
+  `REPOSITORY.md`, which carries that `404`; the path GitHub served that
+  repository's project site under `404`s too, and that is what the file
+  records where it recorded an `html_url`. What the first of them
+  carried — that `gh api --jq '.cname'` prints an empty line for a JSON
+  `null`, so a `# null` beside that spelling quotes the reader — stays as
+  the rule the file spells its readbacks by.

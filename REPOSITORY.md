@@ -57,44 +57,36 @@ gh api repos/btclib-org/btclib-org.github.io/pages \
 ```
 
 **`https_enforced` is `true`, and a certificate is what that field is
-about.** GitHub issues one for a custom domain on its own, so claiming a
-domain is expected to cost a window without HTTPS while that happens.
-It did not: the certificate serving `btclib.org` here is the one that
-served it from `btclib-org/btclib`, carried across rather than
-reissued.
+about.** GitHub issues one for a custom domain on its own, and the one
+answering here names both spellings of the domain:
 
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/pages \
   --jq '.https_certificate | {state, domains}'
-# {"domains":["btclib.org"],"state":"approved"}
+# {"domains":["btclib.org","www.btclib.org"],"state":"approved"}
 ```
 
-Two commands say so, and neither writes down a date, a certificate's own
-dates rotating at every renewal. The endpoints agree because there is
-one certificate answering on both:
-
-```shell
-for r in btclib-org.github.io btclib; do
-  gh api "repos/btclib-org/$r/pages" --jq '.https_certificate.expires_at'
-done
-# the same date twice
-```
-
-and it is older than the claim, which nothing issued at the claim could
-be — compare its `notBefore` against the commit that added `CNAME`:
+No date is written down, a certificate's own dates rotating at every
+renewal. What the dates say and the endpoint does not is that its
+`notBefore` falls *after* the commit that claimed the domain, so the
+certificate was issued for this repository rather than inherited with the
+name. `TZ=UTC` is there so that the two answers are in one zone, `x509`
+printing GMT and a commit date carrying whatever offset it was written
+in. The `DNS:` line beside them is the certificate's `subjectAltName`,
+the same pair of names the endpoint gives, read from what is actually
+served rather than from the setting:
 
 ```shell
 echo | openssl s_client -connect btclib.org:443 -servername btclib.org \
-  2>/dev/null | openssl x509 -noout -dates
-git log -1 --format=%cI $(git log --diff-filter=A --format=%H -- CNAME)
+  2>/dev/null | openssl x509 -noout -dates -text | grep -e '^not' -e 'DNS:'
+TZ=UTC git log -1 --format=%cd --date=iso-local \
+  $(git log --diff-filter=A --format=%H -- CNAME)
 ```
 
-**`domains` names the apex alone**, so `https://www.btclib.org/` fails
-TLS — which is #6 rather than a consequence of the move, `btclib`'s
-certificate having answered the same single name. Over plain HTTP the
-host reaches the site, GitHub redirecting it to the apex rather than to
-`https://www.`, which is why the `www` spelling works without a scheme
-and fails with one.
+`-text` and a `grep` rather than `-ext subjectAltName`: the `openssl`
+macOS ships is a LibreSSL, which has no such option and exits `1` on it.
+A command recorded here is for whoever reads the file, not for whichever
+build happened to be first on one `PATH`.
 
 `legacy` is GitHub's own Jekyll builder, run on GitHub's side from
 `main`'s root. It writes no log a maintainer can read and reports a
@@ -112,17 +104,14 @@ asserts the built site's copy for that reason. A custom domain belongs
 to one repository at a time, so the claim required `btclib-org/btclib`
 to release it first; btclib-org/.github#530 is the decision and the
 sequence, and `btclib`'s own `REPOSITORY.md` records that it no longer
-holds the domain.
+holds the domain — with the readback, that repository's Pages site being
+the thing it no longer has.
 
-```shell
-gh api repos/btclib-org/btclib/pages --jq '{cname}'
-# {"cname":null}
-```
-
-The object form is not decoration: `--jq '.cname'` on a JSON `null`
-prints an **empty line** and not the word, so a comment reading `# null`
-beside that spelling transcribes what the reader expected rather than
-what the command answered.
+**A readback here asks for an object and not a field**: `{cname}` rather
+than `.cname`, because `gh api --jq '.cname'` prints an **empty line**
+for a JSON `null` and not the word, so a comment reading `# null` beside
+that spelling transcribes what the reader expected rather than what the
+command answered.
 
 **`btclib-org.github.io` is not a second site**: with a custom domain
 set, GitHub redirects the `*.github.io` host to it, so the two names are
@@ -134,26 +123,31 @@ curl -sS -o /dev/null -w '%{http_code} %{url_effective}\n' -L \
 # 200 https://btclib.org/
 ```
 
-A project site of the organization is served *under* this domain, which
-is what makes it the organization's rather than this repository's:
-GitHub moved `btclib-org/btclib`'s own `html_url` there without being
-asked, and does so for as long as that repository has a site at all.
+**Nothing of `btclib-org/btclib` is served under a path of this domain**,
+that repository having no Pages site. Where it has one, GitHub serves it
+under this domain and moves its `html_url` there without being asked,
+which is what makes the domain the organization's rather than this
+repository's:
 
 ```shell
-gh api repos/btclib-org/btclib/pages --jq '.html_url'
-# https://btclib.org/btclib/
+curl -sS -o /dev/null -w '%{http_code}\n' https://btclib.org/btclib/
+# 404
 ```
 
-The apex carries A records to Pages and `www` a `CNAME` to the apex, and
-neither is this repository's to set: the zone is at the registrar, and
-what a `CNAME` here decides is which repository GitHub serves to a
-request those records already deliver.
+The apex carries A records to Pages and `www` a `CNAME` to
+`btclib-org.github.io`, which is the target GitHub's documentation asks
+for and not the apex. Neither record is this repository's to set: the
+zone is at the registrar, and what a `CNAME` here decides is which
+repository GitHub serves to a request those records already deliver.
 
 ```shell
 dig +short btclib.org A | sort | tr '\n' ' '
 # 185.199.108.153 185.199.109.153 185.199.110.153 185.199.111.153
 dig +short www.btclib.org | head -1
-# btclib.org.
+# btclib-org.github.io.
+curl -sS -o /dev/null -w '%{http_code} %{url_effective}\n' -L \
+  https://www.btclib.org/
+# 200 https://btclib.org/
 ```
 
 ## Required checks on main
