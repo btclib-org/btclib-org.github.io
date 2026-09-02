@@ -249,3 +249,23 @@ serves it.
   reads the next as a fresh command, so a paste of the block removes
   whatever `$WT` a session that has already been through it still holds.
   Its own block is the one CLAUDE.md's reader pastes deliberately.
+
+### The site's tagline spells the organization the way its page does
+
+- The repository description reads `The btclib.org organization site`
+  (closes #18), and `REPOSITORY.md` records what the field now answers.
+  That field is not a github.com string alone: `_config.yml` declares no
+  `description`, so the theme falls back to `site.github.project_tagline`
+  and the site serves it under the heading, in `<title>`, in the
+  `description` and `og:description` meta elements and in the JSON-LD —
+  so the page had been showing `btclib.org` as its heading and
+  `btclib-org` in the line beneath it.
+- `1599b9f` is why that is the wrong spelling rather than a preference:
+  it corrected the identical sentence in `README.md`, and the field
+  carried the copy that commit did not reach. `_config.yml`'s own opening
+  line carried a third, which goes with it — and loses the clause naming
+  the domain, the name now carrying it.
+- Recorded beside the readback: the login is `btclib-org` and has not
+  moved, the sentence naming the site rather than the login; and Jekyll
+  reads the field at build time, so the served page and the endpoint
+  disagree until something pushes.
