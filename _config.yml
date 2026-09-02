@@ -14,7 +14,19 @@
 #
 # The theme is the one btclib-org/btclib's site runs, so the
 # organization's sites are one look rather than two.
-title: btclib-org
+#
+# `title` is rendered twice by that theme -- as the heading of the
+# sidebar column, and as the leading half of the document title, ahead
+# of the repository description -- beside a body whose own first heading
+# is the organization page's. So it is that page's name for the
+# organization:
+#
+#   curl -sS https://btclib.org/ | grep -e '<title' -e '<h1'
+#
+# The description still spells it the other way. That is a setting
+# outside the tree, read back and decided in REPOSITORY.md rather than
+# here, and it is #18.
+title: btclib.org
 theme: jekyll-theme-minimal
 
 # the minimal theme offers zip and tar buttons on a project page. This is
