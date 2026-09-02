@@ -165,3 +165,28 @@ serves it.
   each of a merge and a rebase calls `ours`, and premises the driver on
   an entry arriving at one shared anchor rather than a bullet appended
   to one of a few changelog groups** (issue btclib-org/.github#646).
+
+### The homepage catches up with the organization page
+
+- `index.md` is re-derived at `btclib-org/.github`'s `1c0d33e`. Two
+  commits there moved `profile/README.md` since the pin this file
+  carried, `ccc5222` and `a8ac6e1`: the page now carries a row for this
+  repository, points its `btclib` link at that library's documentation
+  rather than at this domain, spells the organization `btclib.org` and
+  the library's language `Python` rather than `Python3`, corrects two
+  university names, widens the `.github` row from the repositories above
+  it to every repository of the organization, says *test vectors* where
+  it said *vectors*, and puts the licence line under a heading of its
+  own.
+- Nothing above is written here. The body is that file's bytes, which is
+  what `homepage.yml`'s verify job re-derives and what its stale job had
+  been red about since the text moved — a red stale job being the
+  notification that `CONTRIBUTING.md`'s *Changing the homepage* is owed,
+  not a gate that broke.
+- `_config.yml`'s `title` follows the page to `btclib.org`. The theme
+  renders it as the sidebar heading and as the leading half of the
+  document title, beside a body whose own first heading the commits
+  above renamed — so leaving it would have served a page disagreeing
+  with itself. The repository description still spells the organization
+  the other way; it is a setting outside the tree rather than a line in
+  this diff, and it is issue #18.
