@@ -1,0 +1,81 @@
+---
+---
+
+@import "jekyll-theme-minimal";
+
+// This file opens with jekyll-theme-minimal's own assets/css/style.scss,
+// byte for byte -- through the import above, the blank line after it
+// already being this tree's -- and everything from here down is this
+// tree's too. That is a copy of a gem's file for the same reason
+// _layouts/default.html is one, and it is checked the same way:
+// .github/scripts/check-theme-copies.sh requires this file to open with
+// the gem's, so a theme release that adds an import there is a red check
+// rather than half a stylesheet served in silence.
+//
+// The import is not decoration. A file of this name in the tree shadows
+// the gem's outright, and without it the site is served unstyled.
+//
+// What follows is the styling of the blocks _layouts/default.html adds,
+// the sidebar's list of projects and the footer's supporter logos, and
+// nothing else: a rule here about anything else is a change to the theme
+// rather than an addition to it.
+
+// The label above the project list is a paragraph and not a heading: the
+// sidebar's one heading is the site title, and an h2 here would render
+// at the size the body's own section headings use, beside a title it is
+// subordinate to.
+header p.projects {
+  color: #222;
+  font-weight: 700;
+  margin: 0 0 4px;
+}
+
+header ul.projects {
+  line-height: 1.4;
+  list-style: none;
+  margin: 0 0 20px;
+  padding: 0;
+  // static is the initial value, declared because the theme positions
+  // every ul inside the header absolutely over a band of widths -- a
+  // rule written for the row of download buttons it ships and applied
+  // to any list the header holds, so within that band the list of
+  // projects is what would otherwise land in the corner, detached from
+  // its own label. Unconditional rather than inside a copy of the
+  // theme's own media query: the declaration does nothing at any other
+  // width, and writing the breakpoint here would be this tree's only
+  // dependence on a number in the theme's sass -- a file
+  // check-theme-copies.sh does not read, so a release that moved that
+  // number would leave the copy of it here short of the band it is for,
+  // with nothing saying so.
+  position: static;
+}
+
+// The supporter logos, one to a line: laid out in a row they fit the
+// sidebar column only at a height where the smaller of the two marks
+// puts its own name below the legible -- measured, at the width the
+// theme gives that column. Stacked deliberately rather than by wrapping,
+// so the arrangement is the same at any width it takes.
+//
+// The footer is fixed to the bottom of that column, so a block here
+// grows upward, toward a header fixed to the top of it. What decides
+// how much room there is between them is the window's height, and the
+// two meet on a short one -- which is the theme's own arrangement and
+// not something introduced here, the header having always grown with
+// whatever it holds.
+footer p.supporters {
+  margin: 0 0 10px;
+}
+
+footer p.supporters a {
+  display: block;
+  margin: 0 0 8px;
+}
+
+// A height and no width: the two marks have different proportions, and
+// a shared width would set them at two different sizes. The theme's
+// a:hover sets font-weight, which an image has nothing to do with, so
+// there is no hover state here to undo.
+footer p.supporters img {
+  height: 42px;
+  width: auto;
+}

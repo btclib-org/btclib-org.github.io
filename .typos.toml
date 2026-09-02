@@ -18,3 +18,10 @@
 # gate here -- and the build then resolves the metadata of no
 # repository at all
 PAGES_REPO_NWO = "PAGES_REPO_NWO"
+# the same three letters again, in the theme's own layout: `_layouts`
+# holds a copy of it, and `site.github.repository_nwo` is what that
+# layout renders beside the project link. The rewrite here is caught by
+# .github/scripts/check-theme-copies.sh, the copy no longer being the
+# gem's file -- but it is caught as the theme having moved, which is a
+# reader sent into a gem to look for a change this hook made
+repository_nwo = "repository_nwo"

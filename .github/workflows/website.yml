@@ -36,14 +36,20 @@ on:
     branches: [main]
     # what a Jekyll build reads, and nothing else. index.md is the
     # homepage, _config.yml decides what else in the root is published at
-    # all, and CNAME is copied into the built site, which is where Pages
-    # reads the custom domain from. Written out twice rather than through
+    # all, _layouts holds the theme layout this tree carries its own copy
+    # of, assets holds the stylesheet and the images that copy points at,
+    # and CNAME is copied into the built site, which is where Pages reads
+    # the custom domain from. The script is here because the job runs it
+    # and it can fail on its own. Written out twice rather than through
     # a yaml anchor, which the workflow parser does not promise
     paths:
       - index.md
       - _config.yml
+      - _layouts/**
+      - assets/**
       - CNAME
       - Gemfile
+      - .github/scripts/check-theme-copies.sh
       - .github/workflows/website.yml
   pull_request:
     # ready_for_review, so a pull request marked ready gets the run the
@@ -55,8 +61,11 @@ on:
     paths:
       - index.md
       - _config.yml
+      - _layouts/**
+      - assets/**
       - CNAME
       - Gemfile
+      - .github/scripts/check-theme-copies.sh
       - .github/workflows/website.yml
   # the escape hatch: a run on demand for a branch whose pull request is
   # not open yet, and the way to ask the question after a Pages upgrade
@@ -106,13 +115,22 @@ jobs:
         with:
           ruby-version: "3.3.4"
           bundler-cache: true
+      # the theme files this tree keeps its own copies of, which are
+      # what a github-pages bump can falsify in silence: the gem moves,
+      # the site still builds, and the page serves the chrome of a
+      # release nobody runs, or a stylesheet missing half of itself.
+      # Before the build rather than after, this being a question about
+      # the sources; the script says which files it compares and how
+      # each one's own additions are left out of the comparison
+      - name: The theme files this tree copies are the theme's own
+        run: .github/scripts/check-theme-copies.sh
       # PAGES_REPO_NWO is what jekyll-github-metadata resolves
-      # `site.github` from, which the theme's own layout reads for the
-      # footer and the repository link. Unauthenticated, so the fields it
-      # cannot reach without a token are empty rather than wrong -- the
-      # claim this job makes is that the site builds and its own links
-      # are well formed, not that the metadata GitHub injects on its side
-      # is present here
+      # `site.github` from, which _layouts/default.html reads for the
+      # footer, the profile link and the address of every project in the
+      # sidebar. Unauthenticated, so the fields it cannot reach without a
+      # token are empty rather than wrong -- the claim this job makes is
+      # that the site builds and its own links are well formed, not that
+      # the metadata GitHub injects on its side is present here
       - name: Build the site
         env:
           PAGES_REPO_NWO: ${{ github.repository }}
@@ -152,6 +170,19 @@ jobs:
         run: |
           test -s _site/index.html
           grep -q '<html' _site/index.html
+      # what this tree adds to that layout, asked of the artifact rather
+      # than of the sources. check-theme-copies.sh compares the layout
+      # with the gem's and cannot see a fenced block removed whole: the
+      # fences go with it, the count stays even and the remainder stays
+      # equal, so the one thing that reports a sidebar or a footer
+      # quietly losing what it is for is the page itself.
+      # A class attribute rather than the text: the labels are prose and
+      # will be rewritten, where a class is what the stylesheet and the
+      # layout already have to agree on
+      - name: The built homepage carries the projects and the supporters
+        run: |
+          grep -q 'class="projects"' _site/index.html
+          grep -q 'class="supporters"' _site/index.html
       # Pages reads the custom domain from the *built* site, so an
       # exclude entry, a rename or a deletion that keeps CNAME out of
       # _site releases btclib.org on the next build -- and releases it

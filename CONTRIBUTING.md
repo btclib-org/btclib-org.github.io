@@ -298,6 +298,12 @@ That rewrites `index.md` whole. Commit the result as it stands — the
 front matter records the commit it came from, and `homepage.yml` refuses
 a pull request whose `index.md` is not what that commit derives to.
 
+Where the organization gained or lost a repository, `_config.yml`'s
+`projects` moves with it in the same commit: the sidebar's list and the
+body's links are one set, and the `projects` hook refuses a commit in
+which they are two. Its message prints both, so what to add or drop is
+in the refusal rather than to be worked out.
+
 ### What gates a merge, and what only reports
 
 **`lint.yml` runs the gate above on every pull request**, with `uvx

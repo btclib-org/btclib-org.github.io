@@ -7,15 +7,12 @@
 #    "source": {"branch": "main", "path": "/"}}
 #
 # REPOSITORY.md records that setting and is where it is read back. What
-# it means here is that this file, CNAME, Gemfile and index.md are
-# website sources, and that every other file in main's root is a URL
-# under btclib.org whether it was meant to be one or not -- which is
-# what the exclude list below is for.
+# it means here is that this file, CNAME, Gemfile, index.md, _layouts
+# and assets are website sources, and that every other file in main's
+# root is a URL under btclib.org whether it was meant to be one or not --
+# which is what the exclude list below is for.
 #
-# The theme is the one btclib-org/btclib's site runs, so the
-# organization's sites are one look rather than two.
-#
-# `title` is rendered twice by that theme -- as the heading of the
+# `title` is rendered twice by the theme -- as the heading of the
 # sidebar column, and as the leading half of the document title, ahead
 # of the repository description -- beside a body whose own first heading
 # is the organization page's. So it is that page's name for the
@@ -34,6 +31,63 @@ theme: jekyll-theme-minimal
 # the buttons do not render in any case; the key says so rather than
 # leaving a reader to work out that they cannot appear
 show_downloads: false
+
+# The organization's repositories, linked in the sidebar under the
+# profile link by _layouts/default.html, which builds each address as
+# site.github.owner_url with the name appended -- so an entry here is a
+# repository name and nothing else.
+#
+# All of them, in the order sort gives, rather than a selection: the
+# page's own body names every one of the organization's repositories, and
+# a sidebar naming some of them would be a second and quieter answer to
+# which repositories there are.
+#
+# That body is generated from btclib-org/.github's profile/README.md, so
+# this list and the links the page carries come out of two trees and can
+# drift apart with nothing failing. .github/scripts/check-projects.sh is
+# what refuses that: it reads the btclib-org addresses out of index.md
+# and requires this list to be exactly their set, so a repository the
+# organization adds reaches the sidebar or reaches nothing.
+projects:
+  - .github
+  - bbt
+  - bitcoin-core-rpc
+  - btclib
+  - btclib-benchmarks
+  - btclib-node
+  - btclib-org.github.io
+  - btclib-secp256k1
+  - portanode
+
+# The institutions that support the work, credited in the footer beside
+# the hosting and the theme credit. The page's own body names the same
+# two and links the same two addresses, which is why the addresses here
+# are those and not the www ones the press kits are served from -- which
+# is what keeps these two within reach of links.yml, reading `*.md` as it
+# does. Nothing enforces it the way check-projects.sh does for the list
+# above; what keeps it true is choosing the body's address rather than
+# another of the same site.
+#
+# The logo files are each press kit's own, byte for byte, fetched
+# 2026-09-02:
+#
+#   https://www.dgi.io/press-kit/              logo-extended-black.svg
+#   https://www.checksig.com/eu/it/press-kit/  logo-black.svg
+#
+# The black variants, the page being served on white. Whether a copy is
+# still what the address serves is a command and not a claim made here:
+#
+#   curl -sS https://www.dgi.io/logo-extended-black.svg \
+#     | diff - assets/img/dgi-logo-extended-black.svg
+#   curl -sS https://www.checksig.com/info/logo-black.svg \
+#     | diff - assets/img/checksig-logo-black.svg
+supporters:
+  - name: Digital Gold Institute
+    url: https://dgi.io
+    logo: /assets/img/dgi-logo-extended-black.svg
+  - name: CheckSig
+    url: https://checksig.com
+    logo: /assets/img/checksig-logo-black.svg
 
 # There is no `description` here, deliberately. The theme falls back to
 # the repository's own GitHub description, which is a setting outside the

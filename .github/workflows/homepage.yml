@@ -18,8 +18,9 @@ name: homepage
 # request. stale is about another repository moving, which no pull
 # request here introduces and no merge here should wait on -- so it runs
 # on main and on demand, and a red run of it is a notification rather
-# than a gate. CONTRIBUTING.md's "Changing the homepage" is the one
-# command that answers it.
+# than a gate. CONTRIBUTING.md's "Changing the homepage" is what answers
+# it: the derivation, and _config.yml's projects list where what moved
+# upstream was the organization's set of repositories.
 #
 # What would answer it without anybody asking is a weekly schedule.
 # Section 10 of the organization's standard is a calendar of two tables
@@ -169,6 +170,8 @@ jobs:
             diff -u pinned.md current.md || true
             echo "::error::btclib-org/.github's profile/README.md has" \
                  "moved and this site has not. CONTRIBUTING.md's" \
-                 "\"Changing the homepage\" is the command that moves it."
+                 "\"Changing the homepage\" is what moves it, the" \
+                 "projects hook refusing the derivation alone where a" \
+                 "repository was added or dropped."
             exit 1
           fi

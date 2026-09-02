@@ -81,6 +81,24 @@ still carries it.
 `website.yml` can build the site with the same toolchain and fail out
 loud where the builder on GitHub's side fails silently.
 
+`_layouts/default.html` is the theme's own layout with fenced blocks
+added to it: the sidebar's list of the organization's repositories, the
+footer's credit to the institutions that support the work, and a header
+saying what the file is. The whole layout is copied because the theme
+offers an include point for `head` and for nothing else.
+
+`assets/` is what that layout points at: `css/style.scss`, which is the
+theme's own stylesheet with the rules those blocks need appended, and
+`img/`, holding each supporter's own logo file.
+
+`_layouts/default.html` and `assets/css/style.scss` each shadow a file
+inside a gem `Gemfile` pins, so a bump of that pin can leave either
+copy behind a theme that moved under it — silently, the site building
+either way. That is why `website.yml` runs
+`.github/scripts/check-theme-copies.sh`, which removes every fenced block
+from the layout and requires the remainder to be the installed gem's file
+byte for byte, and requires the stylesheet to open with the gem's own.
+
 The rest is what section 2 of
 [the organization's standard](https://github.com/btclib-org/.github)
 gives a tier-3 repository: `CONTRIBUTING.md` and `REVIEWING.md`, each the

@@ -29,7 +29,7 @@ name: links
 # A finding here is often not this repository's to fix. index.md is
 # generated, so a rotted link in its body is a pull request against
 # btclib-org/.github; CLAUDE.md's own note on that file is the rule, and
-# what lands here afterwards is CONTRIBUTING.md's one command.
+# what lands here afterwards is CONTRIBUTING.md's Changing the homepage.
 
 on:
   schedule:
@@ -98,10 +98,16 @@ jobs:
       - name: Check the links
         uses: lycheeverse/lychee-action@e7477775783ea5526144ba13e8db5eec57747ce8 # v2.9.0
         with:
-          # "*.md" is the root markdown, index.md included, and that is
-          # the whole of what a reader of this site or of this repository
-          # is invited to follow. It does not reach .claude/commands, a
-          # glob not crossing a separator -- deliberately, btclib
+          # "*.md" is the root markdown, index.md included, which is
+          # what a reader of this repository is invited to follow. It is
+          # not everything the served page offers a visitor:
+          # _layouts/default.html carries the theme's own destinations
+          # into this tree -- the shiv it loads, the credit it prints,
+          # and the profile address it builds out of site.github -- and
+          # none of those is written in a file this reads. Whether they
+          # belong in this gate is #25 rather than a widened glob here.
+          # It does not reach .claude/commands, a glob not crossing a
+          # separator -- deliberately, btclib
           # excluding its own review.md the same way: that file is a
           # command for a session, not prose for a reader. There is no
           # docs/ here and no tests/, so no companion glob is owed.
