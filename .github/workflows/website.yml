@@ -183,6 +183,7 @@ jobs:
         run: |
           grep -q 'class="projects"' _site/index.html
           grep -q 'class="supporters"' _site/index.html
+          grep -q 'class="supporters-note"' _site/index.html
       # Pages reads the custom domain from the *built* site, so an
       # exclude entry, a rename or a deletion that keeps CNAME out of
       # _site releases btclib.org on the next build -- and releases it

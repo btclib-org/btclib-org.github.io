@@ -421,3 +421,35 @@ serves it.
   reach of `links.yml`. This change is what makes that false: the footer
   renders each `supporters` entry as an anchor, and the page is now an
   input.
+
+### The chrome names the organization and says who supports it
+
+- **The tagline reads `The btclib organization website`, and the
+  footer's credit is preceded by a sentence naming the two institutions
+  that support the work, each linked** (closes #28). The tagline is the
+  repository description, a setting outside the tree, so
+  `REPOSITORY.md` moves with it and `README.md`'s own heading, which is
+  the same sentence, moves with it too.
+- The sentence is generated from `_config.yml`'s `supporters`, the same
+  list the logos above it come from, so an institution added there is
+  named in both places or in neither. Each entry's `name` is the logo's
+  alt text; `short` is how the sentence reads it aloud, and the layout
+  falls back to `name` where an entry declares none, which is why only
+  the first carries one.
+- The credit itself is untouched. It is the theme's own line, and
+  `check-theme-copies.sh` requires every byte outside a fenced block to
+  be the installed gem's, so the sentence is a block of its own placed
+  before it. That leaves two `p` elements where a reader is to see one
+  line, which `assets/css/style.scss` closes by rendering both inline —
+  the space between them being the newline in the source.
+- Both fenced blocks now ask whether their list is empty as well as
+  whether it is there. Liquid reads an empty array as true, so
+  `supporters: []` rendered the sentence with nobody in it, and
+  `projects: []` had been giving the sidebar a label above an empty
+  list. Measured on four shapes of the key: absent, empty, one entry and
+  two.
+- `website.yml` asserts the new element in the built page beside the
+  other two. The sentence went inside the fence the logos already had,
+  and the script strips a fenced block before comparing what is left
+  with the gem's file, so it never looks inside one: those three greps
+  are the only assertion anywhere about what a fence holds.

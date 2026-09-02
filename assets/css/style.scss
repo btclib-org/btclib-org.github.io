@@ -71,6 +71,20 @@ footer p.supporters a {
   margin: 0 0 8px;
 }
 
+// The sentence and the credit under the logos are one line to a reader
+// and two `p` elements to the document. The credit is the theme's own
+// line, which check-theme-copies.sh requires byte for byte, so the
+// sentence is a block placed before it rather than an edit to it, and
+// inline display is what joins the two. What separates them is the
+// newline between the elements, which collapses to a space. An inline
+// box takes no vertical margin, so the pair stops taking the 20px the
+// theme gives every `p`; the footer is anchored at its bottom edge, so
+// the height that saves comes off its top.
+footer p.supporters-note,
+footer p.supporters-note + p {
+  display: inline;
+}
+
 // A height and no width: the two marks have different proportions, and
 // a shared width would set them at two different sizes. The theme's
 // a:hover sets font-weight, which an image has nothing to do with, so

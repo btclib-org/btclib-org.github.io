@@ -316,19 +316,13 @@ has no topics.
 ```shell
 gh api repos/btclib-org/btclib-org.github.io \
   --jq '{description, homepage}'
-# {"description":"The btclib.org organization site","homepage":null}
+# {"description":"The btclib organization website","homepage":null}
 ```
 
 The description is read by the site as well as by github.com:
 `_config.yml` declares no `description`, so the minimal theme falls back
 to `site.github.project_tagline`, which is this field. That is why it is
 recorded here rather than transcribed into the tree.
-
-**It spells the organization the way the organization page does**, which
-is what `README.md`'s own first line spells and what the homepage's first
-heading says. The GitHub login is `btclib-org` and has not moved; this
-sentence names the site rather than the login, and the site is
-`btclib.org`.
 
 **Jekyll reads it at build time, not on request.** So a change to the
 field reaches the page on the next build and not before, which is why the
