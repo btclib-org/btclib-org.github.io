@@ -379,3 +379,45 @@ serves it.
   are the layout outside a fence and the stylesheet up to and including
   its import, and not everything above the appended rules — this tree's
   own comment sits between the two and is ordinary text to edit.
+
+### The link check reads the page a visitor is served
+
+- **`links.yml` gives lychee the deployed site as well as the root
+  markdown** (closes #25). The page carries destinations no `*.md`
+  holds: the profile address `_layouts/default.html` builds out of
+  `site.github`, and the theme's own credit. Measured, before and after
+  — `lychee --dump` over the markdown alone prints neither, and with the
+  site among the inputs it prints both.
+- The page rather than the layout, though the layout is now in this
+  tree. lychee reads it as html and turns every Liquid expression
+  standing in an `href` into a `file://` path under `_layouts`, so that
+  input would report a run's worth of dead links that are not links.
+  Fetching the rendered page yields absolute destinations and asks
+  jekyll of nothing here.
+- It is the *deployed* site, so the run answers about `main` and not
+  about a branch. That is what a weekly sentinel is for, and it is the
+  arrangement this workflow already rested on: the root markdown links
+  `btclib.org`, so every run has fetched the deployed site — which is
+  also how a `CNAME` that stopped reaching `_site` would surface. The
+  header's own sentence about that had named `index.md`, which spells
+  the address as text and links it nowhere, and moves with this.
+- The credit is a destination this tree cannot edit, which the comment
+  now says. It sits outside every fence in `_layouts/default.html`,
+  where `check-theme-copies.sh` compares the bytes with the gem's, so a
+  red run naming it is answered by an `--exclude` or by a theme release
+  rather than by correcting the link — and not by fencing that line
+  either: a fence marks what this tree *adds*, and the script removes
+  what it marks before comparing, so fencing a line the gem still holds
+  fails the comparison instead of excusing it.
+- What the page offers and the run does not fetch goes unfetched for two
+  different reasons. `scale.fix.js` is excluded by verbatim handling — lychee
+  treats a `script` element as verbatim, and `--include-verbatim` prints
+  it — and that flag is not passed because of the *markdown*, which it
+  would send lychee through fence-first, after every address quoted in a
+  command. The theme's IE shiv is excluded by its conditional comment,
+  which no flag reverses: that same flag does not print it either.
+- `_config.yml`'s note on the supporters' addresses loses the clause
+  saying that choosing the body's address is what keeps them within
+  reach of `links.yml`. This change is what makes that false: the footer
+  renders each `supporters` entry as an anchor, and the page is now an
+  input.

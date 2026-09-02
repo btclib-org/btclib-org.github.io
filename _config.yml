@@ -62,11 +62,7 @@ projects:
 # The institutions that support the work, credited in the footer beside
 # the hosting and the theme credit. The page's own body names the same
 # two and links the same two addresses, which is why the addresses here
-# are those and not the www ones the press kits are served from -- which
-# is what keeps these two within reach of links.yml, reading `*.md` as it
-# does. Nothing enforces it the way check-projects.sh does for the list
-# above; what keeps it true is choosing the body's address rather than
-# another of the same site.
+# are those and not the www ones the press kits are served from.
 #
 # The logo files are each press kit's own, byte for byte, fetched
 # 2026-09-02:
