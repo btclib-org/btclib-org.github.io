@@ -18,9 +18,9 @@ and the rows of the root-files table marked for that tier.
 
 ## Architecture
 
-`index.md` is the homepage and the product; `_config.yml` and `Gemfile`
-are what Jekyll and GitHub Pages read to serve it. Everything else in the
-tree is process around those three.
+`index.md` is the homepage and the product; `_config.yml`, `Gemfile`,
+`_layouts/` and `assets/` are what Jekyll and GitHub Pages read to serve
+it. Everything else in the tree is process around those.
 
 ## The primary checkout is the maintainer's
 
@@ -69,11 +69,12 @@ yours.**
   shaped to catch.** Its body is `btclib-org/.github`'s
   `profile/README.md` at the commit its own front matter records, byte
   for byte. A correction to what the site *says* is a pull request
-  against that repository; what happens here afterwards is one command,
-  `CONTRIBUTING.md`'s *Changing the homepage*. `homepage.yml` refuses a
-  pull request whose `index.md` is not what its pin derives to, so a hand
-  edit is a red check rather than a page that quietly disagrees with the
-  organization's own.
+  against that repository; what happens here afterwards is
+  `CONTRIBUTING.md`'s *Changing the homepage*, which is the derivation
+  and, where the organization's set of repositories moved, `_config.yml`
+  moving with it. `homepage.yml` refuses a pull request whose `index.md`
+  is not what its pin derives to, so a hand edit is a red check rather
+  than a page that quietly disagrees with the organization's own.
 - **Every file in this directory that `_config.yml` does not exclude is a
   public URL.** The `exclude:` list there *replaces* Jekyll's default
   rather than adding to it, which is why it opens by restoring those
@@ -106,6 +107,25 @@ yours.**
   time, and `btclib-org/btclib` released this one for this tree to claim
   it: `REPOSITORY.md`'s *Pages, which is btclib.org* has the state and
   btclib-org/.github#530 the sequence.
+- **`_layouts/default.html` and `assets/css/style.scss` each carry a
+  gem's file inside them, and those bytes are not this tree's to
+  edit** — the layout everywhere outside its fences, and the stylesheet
+  up to and including its import, which is the whole of the gem's
+  stylesheet and nothing after it. The first is
+  `jekyll-theme-minimal`'s own layout with fenced blocks added, the
+  second its own stylesheet with rules appended, and
+  `.github/scripts/check-theme-copies.sh` — which `website.yml` runs —
+  strips the fenced blocks and requires the remainder to be the gem's
+  file, and requires the stylesheet to open with the gem's. So a change
+  made outside a fence, or to the stylesheet up to and including its
+  import, is a red check whatever it improves; everything below that
+  import, this tree's own comment there included, is ordinary text to
+  edit. Where the theme is what moved, take its new file and carry this
+  tree's parts across, finding them by grepping the copy being replaced
+  for the fence marker rather than by remembering how many there were:
+  the script's count asks for at least one begin fence and for the ends
+  to match it, which a block dropped whole satisfies as long as another
+  remains.
 - **A finding about the text the site serves is filed in
   `btclib-org/.github`**, that being the tree the text lives in. This
   repository's own tracker is for the site's configuration, the

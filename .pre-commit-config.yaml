@@ -4,6 +4,29 @@
 # configuration, and shell scripts -- so the hooks below are the ones
 # with a subject here.
 #
+# Two files it also ships are read by every hook here that takes text and
+# by no hook here that would parse them. _layouts/default.html is Liquid
+# inside html and assets/css/style.scss is sass, and nothing in this set
+# reads either language: prettier is confined by its own `files:` below
+# to yaml and one jsonc, which is the choice restated where it is made.
+# What reads them as what they are is .github/workflows/website.yml,
+# which builds the site with the toolchain Pages runs, and
+# .github/scripts/check-theme-copies.sh, which that workflow runs.
+#
+# The logo files under assets/img are the other new type, and they do get
+# their hook: identify tags them `xml`, so check-xml below is the rule
+# two paragraphs down applied rather than an exception to it.
+#
+# Text hooks reaching them is not nothing: typos rewrote three letters
+# inside the layout the first time it saw it, which is what .typos.toml's
+# second entry is for. And it is why the rule stated below -- a hook is
+# added the day the tree grows the file it reads -- does not apply to
+# these two, html and scss though the tree now holds: part of each has to
+# stay the gem's bytes exactly, the layout everywhere outside its fenced
+# blocks and the stylesheet up to and including its import, which is what
+# check-theme-copies.sh asks. A hook here that writes into those parts
+# would put this gate against that one with no state satisfying both.
+#
 # What is absent is absent for a measured reason rather than an
 # oversight. `git ls-files '*.py'` is empty, so ruff and mypy have no
 # file to read and `check-hooks-apply` below would fail on each; there is
@@ -66,10 +89,12 @@ repos:
         entry: .github/scripts/check-shellcheck-pin.sh
         files: ^\.pre-commit-config\.yaml$
         pass_filenames: false
-  # the scripts in the tree: the one that fetches the organization page
-  # and writes index.md from it, and the one the hook above runs. Pinned
-  # to the shellcheck-py version used below as actionlint's additional
-  # dependency, so one shellcheck runs across the tree.
+  # the shell scripts in the tree, which is a question for
+  # `git ls-files '*.sh'` rather than a list written here
+  # to be falsified by the next one. Pinned to the shellcheck-py version
+  # used below as actionlint's additional dependency: two hooks install
+  # shellcheck and they have to install one release, the comment beside
+  # actionlint saying why the two read different subjects.
   # A rev and that pin are not the same string and are not meant to
   # match: the rev is a git tag, which upstream re-cuts with a -N suffix
   # for a packaging change, and the pin is the PyPI version, which such a
@@ -99,6 +124,12 @@ repos:
       - id: check-vcs-permalinks
       - id: detect-private-key
       - id: check-yaml
+      # the two logo files identify tags `xml`, which is the file type
+      # this tree grew with them and the rule above applied. Check-only,
+      # like the yaml and toml hooks beside it: the bytes are each press
+      # kit's own and a formatter would end that, where a parse says
+      # only whether what was fetched is well formed
+      - id: check-xml
       # the toml here is read by taplo every run, but a format is not a
       # parse: taplo rewrites what it can read and says nothing the gate
       # hears about what it cannot
@@ -191,6 +222,20 @@ repos:
         language: pygrep
         entry: "[A-Za-z0-9]-$"
         types: [markdown]
+  # the sidebar and the body of one page, which are written in two trees
+  # and can only be compared here: _config.yml carries the list the
+  # sidebar renders, index.md is generated from btclib-org/.github's
+  # profile/README.md, and a repository the organization adds reaches the
+  # second without reaching the first. The script says what it reads out
+  # of each and why it reads the page rather than the API
+  - repo: local
+    hooks:
+      - id: projects
+        name: the sidebar lists the repositories the page links
+        language: script
+        entry: .github/scripts/check-projects.sh
+        files: ^(_config\.yml|index\.md)$
+        pass_filenames: false
   - repo: https://github.com/rbubley/mirrors-prettier
     rev: v3.9.6
     hooks:

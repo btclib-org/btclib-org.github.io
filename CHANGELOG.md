@@ -280,3 +280,102 @@ serves it.
   replaces named only `SC1072` and a red gate: the standard also covers
   the wrap that reads as a valid directive, where the run exits 0 and a
   real finding beside it is suppressed.
+
+### The page's chrome links the projects and credits the supporters
+
+- **The sidebar carries a link to each of the organization's
+  repositories, under the profile link, and the footer carries the logos
+  of Digital Gold Institute and CheckSig beside the hosting and theme
+  credit** (closes #23). The page's body already names both — every
+  repository at length, and those two as supporting the work — but that
+  body is generated from `btclib-org/.github`, and the chrome around it
+  was the theme's own with nothing of the organization in it.
+- `jekyll-theme-minimal` offers an include point for `head` and for
+  nothing else, so both blocks cost a copy of its whole
+  `_layouts/default.html`. A copy of a gem's file is a fact about that
+  gem recorded outside it, and `Gemfile`'s `github-pages` pin is a line
+  dependabot moves: `.github/scripts/check-theme-copies.sh` strips the
+  fenced blocks and requires what is left to be the installed gem's file
+  byte for byte, and `website.yml` runs it where bundler has already
+  resolved that gem. A theme whose layout has moved is then a red check
+  on dependabot's own pull request rather than a page serving the chrome
+  of a release nobody runs.
+- The same script reads `assets/css/style.scss`, which shadows the gem's
+  file of that name outright. This tree's is the gem's own bytes with
+  rules appended, so what is required of it is that it open with them —
+  a theme release that adds an import to its stylesheet being otherwise
+  half a stylesheet served in silence, the site building green either
+  way.
+- The repositories are `_config.yml`'s `projects`, and the body links
+  the same set out of another tree, so the two can drift with nothing
+  failing. `.github/scripts/check-projects.sh` reads the `btclib-org`
+  addresses out of `index.md` and requires the list to be exactly their
+  set — the page rather than the organization's API, so the check needs
+  no token and compares the two things a visitor is shown.
+- One of that stylesheet's declarations is a repair rather than an
+  addition: the theme positions every `ul` inside the header absolutely
+  over a band of widths, a rule written for the row of download buttons
+  it ships, and in that band the list of projects is what would
+  otherwise land in the corner, detached from its own label. `static`
+  is declared unconditionally rather than inside a copy of the theme's
+  own media query, which would put the only copy of a theme breakpoint
+  this tree holds in a file nothing compares against the theme.
+- The logo files are each press kit's own bytes. `_config.yml` carries
+  the addresses they were fetched from and the command that says whether
+  a copy is still what those addresses serve, no gate here asking that;
+  the links go to `dgi.io` and `checksig.com`, which is where the body's
+  own sentence about the two already sends a reader.
+- `website.yml`'s `paths` filter named the files a Jekyll build reads
+  and `_layouts` and `assets` were not among them, so a later change to
+  the layout, the stylesheet or a logo would have gone to `main` without
+  the workflow that exists to catch a page which stopped rendering ever
+  asking. Both are named now, with the script the job runs.
+- That job also asserts the two blocks in the built page, among the
+  assertions it already makes about `_site`. It is the one thing that
+  reports what `check-theme-copies.sh` is unable to: a fenced block
+  removed whole takes its fences with it, which leaves the count even
+  and the remainder equal to the gem's file.
+- `CONTRIBUTING.md`'s *Changing the homepage* says that where the
+  organization's set of repositories moved, `_config.yml` moves in the
+  same commit — the `projects` hook refusing one where the sidebar and
+  the body disagree, and printing both lists in the refusal. Every place
+  that called what happens here after a correction upstream *one
+  command* is wrong for the same reason and moves with it: `CLAUDE.md`,
+  `links.yml`, and `homepage.yml` both in the comment above its stale
+  job and in that job's own `::error::`, which is the line a maintainer
+  reads at the moment the instruction is about to be followed.
+  `links.yml` also stops claiming that the root markdown is the whole of
+  what the site invites a visitor to follow. What the layout brings into
+  the tree is the shiv it loads, the credit it prints and the profile
+  address it builds out of `site.github`, and no file that gate reads
+  holds any of the three; whether they belong in it is issue #25.
+  `REVIEWING.md`'s own last section gains the question the copies raise,
+  beside the one it already asks about `index.md` being edited by
+  hand.
+- `.typos.toml` gains `repository_nwo`, which the theme's layout renders
+  on a project page. The hook runs with `--write-changes`, and on the
+  first run over the copy it rewrote those three letters to `now` — the
+  rewrite that file already records for `PAGES_REPO_NWO`, arriving a
+  second time in a place where `check-theme-copies.sh` would have
+  reported it as the theme having moved, sending a reader into a gem to
+  look for a change a hook here had made.
+- `AUTHORS.md` says which files in the tree are somebody else's work,
+  which section 14 of the standard asks of a tree that vendors any: the
+  two theme files, under `pages-themes/minimal`'s own licence, and the
+  two logo files, which are marks belonging to their owners and are here
+  to credit them. Its sentence naming what *is* authored here was true
+  before this branch and is not after it, so it moves in the same diff.
+- `.pre-commit-config.yaml` gains `check-xml`, that file's own rule
+  applied: the logo files are the type the tree grew, `identify` tags
+  them `xml`, and a check-only hook is what suits bytes fetched from
+  somebody else.
+- The sentences that listed this site's sources move with them.
+  `_config.yml`'s own opening named `index.md`, `_config.yml`, `Gemfile`
+  and `CNAME`; `README.md`'s *The rest of the tree* named the last three
+  of those, its homepage section covering the first; `CLAUDE.md`'s
+  *Architecture* named `index.md`, `_config.yml` and `Gemfile`.
+  `CLAUDE.md` also gains the fact the copies introduce and a session
+  would otherwise learn from a red check: the bytes that are the gem's
+  are the layout outside a fence and the stylesheet up to and including
+  its import, and not everything above the appended rules — this tree's
+  own comment sits between the two and is ordinary text to edit.
