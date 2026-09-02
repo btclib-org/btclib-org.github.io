@@ -1,7 +1,7 @@
 ---
 # the lint gate of this repository. What it ships is a GitHub Pages site
 # -- markdown, the yaml of the workflows and of Jekyll's own
-# configuration, and one shell script -- so the hooks below are the ones
+# configuration, and shell scripts -- so the hooks below are the ones
 # with a subject here.
 #
 # What is absent is absent for a measured reason rather than an
@@ -55,10 +55,32 @@ repos:
         language: pygrep
         entry: '^ *rev: "?v?([0-9]+|[0-9][0-9.]*(a|b|rc|dev)[0-9]+)"?$'
         files: ^\.pre-commit-config\.yaml$
-  # the one script in the tree, which fetches the organization page and
-  # writes index.md from it. Pinned to the shellcheck-py version used
-  # below as actionlint's additional dependency, so one shellcheck runs
-  # across the tree
+      # and the invariant the comment below states, which nothing else
+      # here reads: `autoupdate` moves the rev and nobody moves the pin,
+      # so the two drift in one direction on a schedule while every
+      # check stays green. The script says how it compares a tag with a
+      # version, and why that is not string equality
+      - id: shellcheck-pin
+        name: the shellcheck rev and actionlint's pin name one release
+        language: script
+        entry: .github/scripts/check-shellcheck-pin.sh
+        files: ^\.pre-commit-config\.yaml$
+        pass_filenames: false
+  # the scripts in the tree: the one that fetches the organization page
+  # and writes index.md from it, and the one the hook above runs. Pinned
+  # to the shellcheck-py version used below as actionlint's additional
+  # dependency, so one shellcheck runs across the tree.
+  # A rev and that pin are not the same string and are not meant to
+  # match: the rev is a git tag, which upstream re-cuts with a -N suffix
+  # for a packaging change, and the pin is the PyPI version, which such a
+  # re-cut leaves alone. v0.11.0.1-1 declares version = 0.11.0.1 in its
+  # own setup.cfg and PyPI has no 0.11.0.1-1 at all, so the two lines
+  # below name one release and a reviewer reading drift into them is
+  # reading the tag rather than the version. The URL is quoted because
+  # ? is a glob character in zsh, where an unquoted one exits 1 on "no
+  # matches found" and prints no version at all:
+  #   gh api "repos/shellcheck-py/shellcheck-py/contents/setup.cfg?ref=<rev>" \
+  #     --jq .content | base64 -d | grep ^version
   - repo: https://github.com/shellcheck-py/shellcheck-py
     rev: v0.11.0.1-1
     hooks:
@@ -223,8 +245,8 @@ repos:
         # it finds one on the PATH, and without it validates the yaml
         # around a shell script rather than the script. That is a
         # different subject from the shellcheck hook above: this one
-        # reads the lines a workflow inlines, where that one reads
-        # derive-homepage.sh itself.
+        # reads the lines a workflow inlines, where that one reads the
+        # scripts themselves.
         # Declared rather than left to the machine, so that a commit and
         # CI check the same thing -- the runner image happens to carry
         # shellcheck, so leaving it to chance means CI checking more than
