@@ -453,3 +453,17 @@ serves it.
   and the script strips a fenced block before comparing what is left
   with the gem's file, so it never looks inside one: those three greps
   are the only assertion anywhere about what a fence holds.
+
+### The single-hook gate line lints from a clean tree
+
+- **`uvx pre-commit run markdownlint-cli2` reads the staged files, so
+  from a clean tree it reports `(no files to check)Skipped` and exits
+  0** (closes btclib-org/.github#688). `CONTRIBUTING.md`'s single-hook
+  line carries `--all-files` as the line above it does, and the hook id
+  is the whole of what separates the two.
+- **`--all-files` reaches every markdown file this tree tracks**
+  (closes btclib-org/.github#688). `markdownlint-cli2` carries neither
+  `files:` nor `exclude:` in `.pre-commit-config.yaml`, and that file
+  declares no top-level `exclude:`, so the hook id is all that narrows
+  the run — the generated `index.md` included, as
+  `.pre-commit-config.yaml`'s own header says it is.
