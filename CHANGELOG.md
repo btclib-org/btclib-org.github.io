@@ -484,3 +484,12 @@ serves it.
   and the workflows. `_config.yml`'s own note is why the directory needs
   no `exclude:` entry: Jekyll drops a dot-prefixed path before that list
   is read.
+
+### The `git worktree add` line ends in its placeholder
+
+- **`git worktree add "$WT" origin/main -b <branch>`, with the reason
+  under the fence** (issue btclib-org/.github#687). Section 9 of the
+  standard puts a bare placeholder at the end of its command, where the
+  `>` closing it has no target; with `-b <branch>` ahead of the path,
+  `"$WT"` is the word `>` takes, and the removal this file calls part of
+  finishing leaves no directory there for the redirection to fail on.
