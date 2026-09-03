@@ -1,0 +1,65 @@
+---
+name: Bug report
+description: A page of btclib.org does not render or serve what it should
+labels: [bug]
+
+body:
+  - type: markdown
+    attributes:
+      value: >
+        This repository is the site served at <https://btclib.org/> and
+        nothing else, so what is reported here is the site: a page that
+        does not render, a link or an image that resolves to nothing, a
+        stylesheet or a layout that comes out wrong, a workflow or the
+        derivation behind them.
+
+
+        The homepage's text is not this tree's. `index.md` is
+        [btclib-org/.github](https://github.com/btclib-org/.github/issues)'s
+        `profile/README.md` under front matter, so a correction to what
+        the page *says* is filed there and reaches this site when the pin
+        moves.
+
+  - type: input
+    id: address
+    attributes:
+      label: The address
+      description: The page as served, and the part of it the report is about.
+      placeholder: "https://btclib.org/"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What happens
+      description: What the page shows, and what you expected instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: markup
+    attributes:
+      label: What the markup shows
+      description: >
+        The element the report is about, where the defect is visible in
+        the page's source: an address that resolves to nothing, an image
+        that does not load, a block the layout did not render.
+      render: html
+
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and platform
+      description: >
+        Version and operating system, where the report is about how the
+        page renders rather than what it holds.
+      placeholder: "Safari 26.0, macOS 15.6 arm64"
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Anything else
+      description: >
+        When the page last looked right, and whether a local
+        `bundle exec jekyll build` shows the same thing.

@@ -1,0 +1,48 @@
+---
+name: Feature request
+description: Change how the site is built or served
+labels: [enhancement]
+
+body:
+  - type: markdown
+    attributes:
+      value: >
+        What this tree decides is how the site is built and served: the
+        layout, the stylesheet, the sidebar's list, the domain, and the
+        workflows that check them. What the homepage *says* is
+        [btclib-org/.github](https://github.com/btclib-org/.github/issues)'s
+        `profile/README.md`, and a change to the text is asked for there.
+
+
+        `_layouts/default.html` and `assets/css/style.scss` each carry
+        the theme gem's own file, which this tree does not edit: the
+        layout outside its fenced blocks and the stylesheet up to and
+        including its import are the gem's bytes, and a check refuses a
+        change to either.
+
+  - type: textarea
+    id: what
+    attributes:
+      label: What is missing
+      description: >
+        What a visitor would see, or what the build would refuse, that it
+        does not today.
+    validations:
+      required: true
+
+  - type: textarea
+    id: why
+    attributes:
+      label: Why it belongs here
+      description: >
+        What cannot be done with what the site already carries.
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: >
+        Another way of arriving at the same page, and what a reader of
+        the site as it stands would notice.
