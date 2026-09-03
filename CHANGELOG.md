@@ -493,3 +493,21 @@ serves it.
   `>` closing it has no target; with `-b <branch>` ahead of the path,
   `"$WT"` is the word `>` takes, and the removal this file calls part of
   finishing leaves no directory there for the redirection to fail on.
+
+### `REPOSITORY.md` reads both variable stores back for the review switch
+
+- **A `## Variables` section records `vars.CLAUDE_REVIEW_ENABLED`'s off
+  state, from the repository's store and from the organization's**
+  (closes btclib-org/.github#707). `claude-review.yml` guards both its
+  jobs on that variable, and section 11 of the standard asks a
+  `REPOSITORY.md` to say what falls outside its scope as well as what is
+  inside it, so a switch that is neither read back nor passed over leaves
+  a reader unable to say whether this tree's review gate is on. Both
+  stores are read because a variable set here would take precedence over
+  one of the same name set on the organization, so the organization's
+  answer alone would not show the switch off for this tree.
+- **Actions variables are not among the facilities nobody reached for**
+  (closes btclib-org/.github#707). That bullet's claim is that an empty
+  answer records no decision, and the section above records the one the
+  standard took: the switch is the organization's, and an empty store is
+  the off state rather than a facility nothing here uses.
