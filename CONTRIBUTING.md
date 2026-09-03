@@ -247,8 +247,8 @@ file, no Python at all — so nothing is synced and every command is a
 `uvx`:
 
 ```shell
-uvx pre-commit run --all-files                    # the whole gate
-uvx pre-commit run --all-files markdownlint-cli2  # one hook
+uvx pre-commit run --all-files
+uvx pre-commit run --all-files markdownlint-cli2
 uvx pre-commit validate-config .pre-commit-config.yaml
 ```
 
@@ -343,9 +343,9 @@ ships, it ships by being served at `https://btclib.org/`, and a served
 page has no version for a tag to name. So this tree carries no
 `RELEASING.md` and no `RELEASE_NOTES.md`, and a file whose content is its
 own absence is this section instead. Measured rather than asserted, and
-re-derivable:
+re-derivable, each answering `0`:
 
 ```shell
-gh api repos/btclib-org/btclib-org.github.io/releases --jq 'length'   # 0
-gh api repos/btclib-org/btclib-org.github.io/tags --jq 'length'       # 0
+gh api repos/btclib-org/btclib-org.github.io/releases --jq 'length'
+gh api repos/btclib-org/btclib-org.github.io/tags --jq 'length'
 ```
