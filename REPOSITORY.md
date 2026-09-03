@@ -11,10 +11,11 @@ session editing the site does not hold it in context.
 
 The rules and the settings live *outside* the tree. What is recorded is
 the settings the standard asks about — the ones section 16's checklist
-sets on a new repository, and the ones a section of the standard's
-`README.md` states a rule for — together with whatever a call quoted for
-one of those answers alongside it. That is this file's scope, and *What
-this file passes over* at the foot says what falls outside it.
+sets on a new repository, the ones a section of the standard states a
+rule for, and the ones a behaviour it describes rests on — together with
+whatever a call quoted for one of those answers alongside it. That is
+this file's scope, and *What this file passes over* at the foot says what
+falls outside it.
 
 The endpoints these answers come from are the file's own `gh api` lines,
 listed rather than restated in a second place that would have to be kept

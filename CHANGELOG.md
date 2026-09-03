@@ -511,3 +511,16 @@ serves it.
   answer records no decision, and the section above records the one the
   standard took: the switch is the organization's, and an empty store is
   the off state rather than a facility nothing here uses.
+
+### `REPOSITORY.md`'s scope sentence carries section 11's three limbs
+
+- **The settings a behaviour the standard describes rests on are inside
+  the perimeter** (closes btclib-org/.github#776). The limb naming them
+  was absent, so the sentence promised a narrower scope than section 11
+  asks for.
+- **The second limb names the standard and not its `README.md`** (closes
+  btclib-org/.github#776). Section 11 forecloses that spelling, a
+  `README.md` there naming a sibling's own file, and asks that a copy
+  carry the limbs in the standard's own words rather than word them for
+  itself — what wording them costs is a reading per tree of a claim they
+  are all making once.
