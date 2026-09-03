@@ -524,3 +524,18 @@ serves it.
   carry the limbs in the standard's own words rather than word them for
   itself — what wording them costs is a reading per tree of a claim they
   are all making once.
+
+### `CONTRIBUTING.md` and `REVIEWING.md` take two more of section 9's rules
+
+- **`CONTRIBUTING.md`'s `shell` fences carry no trailing `#` comment**
+  (issue btclib-org/.github#771). Section 9 of the standard asks that
+  such a comment go above the fence as prose, since an interactive `zsh`
+  hands it to the command as arguments; the gate lines already said what
+  separates them, so the comment is dropped there, and the release-count
+  reads state the answer as prose ahead of the fence instead.
+- **`REVIEWING.md`'s two filing placeholders go bare** (issue
+  btclib-org/.github#772). Section 9 of the standard leaves a
+  placeholder standing as a whole argument unquoted, so that a paste made
+  before it is filled in fails at the shell rather than reaching `gh`;
+  the two blocks and the paragraph explaining why now match the
+  standard's own copy.
