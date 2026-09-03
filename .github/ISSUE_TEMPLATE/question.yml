@@ -1,0 +1,29 @@
+---
+name: Question
+description: Ask how the site is built, or why it is built that way
+labels: [question]
+
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Discussions are not enabled here, so a question is an issue: this
+        form is what keeps one from having to be filed as a bug.
+        `README.md` says what the tree holds and `CONTRIBUTING.md` how
+        the site is built and previewed, and both come first.
+
+
+        A question about what the homepage says, or about the software it
+        links to, is answered in the repository that holds it — the links
+        on this page name where each goes.
+
+  - type: textarea
+    id: question
+    attributes:
+      label: The question
+      description: >
+        What you are trying to do, and what you have already read or run.
+        What a build printed and what you expected instead is a sharper
+        question than a description of either.
+    validations:
+      required: true

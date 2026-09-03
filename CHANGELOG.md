@@ -467,3 +467,20 @@ serves it.
   declares no top-level `exclude:`, so the hook id is all that narrows
   the run — the generated `index.md` included, as
   `.pre-commit-config.yaml`'s own header says it is.
+
+### The new-issue page carries this repository's own forms
+
+- **`.github/ISSUE_TEMPLATE/` carries `bug_report.yml`,
+  `feature_request.yml`, `question.yml` and `config.yml`** (closes
+  btclib-org/.github#713). Section 2 of the standard gives `.github/` to
+  every tier and names the directory among what it holds, and section 11,
+  which tier 3 binds, rests `has_issues` on section 16's checklist giving
+  every repository one.
+- **The forms send the text of the page where it is written** (closes
+  btclib-org/.github#713). `index.md` is `btclib-org/.github`'s
+  `profile/README.md` under front matter, so a correction to what the
+  site says is filed there and arrives here when the pin moves; what is
+  asked for on this tracker is the site's configuration, the derivation
+  and the workflows. `_config.yml`'s own note is why the directory needs
+  no `exclude:` entry: Jekyll drops a dot-prefixed path before that list
+  is read.
