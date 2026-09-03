@@ -459,6 +459,33 @@ deployment environment the way the Actions builder does. There is no
 `pypi` environment and no trusted publisher, nothing here being
 published.
 
+## Variables
+
+**A switch this repository does not set.** `claude-review.yml` guards
+its jobs with `vars.CLAUDE_REVIEW_ENABLED`, and neither variable store
+holds it:
+
+```shell
+gh api repos/btclib-org/btclib-org.github.io/actions/variables \
+  --jq '.total_count'
+# 0
+gh api orgs/btclib-org/actions/variables --jq '.variables[].name'
+# (nothing)
+gh api orgs/btclib-org/actions/variables --jq '.total_count'
+# 0
+```
+
+The two organization secret stores the section above reads answer `all`,
+which is what makes these zeros an absence rather than an endpoint that
+answers empty for everyone. The variable store prints nothing at all when
+it answers, so its own `total_count` of `0` is what shows the call
+reached it: one that does not reach it prints an error and exits
+non-zero. Section 11 reads that empty name list as
+`vars.CLAUDE_REVIEW_ENABLED`'s off state, an undefined `vars.X` being the
+empty string. Both stores are read because a variable set here would take
+precedence over one of the same name set on the organization, so the
+organization's answer alone would not show the switch off for this tree.
+
 ## What is not configured, and why
 
 - **No code scanning**, and GitHub's default setup off with it:
@@ -486,10 +513,10 @@ answers with the repository document, most of which is URLs, counts and
 derived state. The fields of it that are settings are the ones the
 sections above quote.
 
-**A facility nobody reached for.** Actions variables, self-hosted
-runners, webhooks, deploy keys, autolinks and custom property values each
-answer empty here, and an empty answer records no decision. Whichever of
-them is used one day arrives with the section that uses it.
+**A facility nobody reached for.** Self-hosted runners, webhooks, deploy
+keys, autolinks and custom property values each answer empty here, and an
+empty answer records no decision. Whichever of them is used one day
+arrives with the section that uses it.
 
 **A field the standard states no rule about.** `allow_forking`,
 `allow_update_branch`, `has_discussions`, `has_downloads` and
