@@ -539,3 +539,14 @@ serves it.
   before it is filled in fails at the shell rather than reaching `gh`;
   the two blocks and the paragraph explaining why now match the
   standard's own copy.
+
+### `.github/PULL_REQUEST_TEMPLATE.md` is this tree's own
+
+- **The file is tracked at that path** (issue btclib-org/.github#781),
+  replacing the copy GitHub was showing in its place from
+  `btclib-org/.github`'s own tree.
+- **Its Checks list names the commands this tree documents rather than
+  the standard's** (issue btclib-org/.github#785): the lint gate is
+  `uvx pre-commit run --all-files` and the site build is
+  `bundle exec jekyll build --strict_front_matter`, this tree having
+  neither `pyproject.toml` nor a suite for `uv run pytest` to run.
