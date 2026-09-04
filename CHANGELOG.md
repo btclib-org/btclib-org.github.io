@@ -550,3 +550,15 @@ serves it.
   `uvx pre-commit run --all-files` and the site build is
   `bundle exec jekyll build --strict_front_matter`, this tree having
   neither `pyproject.toml` nor a suite for `uv run pytest` to run.
+
+### The worktree-removal fence refuses an unset `$WT`
+
+- **`git worktree remove --force "${WT:?}"`, with the prose above the
+  fence saying what the `:?` is doing there** (issue
+  btclib-org/.github#790). That fence stands alone and is pasted alone,
+  so a shell that has not been through the block above it holds no
+  `$WT`: bare, the removal runs with an empty argument, and under the
+  guard the expansion fails and the line does not run. Section 9 of the
+  standard is what asks for prose beside such a guard, a reader who is
+  not told deleting it; the paragraph and the fence are
+  `btclib-org/.github`'s `CLAUDE.md` byte for byte.
