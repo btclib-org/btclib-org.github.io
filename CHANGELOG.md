@@ -562,3 +562,16 @@ serves it.
   standard is what asks for prose beside such a guard, a reader who is
   not told deleting it; the paragraph and the fence are
   `btclib-org/.github`'s `CLAUDE.md` byte for byte.
+
+### The badge row's links filter the runs page to `main`
+
+- **Every workflow-status badge's link carries `?query=branch%3Amain`**
+  (issue btclib-org/.github#762), which section 2 of the organization
+  standard asks beside the image's `?branch=main`. The two spellings are
+  not interchangeable: the runs page ignores `?branch=main` and renders
+  unfiltered, so a link carrying the image's query lists every branch's
+  runs where the badge answers for `main`.
+- **The comment above the row says the same of the link half** (issue
+  btclib-org/.github#762). It restated the image's qualifier alone, so it
+  read as the whole of a rule that has two, and the pre-commit.ci badge's
+  exemption beside it now names both.

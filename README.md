@@ -14,21 +14,30 @@ order section 10's calendar gives them. Both orders are read rather than
 chosen here, and so are the instants: a reader wanting any of them reads
 them there, where they are still true.
 
-Every workflow-status badge here carries `?branch=main`, which section 2
-asks of the gates' and the sentinels' alike. The row is an audit of
-`main`, and an unqualified badge is not always `main`'s: a workflow with
-no run there renders some other branch's, a deleted branch's included,
-with nothing in the render to say so. The pre-commit.ci badge carries no
-qualifier and section 2 puts it outside the rule, its branch being in its
-path already.
+Every workflow-status badge's image here carries `?branch=main`, which
+section 2 asks of the gates' and the sentinels' alike. The row is an
+audit of `main`, and an unqualified badge is not always `main`'s: a
+workflow with no run there renders some other branch's, a deleted
+branch's included, with nothing in the render to say so.
+
+Every workflow-status badge's link carries `?query=branch%3Amain`, which
+section 2 asks beside the image's qualifier and which is that filter in
+the spelling the runs page takes. Copying the image's `?branch=main` onto
+the link does nothing: the page ignores it and renders unfiltered,
+listing every branch's runs, where a feature branch's red one at the top
+says nothing about the `main` the badge itself answers for.
+
+The pre-commit.ci badge carries neither qualifier and section 2 puts it
+outside the rule, being the service's own and not a workflow-status
+badge: its branch is in the path of the image and of the link alike.
 
 website.yml has no badge for the same reason read the other way: the row
 is the standard's list, and adding a workflow to it here would make this
 tree's row a curation rather than a reading. -->
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/btclib-org/btclib-org.github.io/main.svg)](https://results.pre-commit.ci/latest/github/btclib-org/btclib-org.github.io/main)
-[![lint](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/lint.yml)
-[![homepage](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/homepage.yml/badge.svg?branch=main)](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/homepage.yml)
-[![links](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/links.yml/badge.svg?branch=main)](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/links.yml)
+[![lint](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/lint.yml/badge.svg?branch=main)](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/lint.yml?query=branch%3Amain)
+[![homepage](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/homepage.yml/badge.svg?branch=main)](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/homepage.yml?query=branch%3Amain)
+[![links](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/links.yml/badge.svg?branch=main)](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/links.yml?query=branch%3Amain)
 
 The organization site served at [btclib.org](https://btclib.org/), and
 nothing else: no package, no suite, no documentation build. GitHub Pages
