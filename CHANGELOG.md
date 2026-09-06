@@ -608,3 +608,17 @@ serves it.
   the push paragraph and the removal paragraph are its bytes here, and
   the create paragraph is from *With the placeholder ahead of* on, the
   clause naming the standard being this tree's.
+
+### The primary-checkout section carries the standard's own sentences
+
+- **`CLAUDE.md`'s `## The primary checkout is the maintainer's` gains
+  the four sentences the standard's copy carries and this tree's did
+  not** (closes btclib-org/.github#857). The mechanism sentence, *the
+  hooks fix files in place*, now sits beside *never work in it*; the
+  whole fast-forward paragraph is here too, `git fetch origin && git
+  merge --ff-only origin/main` on a clean `main` being the permitted
+  way to bring the checkout forward; the stash paragraph now says
+  `git stash push` pushes onto the same stack every other session
+  pops from; and the closing paragraph now says the pull request is
+  what moves `main`. None of it touches the worktree-add/push/remove
+  fence issue btclib-org/.github#824 landed earlier tonight.
