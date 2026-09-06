@@ -31,7 +31,8 @@ reference only, and it stays on `main`.
 Reading it is fine, but `git fetch` moves `refs/remotes/origin/main` and
 leaves the work tree where it was, so a `grep` or a `Read` against the
 checkout answers for whenever it was last brought forward, not for now.
-The read that cannot go stale is `git show origin/main:<path>`.
+The read that cannot go stale is `git show origin/main:<path>`: it
+answers from the ref `git fetch` just moved, never from the tree.
 
 Where the checkout has to be current rather than merely readable, a
 fast-forward of a clean `main` brings it up:

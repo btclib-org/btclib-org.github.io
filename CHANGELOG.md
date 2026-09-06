@@ -622,3 +622,15 @@ serves it.
   pops from; and the closing paragraph now says the pull request is
   what moves `main`. None of it touches the worktree-add/push/remove
   fence issue btclib-org/.github#824 landed earlier tonight.
+
+### The read-that-cannot-go-stale sentence carries its own clause
+
+- **`CLAUDE.md`'s *the read that cannot go stale* sentence gains the
+  clause the standard's copy carries and this tree's stopped short
+  of** (closes btclib-org/.github#861). It read *"is `git show
+  origin/main:<path>`."* and now continues *": it answers from the
+  ref `git fetch` just moved, never from the tree."*, the half that
+  says why the read cannot go stale rather than only naming it. The
+  entry above this one, about the same section's four other
+  sentences, named a different set of gaps and is unaffected: this
+  phrase was a context line neither ISS 857 nor its landing touched.
