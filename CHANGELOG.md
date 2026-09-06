@@ -575,3 +575,36 @@ serves it.
   btclib-org/.github#762). It restated the image's qualifier alone, so it
   read as the whole of a rule that has two, and the pre-commit.ci badge's
   exemption beside it now names both.
+
+### The worktree fence and its paragraphs converge on the standard
+
+- **The fence pushes with `git -C "$WT"` in place of a `cd` above a bare
+  `git push`** (issue btclib-org/.github#824). A `cd` binds the shell that
+  runs it, so a session running each line as its own command starts the
+  next in the directory it began in — the primary checkout — and pushes
+  that tree's `HEAD`. The paragraph added below the fence gives that
+  reason and its limit: `git -C ""` is documented to leave the working directory
+  unchanged, so a `-C` written against a lost `WT` lands the same way,
+  exit 0 and no diagnostic. The fence's `# edit, gate and commit here,
+  then` went with the `cd` its *here* pointed at, and the sentence above
+  the fence says where the editing, the gates and the commits happen
+  without one.
+- **The create's condition is stated** (issue btclib-org/.github#824).
+  The paragraph had the `>` closing `<branch>` take `"$WT"` as its target
+  with no condition on it; the `<` ahead of it has to succeed first, so
+  the `>` is reached only where the reader's own directory already holds
+  the name `branch`, and ordinarily nothing holds it.
+- **`${WT:?}` is said to fail on an unset *or empty* `WT`** (issue
+  btclib-org/.github#824). *With no `$WT` set* is narrower than the guard,
+  and the sentence beside it now names what the guard does not catch: a
+  `$WT` an earlier session left holding a path expands, and the removal
+  runs against whatever worktree that path names.
+- **The sha those three paragraphs converged at is named** (issue
+  btclib-org/.github#824): `20ad654` in `btclib-org/.github`, so a later
+  reader compares against that tree rather than against an issue's
+  quotation of it. *The worktree-removal fence refuses an unset `$WT`*
+  above says the removal paragraph and its fence are that file byte for
+  byte, which the standard's own correction had left false; the fence,
+  the push paragraph and the removal paragraph are its bytes here, and
+  the create paragraph is from *With the placeholder ahead of* on, the
+  clause naming the standard being this tree's.
