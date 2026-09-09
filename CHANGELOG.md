@@ -634,3 +634,44 @@ serves it.
   entry above this one, about the same section's four other
   sentences, named a different set of gaps and is unaffected: this
   phrase was a context line neither ISS 857 nor its landing touched.
+
+### The worktree paragraph and the advance clause converge on the standard
+
+- **The compressed wording of the worktree name is replaced by the
+  paragraph the sibling trees carry** (issue btclib-org/.github#854).
+  This tree glossed the four parts of the name in a list and then said
+  an issue number is unique only within one tracker and one issue is
+  often owed by several repositories, which is what each part answers:
+  the ordering argument's premise with its conclusion left undrawn, and
+  no per-part collision at all. The paragraph now runs the name most
+  general part first, an issue filed in `btclib-org/.github`'s tracker
+  being the key and the repository a detail of it, ends that argument
+  on the sorting a port leaves behind, and then gives the collision each
+  of `tracker`, `issue`, `repo` and `role` answers. It is the paragraph
+  `btclib-org/bbt` carries at `7e09638` byte for byte, and
+  `btclib-org/btclib-secp256k1`'s at `21a51d1d` byte for byte with it:
+  `btclib-org/.github`'s own two paragraphs at `cdb0333` run together,
+  less two clauses that stand there and in no sibling — the topic
+  sentence opening the second, and the `issue` clause's closing
+  `wt-review` example — and with three citation substitutions applied.
+  Those substitutions are section 9's *A reference to another repository
+  is qualified*: that file leaves two issue references unqualified and
+  says *this tracker* of its own, where this paragraph carries
+  `btclib-org/.github#255`, `btclib-org/.github#177` and *an issue filed
+  in `btclib-org/.github`'s tracker*, a reference left bare in this file
+  resolving in this repository instead. Both dropped clauses are
+  btclib-org/.github#964's; neither is added here, and neither is its
+  third. The issue is advanced and not closed: it names the sibling
+  trees as a population, and is still owed wherever a tree has not
+  taken it.
+- **The clause closing `## The primary checkout is the maintainer's` is
+  `btclib-org/.github`'s `CLAUDE.md` paragraph byte for byte**
+  (issue btclib-org/.github#919). It read *"or advance it with work that
+  is not yours"* and now says to move `refs/heads/main` only onto
+  `origin/main`, giving the reason — the name is the local branch's and
+  a ruleset binds the forge's copy — and naming the fast-forward this
+  same section prescribes as the move the rule permits. *The
+  primary-checkout section carries the standard's own sentences* above
+  says that paragraph closes on the pull request moving `main`; it
+  closes on `origin/main` now, and nothing else in that entry is
+  touched.
