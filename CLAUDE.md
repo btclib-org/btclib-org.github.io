@@ -162,12 +162,10 @@ request is what moves `origin/main`.
   one giving a workflow its day and hour, the other giving a repository
   its minute — and `tests/grid_test.py` in `btclib-org/.github` fails on
   a schedule no row names and on a scheduling repository with no minute.
-  `links.yml` carries the only one so far, `36 4 * * 6`, which is that
-  calendar read and not a time anybody picked here. What still has no
-  `cron:` is `homepage.yml`, and no longer for want of a row — the
-  calendar names its instant too, and btclib-org/.github#558 is where
-  taking it is weighed. A schedule for anything else needs its row in
-  that tree first, which is the order that section states.
+  `links.yml` and `homepage.yml` carry the two `cron:` entries this tree
+  has, `36 4 * * 6` and `36 3 * * 6`, both that calendar read and not a
+  time anybody picked here. A schedule for anything else needs its row
+  in that tree first, which is the order that section states.
 - **`CNAME` is the domain claim, and Pages reads it out of the *built*
   site.** So `btclib.org` is released by anything that keeps that file
   out of `_site` — a `_config.yml` exclude entry, a rename, a deletion —
