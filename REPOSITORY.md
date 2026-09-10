@@ -154,31 +154,61 @@ curl -sS -o /dev/null -w '%{http_code} %{url_effective}\n' -L \
 ## Required checks on main
 
 ```shell
-gh api repos/btclib-org/btclib-org.github.io/branches/main/protection
-# {"message":"Branch not protected","status":"404"}
+gh api repos/btclib-org/btclib-org.github.io/branches/main/protection \
+  --jq '{strict: .required_status_checks.strict,
+         checks: [.required_status_checks.checks[] | {context, app_id}],
+         reviews: .required_pull_request_reviews
+           | {required_approving_review_count, dismiss_stale_reviews},
+         enforce_admins: .enforce_admins.enabled,
+         signatures: .required_signatures.enabled,
+         linear_history: .required_linear_history.enabled,
+         force_pushes: .allow_force_pushes.enabled,
+         deletions: .allow_deletions.enabled,
+         conversation_resolution: .required_conversation_resolution.enabled}'
+# {"checks":[{"app_id":15368,"context":"Lint"}],
+#  "conversation_resolution":true,"deletions":false,"enforce_admins":false,
+#  "force_pushes":false,"linear_history":true,
+#  "reviews":{"dismiss_stale_reviews":true,
+#             "required_approving_review_count":1},
+#  "signatures":false,"strict":true}
 ```
 
-**There is no classic branch protection here yet, so no check is
-required.** A check context cannot be bound before a workflow has
-produced it, which is why `lint.yml` lands before the rule does — the
-standard's section 16 puts the required checks in classic protection, and
-the call that creates it is the one `btclib-org/.github`'s own
-`REPOSITORY.md` carries, with `Lint` as the context and `15368` as the
-Actions app.
+**`Lint` is the required check, and classic protection is where it is
+bound.** Section 16 of the standard puts the required checks there, bound
+to `15368`, the Actions app, so nothing else can report the context;
+`lint.yml`'s one job is that context, and there is no aggregate job to
+name. A context cannot be bound before a workflow has produced it, which
+puts `lint.yml` ahead of the rule wherever either is recreated. What
+restores the protection is a `PUT` of the whole object, that verb
+clearing every field it is not given; the object at the foot of the
+section of this name in `btclib-org/.github`'s own `REPOSITORY.md` is
+what this endpoint answers here, field for field, so it is pointed at
+rather than copied.
 
-Until it exists, what holds a pull request is the review the ruleset
-below asks for, and what holds every commit reaching `main` is
-`main-integrity`.
+`strict` asks that a branch be current with `main` before it merges, and
+`enforce_admins: false` clears the whole of classic protection for an
+administrator — the check, the review and `strict` alike — which is what
+makes a solo merge possible at all. Section 11 pairs the two settings and
+has what makes the landing tree current instead.
+
+The rulesets below sit beside this protection and rules aggregate, the
+stricter answer applying where the two overlap. `signatures` answers
+`false` above, so what refuses an unsigned commit is `main-integrity`,
+which carries `required_signatures` with no bypass actor at all. And
+`main-self-merge` asks for the review a second time, `enforce_admins`
+reaching classic protection alone: a solo merge clears the classic half
+by that exemption plus admin and the ruleset's half by the `pull_request`
+bypass, and section 11 has why that mode and not `always`.
 
 `website.yml`, `homepage.yml` and `links.yml` are not required checks and
-must not become them. The first carries a `paths` filter, and a required
-check that produces no run blocks a merge where a skipped one satisfies
-it. The second has a job that runs only off a pull request — what it
-reports is that another repository moved, which is nothing a merge here
-should wait on. The third is both at once: a `paths` filter narrower
-still, and a weekly question about the internet that no branch here
-introduced. `claude-review.yml` is not one either, and its own header
-says why.
+must not become them. Each carries a `paths` filter on `pull_request`,
+and a required check that produces no run blocks a merge where a skipped
+one satisfies it. `homepage.yml`'s `stale` job has a reason of its own
+besides: it runs only off a pull request, and what it reports is that
+another repository moved, which is nothing a merge here should wait on.
+`links.yml`'s is a weekly question about the internet that no branch here
+introduced, its filter being its own file alone. `claude-review.yml` is
+not one either, and its own header says why.
 
 ## Branch protection and the rulesets
 
@@ -203,6 +233,8 @@ gh api repos/btclib-org/btclib-org.github.io/rulesets --jq '.[].id' \
 # {"bypass":["pull_request"],"enforcement":"active",
 #  "name":"main-self-merge","refs":["refs/heads/main"],
 #  "rules":["pull_request"],"target":"branch"}
+# {"bypass":[],"enforcement":"active","name":"tag-integrity",
+#  "refs":["refs/tags/v*"],"rules":["required_signatures"],"target":"tag"}
 ```
 
 - `main-integrity` — required signatures, required linear history, no
@@ -213,6 +245,8 @@ gh api repos/btclib-org/btclib-org.github.io/rulesets --jq '.[].id' \
   merge method it accepts — bypassed by the maintainer in
   **`pull_request` mode**, which excuses its holder while merging a pull
   request and at no other time.
+- `tag-integrity` — required signatures and nothing else, over
+  `refs/tags/v*` rather than over a branch, with **no bypass actor**.
 
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/rulesets --jq '.[].id' \
@@ -228,11 +262,11 @@ gh api repos/btclib-org/btclib-org.github.io/rulesets --jq '.[].id' \
 #  "required_review_thread_resolution":true,"required_reviewers":[]}
 ```
 
-**There is no `tag-integrity` ruleset**, and nothing here is tagged:
-`CONTRIBUTING.md`'s *A version, and no release* is where that is
-measured. The standard asks for the rule over `refs/tags/v*` where a
-release tag is cut, and it stands ahead of the first such tag rather than
-being created alongside one — so a `v*` pushed here today meets no rule.
+`tag-integrity` matches no ref: `CONTRIBUTING.md`'s *A version, and no
+release* is where nothing being tagged is measured. The standard asks for
+the rule over `refs/tags/v*` where a release tag is cut, and it stands
+ahead of the first such tag rather than being created alongside one — so
+a `v*` pushed here meets it.
 
 ## Signed commits
 

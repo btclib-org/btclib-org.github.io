@@ -752,3 +752,36 @@ serves it.
   what it claims stands. *The badge row is the whole of what section 2
   derives for this tree* says the workflow runs on every push to `main`,
   and it still does: the list narrows `pull_request` alone.
+
+### `REPOSITORY.md` reads back the protection on `main` and the tag ruleset
+
+- **The fence under *Required checks on main* selects, from the
+  protection endpoint, the fields section 11 of `btclib-org/.github`'s
+  `README.md` states a rule for, and records what they answer** (closes
+  #46): `Lint` bound to the Actions app, `strict`, an approving review
+  with stale ones dismissed, linear history, no force pushes, no
+  deletions, conversation resolution, and `enforce_admins` off. It had
+  recorded the endpoint's `404`, and the prose under it that no check
+  was required and that the rulesets held the door until one was. The
+  prose now says what the rulesets add to the protection: the signature,
+  which classic protection here answers `false` for, and the second
+  asking of the review.
+- **The ruleset readback lists `tag-integrity`, active over
+  `refs/tags/v*` with `required_signatures` and no bypass actor** (closes
+  #46). The paragraph saying there is no such ruleset says instead that
+  it matches no ref, `CONTRIBUTING.md`'s *A version, and no release*
+  being where that is measured.
+- **The paragraph keeping `website.yml`, `homepage.yml` and `links.yml`
+  off the required list gives `homepage.yml` the ground it has, a
+  `paths` filter on `pull_request` as the other two carry** (closes #46).
+  Its `stale` job's own reason stands beside it.
+- `CONTRIBUTING.md`'s *What gates a merge, and what only reports* names
+  *Required checks on main* as the `REPOSITORY.md` section reading back
+  the rule that binds `lint.yml`; it had named a heading the file does
+  not carry.
+- *`homepage.yml`'s `pull_request` is filtered to what `verify` reads*
+  above reads the protection's contexts as `Lint` and nothing of
+  `homepage.yml`, which is what the section now records; *The tree stops
+  saying it carries no schedule* says `REPOSITORY.md` records that
+  `links.yml` is not a required check and must not become one, and it
+  still does.
