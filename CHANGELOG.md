@@ -785,3 +785,26 @@ serves it.
   saying it carries no schedule* says `REPOSITORY.md` records that
   `links.yml` is not a required check and must not become one, and it
   still does.
+
+### The gate runs `check-changelog`, and the tree carries the script it runs
+
+- **`.github/scripts/check_changelog.py` is `btclib-org/.github`'s at
+  `7a8f4c2` byte for byte, and `.pre-commit-config.yaml` carries that
+  repository's `check-changelog` hook to run it** (issue
+  btclib-org/.github#21). Section 14 of the standard owes the script to
+  every tree carrying a `CHANGELOG.md` under `merge=union`, which
+  `.gitattributes` here gives it, and section 4 names the hook. The hook
+  sits ahead of `markdownlint-cli2` for the reason its comment gives:
+  that hook's `--fix` repairs the seam the script's third check exists to
+  name. The issue is advanced and not closed: it carries the debt of
+  every tree still short of the script.
+- **`.pre-commit-config.yaml`'s header says why ruff and mypy stay absent
+  with a Python file in the tree** (issue btclib-org/.github#21): the
+  file is `btclib-org/.github`'s, linted by that tree's own copies of
+  both, so no hook here reads a copy. It had rested their absence on
+  `git ls-files '*.py'` being empty, which this change ends.
+- **`CONTRIBUTING.md`'s *The environment and the gates* stops saying the
+  tree holds no Python at all** (issue btclib-org/.github#21), and says
+  what `check-changelog`, a `language: system` hook running `python3`,
+  asks of a machine: nothing beyond uv, `uvx` putting the interpreter it
+  fetched ahead of `PATH` for the hook to find.

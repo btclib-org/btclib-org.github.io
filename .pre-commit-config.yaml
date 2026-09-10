@@ -28,13 +28,15 @@
 # would put this gate against that one with no state satisfying both.
 #
 # What is absent is absent for a measured reason rather than an
-# oversight. `git ls-files '*.py'` is empty, so ruff and mypy have no
-# file to read and `check-hooks-apply` below would fail on each; there is
-# no project and no `uv.lock`, so `uv-lock` has nothing to keep in step;
-# and `git ls-files '*.json'` is empty, which is why the json hooks are
-# not here. A hook is added here the day the tree grows the file it
-# reads -- the two toml hooks below are that rule already applied, the
-# tree's one toml being .typos.toml and .taplo.toml arriving with it.
+# oversight. `git ls-files '*.py'` names only the script check-changelog
+# below runs, which is btclib-org/.github's file byte for byte and is
+# linted by that tree's ruff and mypy, so neither is here to read a copy;
+# there is no project and no `uv.lock`, so `uv-lock` has nothing to keep
+# in step; and `git ls-files '*.json'` is empty, which is why the json
+# hooks are not here. A hook is added here the day the tree grows the
+# file it reads -- the two toml hooks below are that rule already
+# applied, the tree's one toml being .typos.toml and .taplo.toml
+# arriving with it.
 #
 # What no hook here reads is the site build: jekyll wants a ruby and the
 # `github-pages` gem, which CONTRIBUTING.md's last section gives and
@@ -185,6 +187,22 @@ repos:
         # finding recorded there is one somebody has read, where an
         # excluded file is unwatched from then on
         args: [--baseline, .secrets.baseline]
+  # `merge=union` stays on `CHANGELOG.md` (btclib-org/.github#21), and
+  # this is the gate its price bought back -- `.github/scripts/
+  # check_changelog.py`'s own docstring carries what the three checks
+  # catch, what they still cannot, and the alternatives declined
+  # (btclib-org/.github#305, btclib-org/.github#516). It runs ahead of
+  # markdownlint-cli2 below on purpose: that hook's `--fix` repairs the
+  # very seam the third check exists to name, so a hook reading the
+  # file after it would find nothing left to report.
+  - repo: local
+    hooks:
+      - id: check-changelog
+        name: the open CHANGELOG.md repeats no heading, closes no issue twice
+        entry: python3 .github/scripts/check_changelog.py
+        language: system
+        pass_filenames: false
+        files: ^(CHANGELOG\.md|\.github/scripts/check_changelog\.py)$
   # MD013 at 80 columns, tables included, and the shared configuration is
   # the one every repository of the organization carries: prose moves
   # between them, and a paragraph that lints in one has to lint here
