@@ -689,3 +689,42 @@ serves it.
   btclib-org/.github#558 as the debt this row carries until this
   repository schedules the workflow, so the issue closes from that
   file's side and not from this entry.
+
+### `CLAUDE.md` carries the shared primary-checkout section byte for byte
+
+- **`CLAUDE.md`'s `## The primary checkout is the maintainer's` section
+  now carries `btclib-org/.github`'s own copy of it, byte for byte**
+  (issue btclib-org/.github#739), taken from that repository's
+  `CLAUDE.md` at `e1069d1fe75bff9b7414fad5fe3d3e76908817d8`. The wording
+  this tree had written for the same section is replaced rather than
+  kept beside it: the sentence tying the worktree fence's create, push
+  and removal paragraphs to `btclib-org/.github`'s own `20ad654` is
+  dropped rather than moved, it not being a fact about this tree,
+  matching the decision already landed in `btclib-org/bitcoin-core-rpc`
+  and `btclib-org/portanode`.
+- **The section landed here supersedes what *The worktree fence and its
+  paragraphs converge on the standard*'s fourth bullet says about a sha**
+  (issue btclib-org/.github#739). That bullet names `20ad654` as the sha
+  the fence's create, push and removal paragraphs converged at, and says
+  the create paragraph's clause naming the standard is this tree's own
+  rather than the standard's bytes. Neither holds any more: the section
+  landed here, the create paragraph included, is `btclib-org/.github`'s at
+  `e1069d1fe75bff9b7414fad5fe3d3e76908817d8` in full, and no sha is named
+  in it at all.
+- **The section landed here also supersedes what *The worktree paragraph
+  and the advance clause converge on the standard*'s first bullet says
+  the worktree paragraph is** (issue btclib-org/.github#854). That bullet
+  reads the paragraph as `btclib-org/bbt`'s at `7e09638` and
+  `btclib-org/btclib-secp256k1`'s at `21a51d1d` byte for byte —
+  `btclib-org/.github`'s two paragraphs at `cdb0333` run together, less
+  the topic sentence opening the second and the `wt-review` example, with
+  citation substitutions made in this tree — and says neither dropped
+  clause is added here. The section landed here carries the two
+  paragraphs `btclib-org/.github`'s `CLAUDE.md` holds at
+  `e1069d1fe75bff9b7414fad5fe3d3e76908817d8`, so the paragraph is no
+  longer the one either sibling carries at the sha named: the two are not
+  run together, the topic sentence now opens the second here, the
+  `wt-review` example is absent from that source as it is from here, and
+  the qualified references are that file's own bytes rather than
+  substitutions made in this tree. What the bullet says the paragraph
+  argues stands, and so does the entry's bullet on `refs/heads/main`.
