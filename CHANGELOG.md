@@ -728,3 +728,27 @@ serves it.
   the qualified references are that file's own bytes rather than
   substitutions made in this tree. What the bullet says the paragraph
   argues stands, and so does the entry's bullet on `refs/heads/main`.
+
+### `homepage.yml`'s `pull_request` is filtered to what `verify` reads
+
+- **The `pull_request` trigger carries a `paths` list: `index.md`,
+  `.github/scripts/derive-homepage.sh` and the workflow file** (closes
+  btclib-org/.github#991). Section 10 of `btclib-org/.github`'s
+  `README.md` asks a calendar workflow's `pull_request` for that filter
+  and grants an unfiltered one for a reason stated in the header. The
+  reason this header gave — that a filter over this tree's paths would
+  leave `stale` unable to run at all — does not hold, `stale`'s own `if:`
+  excluding every pull request; and the reason the standard names
+  nearest, a required check that would otherwise never run, is not this
+  workflow's — `gh api
+  repos/btclib-org/btclib-org.github.io/branches/main/protection --jq
+  .required_status_checks.contexts` answers `Lint` and nothing of it.
+  `links.yml` in this tree carries the same shape for its own file.
+- The header's sentence that `verify` runs on every pull request, and
+  `README.md`'s sentence saying the same of the workflow, say instead
+  which pull requests it runs on.
+- *`homepage.yml` runs on the calendar's instant* above describes the
+  schedule and the `stale` job's `if:`, neither of which moves here, so
+  what it claims stands. *The badge row is the whole of what section 2
+  derives for this tree* says the workflow runs on every push to `main`,
+  and it still does: the list narrows `pull_request` alone.

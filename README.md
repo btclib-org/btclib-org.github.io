@@ -66,8 +66,9 @@ awk 'n>=2 {print} $0=="---" {n++}' index.md | cmp - <(curl -fsSL \
   index.md)/profile/README.md")
 ```
 
-`homepage.yml` asks the same question on every pull request, and asks a
-second one on `main`: whether that source still says what this site says.
+`homepage.yml` asks the same question on a pull request that touches
+`index.md`, the script or that workflow, and asks a second one on `main`:
+whether that source still says what this site says.
 `CONTRIBUTING.md`'s *Changing the homepage* is what to do about either
 answer, and the script's own header has the alternatives that were
 weighed against deriving — transcribing the page, a git submodule, a

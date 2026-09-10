@@ -14,12 +14,13 @@ name: homepage
 #     this compares.
 #
 # They run on different events because they answer to different people.
-# verify is about the branch in front of you and runs on every pull
-# request -- its own if: does not exclude the schedule below either, so
-# it re-checks index.md there too. stale is about another repository
-# moving, which no pull request here introduces and no merge here
-# should wait on -- so it runs on main, on demand and on that same
-# schedule, and a red run of it is a notification rather than a gate.
+# verify is about the branch in front of you and runs on a pull request
+# that touches what it reads -- its own if: does not exclude the
+# schedule below either, so it re-checks index.md there too. stale is
+# about another repository moving, which no pull request here introduces
+# and no merge here should wait on -- so it runs on main, on demand and
+# on that same schedule, and a red run of it is a notification rather
+# than a gate.
 # CONTRIBUTING.md's "Changing the homepage" is what answers it: the
 # derivation, and _config.yml's projects list where what moved upstream
 # was the organization's set of repositories.
@@ -48,10 +49,21 @@ on:
     # landing then lands in this pull request's own concurrency group and
     # cancels the run still holding it
     types: [opened, reopened, synchronize, ready_for_review, closed]
-  # no paths filter, on any event. What verify reads is index.md and
-  # the script, and what stale reads is another repository -- so a filter
-  # over this tree's paths would leave the second unable to run at all,
-  # and both jobs together are seconds
+    # what verify reads of this tree, and this file, so that a change to
+    # it is checked by the thing it configures. A pull request touching
+    # none of the three cannot change verify's answer, and stale never
+    # runs on this event -- its own if: below -- so a list under this key
+    # withholds nothing from it and narrows no other trigger. Section 10
+    # of btclib-org/.github's README.md asks a calendar workflow's
+    # pull_request for exactly this filter and grants an unfiltered one
+    # only for a reason stated in the header; the nearest it names, a
+    # required check that would otherwise never run, is not this file's:
+    # nothing in it is one, and with the filter none may become one,
+    # which REPOSITORY.md's "Required checks on main" reads back
+    paths:
+      - index.md
+      - .github/scripts/derive-homepage.sh
+      - .github/workflows/homepage.yml
   workflow_dispatch:
 
 # least privilege for the GITHUB_TOKEN. Nothing here writes: the script
