@@ -316,8 +316,8 @@ in the refusal rather than to be worked out.
 pre-commit run --all-files`, which is the same command this section
 gives you: one declaration of what the hooks are, so a hook added to
 `.pre-commit-config.yaml` needs no edit to a workflow.
-`REPOSITORY.md`'s *What gates a merge* is where the rule that binds it
-is read back from the endpoint.
+`REPOSITORY.md`'s *Required checks on main* is where the rule that binds
+it is read back from the endpoint.
 
 `homepage.yml`'s verify job answers whether `index.md` is still what its
 own pin derives to, and it is the check that makes *never edited by
