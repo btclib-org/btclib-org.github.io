@@ -675,3 +675,17 @@ serves it.
   says that paragraph closes on the pull request moving `main`; it
   closes on `origin/main` now, and nothing else in that entry is
   touched.
+
+### `homepage.yml` runs on the calendar's instant
+
+- **`homepage.yml` carries the `cron:` section 10 of
+  `btclib-org/.github`'s `README.md` names for this repository** (issue
+  btclib-org/.github#558). The schedule trigger reads `36 3 * * 6`, the
+  same form `links.yml` already carries for its own row, both read off
+  that calendar rather than picked here. The `stale` job's `if:`
+  excludes only `pull_request`, so the schedule reaches it with no
+  change there; the header describes what runs weekly and why, citing
+  section 10's calendar. Section 10's own sentence names
+  btclib-org/.github#558 as the debt this row carries until this
+  repository schedules the workflow, so the issue closes from that
+  file's side and not from this entry.

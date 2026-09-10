@@ -494,12 +494,6 @@ organization's answer alone would not show the switch off for this tree.
   --jq .state` answers `not-configured`. There is no language CodeQL
   analyses in this tree — markdown, yaml, shell — and what reads the
   scripts instead is `shellcheck`, in `.pre-commit-config.yaml`.
-- **No schedule for `homepage.yml`.** Section 10 of the standard is a
-  calendar of two tables that names an instant for every `cron:` in the
-  organization, and this repository now has a row in both — which is what
-  `links.yml`'s weekly run reads its own instant off. `homepage.yml`'s
-  header says which schedule it would take, and
-  btclib-org/.github#558 is where taking it is weighed.
 - **No `SECURITY.md`, `RELEASING.md` or `RELEASE_NOTES.md`.** Those are
   the rows section 2 of the standard marks for a repository that
   publishes.

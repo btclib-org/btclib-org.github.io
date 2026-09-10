@@ -325,10 +325,10 @@ hand* a refusal rather than a convention. `website.yml` answers whether
 the site builds. `claude-review.yml`'s own header says it must not
 become a required check.
 
-`homepage.yml`'s stale job runs on `main` and on demand, never on a pull
-request: what it reports is that `btclib-org/.github` has moved and this
-site has not, which is nothing a pull request here introduced and
-nothing a merge should wait on.
+`homepage.yml`'s stale job runs on `main`, weekly and on demand, never
+on a pull request: what it reports is that `btclib-org/.github` has
+moved and this site has not, which is nothing a pull request here
+introduced and nothing a merge should wait on.
 
 `links.yml` reports for the same reason at a different distance: a link
 rots with nobody touching this tree, so it runs weekly and on demand
