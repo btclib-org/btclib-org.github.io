@@ -808,3 +808,29 @@ serves it.
   what `check-changelog`, a `language: system` hook running `python3`,
   asks of a machine: nothing beyond uv, `uvx` putting the interpreter it
   fetched ahead of `PATH` for the hook to find.
+
+### The hyphen hook reads Python and rst, and the placeholder hook arrives
+
+- **`no-hyphen-at-end-of-line` selects markdown, Python and rst, the
+  file types whose prose a build renders** (issue
+  btclib-org/.github#921). Section 4 of the standard gives the list and
+  the reason Python is on it: docutils leaves a docstring's source break
+  inside the paragraph it builds and html collapses it to a space, so a
+  word wrapped at its own hyphen renders with the hyphen and a space
+  inside it, as a markdown one does. The Python this tree tracks answers
+  nothing to the hook's expression, so no line is reflowed:
+  `git grep -nE '[A-Za-z0-9]-$' -- '*.py' '*.rst'`. The comment above
+  the hook is `btclib-org/.github`'s own, its `README.md` read as this
+  file's phrase for the standard, as the hook comments beside it do. The
+  issue is advanced and not closed: it carries the debt of every tree
+  still short of the type list.
+- **`.pre-commit-config.yaml` carries `unquoted-placeholder`, refusing a
+  placeholder that stands as a whole argument in quotes** (issue
+  btclib-org/.github#706). Section 4 of the standard owes the hook to
+  every repository of the organization, and section 9 is the rule it
+  reads. It sits after `no-hyphen-at-end-of-line`, where
+  `btclib-org/.github` places it; `entry:`, `types:` and `exclude:` are
+  that tree's, and its comment is read into this file's phrase as the
+  one above it is. It refuses nothing in the markdown it selects. The
+  issue is advanced and not closed: it carries the debt of every tree
+  still short of the hook.
