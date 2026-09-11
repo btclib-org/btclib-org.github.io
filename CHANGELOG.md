@@ -834,3 +834,18 @@ serves it.
   one above it is. It refuses nothing in the markdown it selects. The
   issue is advanced and not closed: it carries the debt of every tree
   still short of the hook.
+
+### The `mention` job's `pull-requests: write` carries its reason
+
+- **`claude-review.yml`'s `mention` job says at its `pull-requests: write`
+  line what the grant is for**, as the `review` job's grant and the
+  `id-token: write` beside it do (issue btclib-org/.github#915). The line
+  is the one `btclib-node` and `btclib-benchmarks` carry above theirs,
+  `# what posting the reply takes`, byte for byte, so that one reason is
+  not worded twice across the copies. Section 14 of `btclib-org/.github`'s
+  `README.md` keeps the file out of `tests/verbatim_test.py`'s comparison
+  — `claude-review.yml` "is owed by every repository section 11 governs,
+  and section 15's existence loop is what checks that — not this list" —
+  so a copy carrying the line beside one that does not turns nothing red.
+  The issue is advanced and not closed: it carries the debt of every copy
+  still short of the line.
