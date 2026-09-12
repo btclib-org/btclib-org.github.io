@@ -869,3 +869,23 @@ serves it.
   `btclib-org/.github`'s own, its words unchanged. The issue is advanced
   and not closed: it carries the debt of every tree still short of the
   pair.
+
+### Three verbatim files take `btclib-org/.github`'s copy
+
+- **`REVIEWING.md`'s shared half is `btclib-org/.github`'s** (issue
+  btclib-org/.github#353): the half above *This repository in
+  particular* is replaced whole rather than each landed change applied
+  by hand, and this tree's own questions below that heading are
+  untouched.
+- **`.yamllint.yaml`'s comment on `allow-non-breakable-words` states the
+  setting's own predicate and names no other tool's behaviour** (issue
+  btclib-org/.github#976): a line that is one long token has nowhere to
+  break, and what a markdown linter passes over is that linter's to say.
+- **`.gitattributes` says what the union driver costs at the seam where
+  two sides' added lines abut** (issue btclib-org/.github#1026): the
+  driver joins their added lines directly, so a block opening with a
+  heading is left sitting against the line above it while `git rebase`
+  exits 0 and nothing conflicts. The comment names section 4's
+  `check-changelog` as what reports that, and the gate here runs it; the
+  paragraph after it is the rejected alternative of not setting the
+  driver at all.
