@@ -849,3 +849,23 @@ serves it.
   so a copy carrying the line beside one that does not turns nothing red.
   The issue is advanced and not closed: it carries the debt of every copy
   still short of the line.
+
+### The issue-form hooks join the `check-jsonschema` block
+
+- **`.pre-commit-config.yaml` carries `check-github-issue-config` and
+  `check-github-issue-forms`, beside `check-dependabot` in the
+  `check-jsonschema` block at `rev: 0.38.0`** (issue
+  btclib-org/.github#767). Section 4 of the standard names the pair in
+  its *schemas* bullet and gives the reason: a typo in an issue form is
+  not an error to the service that reads it, and the evidence is the
+  *New issue* page, where the reader is a person and not a run. Each
+  selects its own files, `types: [yaml]` on both: `config.yml` under
+  that spelling for the first, the directory's yaml that is neither
+  `config.yml` nor `config.yaml` for the second, so `check-hooks-apply`
+  is what says `.github/ISSUE_TEMPLATE/` still holds one of each. Here
+  that is `config.yml` for the first and `bug_report.yml`,
+  `feature_request.yml` and `question.yml` for the second, and the pair
+  validates each of them clean. The comment above the two ids is
+  `btclib-org/.github`'s own, its words unchanged. The issue is advanced
+  and not closed: it carries the debt of every tree still short of the
+  pair.
