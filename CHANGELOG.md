@@ -910,3 +910,9 @@ serves it.
 - **`REVIEWING.md`, `CONTRIBUTING.md` and `check_changelog.py` follow
   `btclib-org/.github`** (issue btclib-org/.github#1075): what is filed
   is one test, and an entry's body past three lines is refused.
+
+### `links.yml` calls the organization's reusable workflow
+
+- **The lychee job lives in `btclib-org/.github`** (issue
+  btclib-org/.github#35): this file keeps the trigger, the schedule and
+  the files it checks.
