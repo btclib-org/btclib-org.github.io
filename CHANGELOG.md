@@ -916,3 +916,8 @@ serves it.
 - **The lychee job lives in `btclib-org/.github`** (issue
   btclib-org/.github#35): this file keeps the trigger, the schedule and
   the files it checks.
+
+### Auto-merge is on
+
+- **`REPOSITORY.md` records `allow_auto_merge` as `true`** (closes
+  btclib-org/.github#566), the setting section 11 asks for.
