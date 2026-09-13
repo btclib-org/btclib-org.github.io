@@ -849,3 +849,58 @@ serves it.
   so a copy carrying the line beside one that does not turns nothing red.
   The issue is advanced and not closed: it carries the debt of every copy
   still short of the line.
+
+### The issue-form hooks join the `check-jsonschema` block
+
+- **`.pre-commit-config.yaml` carries `check-github-issue-config` and
+  `check-github-issue-forms`, beside `check-dependabot` in the
+  `check-jsonschema` block at `rev: 0.38.0`** (issue
+  btclib-org/.github#767). Section 4 of the standard names the pair in
+  its *schemas* bullet and gives the reason: a typo in an issue form is
+  not an error to the service that reads it, and the evidence is the
+  *New issue* page, where the reader is a person and not a run. Each
+  selects its own files, `types: [yaml]` on both: `config.yml` under
+  that spelling for the first, the directory's yaml that is neither
+  `config.yml` nor `config.yaml` for the second, so `check-hooks-apply`
+  is what says `.github/ISSUE_TEMPLATE/` still holds one of each. Here
+  that is `config.yml` for the first and `bug_report.yml`,
+  `feature_request.yml` and `question.yml` for the second, and the pair
+  validates each of them clean. The comment above the two ids is
+  `btclib-org/.github`'s own, its words unchanged. The issue is advanced
+  and not closed: it carries the debt of every tree still short of the
+  pair.
+
+### Three verbatim files take `btclib-org/.github`'s copy
+
+- **`REVIEWING.md`'s shared half is `btclib-org/.github`'s** (issue
+  btclib-org/.github#353): the half above *This repository in
+  particular* is replaced whole rather than each landed change applied
+  by hand, and this tree's own questions below that heading are
+  untouched.
+- **`.yamllint.yaml`'s comment on `allow-non-breakable-words` states the
+  setting's own predicate and names no other tool's behaviour** (issue
+  btclib-org/.github#976): a line that is one long token has nowhere to
+  break, and what a markdown linter passes over is that linter's to say.
+- **`.gitattributes` says what the union driver costs at the seam where
+  two sides' added lines abut** (issue btclib-org/.github#1026): the
+  driver joins their added lines directly, so a block opening with a
+  heading is left sitting against the line above it while `git rebase`
+  exits 0 and nothing conflicts. The comment names section 4's
+  `check-changelog` as what reports that, and the gate here runs it; the
+  paragraph after it is the rejected alternative of not setting the
+  driver at all.
+
+### The lint gate's skip line keeps only its live half
+
+- **`.pre-commit-config.yaml` says how to skip a hook and not how to
+  skip the gate** (issue btclib-org/.github#966): `git commit -n`
+  disables git's own hooks for one commit, and this gate is not one of
+  them — `CONTRIBUTING.md` says it is not installed as a git hook — so
+  that half of the line was inert where it stood. `SKIP=<id>` stays:
+  it selects which hooks an invocation runs, and the invocation this
+  tree documents is `uvx pre-commit run --all-files`. The rejected
+  alternative keeps both halves for a reader who has installed the hook
+  anyway; that reader is acting against this tree's own instruction, and
+  pre-commit's own *Temporarily disabling hooks*, which names
+  `--no-verify` beside `SKIP`, is where an interface this tree does not
+  use belongs.
