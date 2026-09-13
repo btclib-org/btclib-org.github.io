@@ -889,3 +889,18 @@ serves it.
   `check-changelog` as what reports that, and the gate here runs it; the
   paragraph after it is the rejected alternative of not setting the
   driver at all.
+
+### The lint gate's skip line keeps only its live half
+
+- **`.pre-commit-config.yaml` says how to skip a hook and not how to
+  skip the gate** (issue btclib-org/.github#966): `git commit -n`
+  disables git's own hooks for one commit, and this gate is not one of
+  them — `CONTRIBUTING.md` says it is not installed as a git hook — so
+  that half of the line was inert where it stood. `SKIP=<id>` stays:
+  it selects which hooks an invocation runs, and the invocation this
+  tree documents is `uvx pre-commit run --all-files`. The rejected
+  alternative keeps both halves for a reader who has installed the hook
+  anyway; that reader is acting against this tree's own instruction, and
+  pre-commit's own *Temporarily disabling hooks*, which names
+  `--no-verify` beside `SKIP`, is where an interface this tree does not
+  use belongs.
