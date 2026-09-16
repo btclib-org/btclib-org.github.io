@@ -927,3 +927,9 @@ serves it.
 - **`targets:` was `"*.md"`, reaching no subdirectory** (issue
   btclib-org/.github#1104): it becomes `"**/*.md" ".github/**/*.md"
   ".claude/**/*.md"`, the site's own URL kept beside them.
+
+### `CONTRIBUTING.md` and `REVIEWING.md` gain the position half
+
+- **`check-changelog` reads the seam, not the position** (issue
+  btclib-org/.github#1097): `CONTRIBUTING.md` gains the `awk` command,
+  `REVIEWING.md` the question whether the branch's entry sits last.
