@@ -921,3 +921,9 @@ serves it.
 
 - **`REPOSITORY.md` records `allow_auto_merge` as `true`** (closes
   btclib-org/.github#566), the setting section 11 asks for.
+
+### `links.yml`'s `targets:` reaches every tracked markdown file
+
+- **`targets:` was `"*.md"`, reaching no subdirectory** (issue
+  btclib-org/.github#1104): it becomes `"**/*.md" ".github/**/*.md"
+  ".claude/**/*.md"`, the site's own URL kept beside them.
