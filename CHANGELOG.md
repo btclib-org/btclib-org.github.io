@@ -933,3 +933,9 @@ serves it.
 - **`check-changelog` reads the seam, not the position** (issue
   btclib-org/.github#1097): `CONTRIBUTING.md` gains the `awk` command,
   `REVIEWING.md` the question whether the branch's entry sits last.
+
+### `check-changelog` runs on every invocation of the gate
+
+- **`always_run: true`, and no `files:`** (issue
+  btclib-org/.github#1138): the script reads the open section off disk,
+  and the rebase that eats the seam stages nothing.
