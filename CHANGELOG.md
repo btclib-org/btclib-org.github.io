@@ -939,3 +939,9 @@ serves it.
 - **`always_run: true`, and no `files:`** (issue
   btclib-org/.github#1138): the script reads the open section off disk,
   and the rebase that eats the seam stages nothing.
+
+### `check_changelog.py`'s docstring cites no dead section
+
+- **The pointer to `CONTRIBUTING.md`'s *Committing and rebasing* named a
+  heading no tree holds** (issue btclib-org/.github#1137): the docstring
+  now states the rebase-reconstruction comparison in its own words.
