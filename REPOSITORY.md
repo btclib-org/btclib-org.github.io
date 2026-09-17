@@ -379,10 +379,11 @@ gh api repos/btclib-org/btclib-org.github.io/actions/permissions/workflow
 ```
 
 `read` is the floor every workflow here starts from. `claude-review.yml`
-is the only one whose jobs elevate it — `pull-requests: write` to post a
+is the only one whose job elevates it — `pull-requests: write` to post a
 comment and `id-token: write` for the OIDC token the action mints at
-startup. `lint.yml`, `website.yml`, `homepage.yml` and `links.yml` read
-the tree and the network and write nothing back.
+startup, on the `claude-review` job that calls `btclib-org/.github`'s
+`reusable-claude-review.yml`. `lint.yml`, `website.yml`, `homepage.yml`
+and `links.yml` read the tree and the network and write nothing back.
 
 **What this call cannot say is whether that value is this repository's
 own or the organization's**, there being no endpoint that answers.
@@ -476,9 +477,9 @@ are not one asked twice.** A `pull_request` run whose actor is
 `dependabot[bot]` is handed the Dependabot secrets rather than the
 Actions secrets, so a token registered only in the second resolves to the
 empty string on exactly the pull requests `.github/dependabot.yml` opens
-— and `claude-review.yml`'s credential step turns that into a red job
-saying which secret is missing, rather than a review that silently
-reviewed nothing.
+— and the credential step of the workflow `claude-review.yml` calls
+turns that into a red job saying which secret is missing, rather than a
+review that silently reviewed nothing.
 
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/environments \
@@ -494,9 +495,9 @@ published.
 
 ## Variables
 
-**A switch this repository does not set.** `claude-review.yml` guards
-its jobs with `vars.CLAUDE_REVIEW_ENABLED`, and neither variable store
-holds it:
+**A switch this repository does not set.** The jobs `claude-review.yml`
+calls are guarded by `vars.CLAUDE_REVIEW_ENABLED`, and neither variable
+store holds it:
 
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/actions/variables \
