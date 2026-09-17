@@ -951,3 +951,9 @@ serves it.
 - **`lint.yml`, `links.yml` and `CLAUDE.md` named the wrong document or
   a rule with no home** (closes #65): the workflows now cite
   `CONTRIBUTING.md`, and `CLAUDE.md` states the rule itself instead.
+
+### `claude-review.yml` calls the organization's reusable workflow
+
+- **The `review` and `mention` jobs the entries above describe are the
+  callee's** (issue btclib-org/.github#35): one calling job reaches both, with
+  btclib-org/btclib-secp256k1#394's verdict fix and the pin `ef8bb1e4`.
