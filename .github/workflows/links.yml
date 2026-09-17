@@ -58,9 +58,8 @@ on:
 # least privilege for the GITHUB_TOKEN. lychee is given it for github.com
 # links alone, where an unauthenticated runner is rate limited hard enough
 # to look like rot; contents: read is all that needs.
-# Deliberately not issues: write. An automatic "link rot" issue is the
-# usual next step, and it would make this the only workflow here that can
-# write anything, to save a maintainer from reading a failure
+# Deliberately not issues: write. An automatic "link rot" issue is the usual
+# next step, declined to save a maintainer from reading a failure
 # notification they already get
 permissions:
   contents: read
