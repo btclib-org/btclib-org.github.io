@@ -963,3 +963,9 @@ serves it.
 - **`types:` gains `closed`** (issue btclib-org/.github#1182): the
   workflow-level group lets a closed run cancel a review still holding
   it, and the callee's own job-level `if:` still declines the review.
+
+### `links.yml`'s decline drops a false uniqueness claim
+
+- **The permissions comment's `issues: write` decline dropped its false
+  uniqueness claim** (issue btclib-org/.github#1180): `claude-review.yml`
+  already writes here; the sound reason beside it stays.
