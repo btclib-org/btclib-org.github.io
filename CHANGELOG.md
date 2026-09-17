@@ -957,3 +957,9 @@ serves it.
 - **The `review` and `mention` jobs the entries above describe are the
   callee's** (issue btclib-org/.github#35): one calling job reaches both, with
   btclib-org/btclib-secp256k1#394's verdict fix and the pin `ef8bb1e4`.
+
+### `claude-review.yml` takes the `closed` pull request type
+
+- **`types:` gains `closed`** (issue btclib-org/.github#1182): the
+  workflow-level group lets a closed run cancel a review still holding
+  it, and the callee's own job-level `if:` still declines the review.
