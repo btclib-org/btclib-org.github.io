@@ -945,3 +945,9 @@ serves it.
 - **The pointer to `CONTRIBUTING.md`'s *Committing and rebasing* named a
   heading no tree holds** (issue btclib-org/.github#1137): the docstring
   now states the rebase-reconstruction comparison in its own words.
+
+### A citation names the document that holds it
+
+- **`lint.yml`, `links.yml` and `CLAUDE.md` named the wrong document or
+  a rule with no home** (closes #65): the workflows now cite
+  `CONTRIBUTING.md`, and `CLAUDE.md` states the rule itself instead.

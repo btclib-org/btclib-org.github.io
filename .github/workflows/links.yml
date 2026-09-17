@@ -22,8 +22,8 @@ name: links
 # reports the internet's weather on somebody else's branch, and a third
 # party answering 502 or throttling a runner turns a red merge into a
 # thing to re-run rather than a thing to fix. Weekly, on demand, and red
-# in the Actions tab is where this belongs -- REPOSITORY.md's "What gates
-# a merge" is where it is written that this is not a required check and
+# in the Actions tab is where this belongs -- CONTRIBUTING.md's "What
+# gates a merge" is where it is written that this is not a required check and
 # must not become one.
 #
 # A finding here is often not this repository's to fix. index.md is
