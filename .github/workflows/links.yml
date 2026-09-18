@@ -22,8 +22,8 @@ name: links
 # reports the internet's weather on somebody else's branch, and a third
 # party answering 502 or throttling a runner turns a red merge into a
 # thing to re-run rather than a thing to fix. Weekly, on demand, and red
-# in the Actions tab is where this belongs -- REPOSITORY.md's "What gates
-# a merge" is where it is written that this is not a required check and
+# in the Actions tab is where this belongs -- CONTRIBUTING.md's "What
+# gates a merge" is where it is written that this is not a required check and
 # must not become one.
 #
 # A finding here is often not this repository's to fix. index.md is
@@ -58,9 +58,8 @@ on:
 # least privilege for the GITHUB_TOKEN. lychee is given it for github.com
 # links alone, where an unauthenticated runner is rate limited hard enough
 # to look like rot; contents: read is all that needs.
-# Deliberately not issues: write. An automatic "link rot" issue is the
-# usual next step, and it would make this the only workflow here that can
-# write anything, to save a maintainer from reading a failure
+# Deliberately not issues: write. An automatic "link rot" issue is the usual
+# next step, declined to save a maintainer from reading a failure
 # notification they already get
 permissions:
   contents: read
@@ -80,4 +79,4 @@ jobs:
   links:
     uses: btclib-org/.github/.github/workflows/reusable-links.yml@main
     with:
-      targets: '"*.md" https://btclib.org/'
+      targets: '"**/*.md" ".github/**/*.md" ".claude/**/*.md" https://btclib.org/'

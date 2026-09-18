@@ -921,3 +921,51 @@ serves it.
 
 - **`REPOSITORY.md` records `allow_auto_merge` as `true`** (closes
   btclib-org/.github#566), the setting section 11 asks for.
+
+### `links.yml`'s `targets:` reaches every tracked markdown file
+
+- **`targets:` was `"*.md"`, reaching no subdirectory** (issue
+  btclib-org/.github#1104): it becomes `"**/*.md" ".github/**/*.md"
+  ".claude/**/*.md"`, the site's own URL kept beside them.
+
+### `CONTRIBUTING.md` and `REVIEWING.md` gain the position half
+
+- **`check-changelog` reads the seam, not the position** (issue
+  btclib-org/.github#1097): `CONTRIBUTING.md` gains the `awk` command,
+  `REVIEWING.md` the question whether the branch's entry sits last.
+
+### `check-changelog` runs on every invocation of the gate
+
+- **`always_run: true`, and no `files:`** (issue
+  btclib-org/.github#1138): the script reads the open section off disk,
+  and the rebase that eats the seam stages nothing.
+
+### `check_changelog.py`'s docstring cites no dead section
+
+- **The pointer to `CONTRIBUTING.md`'s *Committing and rebasing* named a
+  heading no tree holds** (issue btclib-org/.github#1137): the docstring
+  now states the rebase-reconstruction comparison in its own words.
+
+### A citation names the document that holds it
+
+- **`lint.yml`, `links.yml` and `CLAUDE.md` named the wrong document or
+  a rule with no home** (closes #65): the workflows now cite
+  `CONTRIBUTING.md`, and `CLAUDE.md` states the rule itself instead.
+
+### `claude-review.yml` calls the organization's reusable workflow
+
+- **The `review` and `mention` jobs the entries above describe are the
+  callee's** (issue btclib-org/.github#35): one calling job reaches both, with
+  btclib-org/btclib-secp256k1#394's verdict fix and the pin `ef8bb1e4`.
+
+### `claude-review.yml` takes the `closed` pull request type
+
+- **`types:` gains `closed`** (issue btclib-org/.github#1182): the
+  workflow-level group lets a closed run cancel a review still holding
+  it, and the callee's own job-level `if:` still declines the review.
+
+### `links.yml`'s decline drops a false uniqueness claim
+
+- **The permissions comment's `issues: write` decline dropped its false
+  uniqueness claim** (issue btclib-org/.github#1180): `claude-review.yml`
+  already writes here; the sound reason beside it stays.

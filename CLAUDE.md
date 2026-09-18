@@ -217,12 +217,13 @@ moving, which is that section's own rule for a file that already carries
 them. The two stay: *Nothing already written is rewritten*, and a branch
 that reshapes them edits the record rather than adding to it.
 
-That the entry landed where it belongs is read rather than assumed, and
-section 9's *A rebase's result is read* is where that rule and its
-`git diff origin/main..HEAD -- CHANGELOG.md` live. What the command below
-adds is an exit code: the same question asked so that a script, or a
-session with a hundred lines of diff in front of it, gets an answer
-rather than something to look at.
+That the entry landed where it belongs is read rather than assumed:
+`git diff origin/main..HEAD -- CHANGELOG.md` is the read, section 9
+saying `check-changelog` names the seam and not the position, which is
+a person's to check instead. What the command below adds is an exit
+code: the same question asked so that a script, or a session with a
+hundred lines of diff in front of it, gets an answer rather than
+something to look at.
 
 ```shell
 n=$(git show origin/main:CHANGELOG.md | wc -c)
