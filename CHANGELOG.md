@@ -969,3 +969,9 @@ serves it.
 - **The permissions comment's `issues: write` decline dropped its false
   uniqueness claim** (issue btclib-org/.github#1180): `claude-review.yml`
   already writes here; the sound reason beside it stays.
+
+### `.gitignore` covers the tracked Python script's own bytecode
+
+- **`__pycache__/` is ignored** (closes #54): importing
+  `.github/scripts/check_changelog.py` no longer leaves a byte-compiled
+  copy for `git add -A` to pick up.
