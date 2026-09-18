@@ -975,3 +975,9 @@ serves it.
 - **`__pycache__/` is ignored** (closes #54): importing
   `.github/scripts/check_changelog.py` no longer leaves a byte-compiled
   copy for `git add -A` to pick up.
+
+### `zizmor`'s `--persona=auditor` is now the gate
+
+- **The `zizmor` hook takes `--persona=auditor`** (issue
+  btclib-org/.github#1164): `claude-review.yml`'s two grants gain the
+  trailing comment the audit reads, not the leading block above them.
