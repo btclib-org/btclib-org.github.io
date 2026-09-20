@@ -987,3 +987,9 @@ serves it.
 - **A count below a new `## This repository in particular` heading backs
   the fourth check's exemption against an entry landed above
   `RULE_HEADING`** (issue btclib-org/.github#1215).
+
+### The `check-changelog` hook's comment names no count
+
+- **The comment above `check-changelog` pointed at "the three checks";
+  the script has made five since btclib-org/.github#1204** (issue
+  btclib-org/.github#1225): the count goes, the docstring enumerating them.
