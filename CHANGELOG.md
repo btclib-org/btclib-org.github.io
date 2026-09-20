@@ -981,3 +981,9 @@ serves it.
 - **The `zizmor` hook takes `--persona=auditor`** (issue
   btclib-org/.github#1164): `claude-review.yml`'s two grants gain the
   trailing comment the audit reads, not the leading block above them.
+
+### `check_changelog.py` gains a fifth check, an entry misplaced above the rule
+
+- **A count below a new `## This repository in particular` heading backs
+  the fourth check's exemption against an entry landed above
+  `RULE_HEADING`** (issue btclib-org/.github#1215).
