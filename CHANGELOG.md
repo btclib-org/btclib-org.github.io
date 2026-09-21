@@ -999,3 +999,15 @@ serves it.
 - **`cancel-in-progress` is the conditional section 10 gives a workflow
   taking `closed` with no `push` trigger** (issue
   btclib-org/.github#1226).
+
+### `REPOSITORY.md` marks its one observation
+
+- **The `Signed commits` reading is marked a fact about a changing
+  world, section 11's own words for the purpose** (issue
+  btclib-org/.github#1017).
+
+### `REPOSITORY.md`'s unpinned-actions grep excludes `@main`
+
+- **The grep no longer misreports a reusable workflow call to
+  `btclib-org/.github` at `@main` as unpinned** (issue
+  btclib-org/.github#1017).
