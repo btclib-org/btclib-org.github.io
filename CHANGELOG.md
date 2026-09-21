@@ -993,3 +993,9 @@ serves it.
 - **The comment above `check-changelog` pointed at "the three checks";
   the script has made five since btclib-org/.github#1204** (issue
   btclib-org/.github#1225): the count goes, the docstring enumerating them.
+
+### `links.yml`'s `cancel-in-progress` takes the conditional
+
+- **`cancel-in-progress` is the conditional section 10 gives a workflow
+  taking `closed` with no `push` trigger** (issue
+  btclib-org/.github#1226).

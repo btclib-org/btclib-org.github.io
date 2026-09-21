@@ -49,8 +49,9 @@ on:
   # nothing produces blocks a merge where a skipped one satisfies it
   pull_request:
     # closed too, though the job below declines the real work on it: the
-    # landing then lands in this pull request's own concurrency group and
-    # cancels the run still holding it
+    # closed event still lands in this pull request's own concurrency
+    # group, and the block below decides whether it cancels the run
+    # still holding it or queues behind it
     types: [opened, reopened, synchronize, ready_for_review, closed]
     paths:
       - .github/workflows/links.yml
@@ -69,7 +70,7 @@ concurrency:
   # request's number rather than on github.head_ref -- the reasoning is
   # lint.yml's, which this tree's other workflows follow
   group: links-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ !(github.event.action == 'closed' && github.event.pull_request.merged) }}
 
 jobs:
   # the job itself is btclib-org/.github's, called at @main so a fix there
