@@ -285,6 +285,11 @@ What no rule covers is a commit before it is pushed:
 `git log -1 --format='%G? %GS'`, an `N` being a defect to fix rather than
 to explain.
 
+The call above answers for whichever commit is at the tip today, so it is
+a fact about a changing world rather than a setting: the next merge
+changes what it answers with nothing here having decided differently.
+Read at 2026-09-21T21:38:10Z.
+
 ## Merge methods
 
 ```shell
@@ -400,10 +405,14 @@ gh api repos/btclib-org/btclib-org.github.io/actions/permissions \
 `sha_pinning_required` being off means the forge does not enforce what
 the standard asks for, so an action pinned to a tag rather than to forty
 hex digits would be accepted here. The pins are kept by the convention
-instead, and this is what reads them back:
+instead, and this is what reads them back — anchored to the line's start
+so that prose mentioning `uses:` is not counted, and excluding a call to
+a reusable workflow of `btclib-org/.github`, which section 10 names at
+`@main` rather than at a commit:
 
 ```shell
-grep -h 'uses:' .github/workflows/*.yml | grep -v '@[0-9a-f]\{40\} #'
+grep -hE '^\s*uses:' .github/workflows/*.yml \
+  | grep -v '@[0-9a-f]\{40\} #' | grep -v 'btclib-org/\.github/.*@main'
 ```
 
 answers with nothing.
