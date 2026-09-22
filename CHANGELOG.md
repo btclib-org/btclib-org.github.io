@@ -1011,3 +1011,20 @@ serves it.
 - **The grep no longer misreports a reusable workflow call to
   `btclib-org/.github` at `@main` as unpinned** (issue
   btclib-org/.github#1017).
+
+### `REPOSITORY.md`'s wrapped `code-scanning` reading runs as written
+
+- **The reading moves into a fenced block, its wrap continued by a
+  `\`** (issue btclib-org/.github#1265): the bare line break used to
+  reach `bash -c` in two pieces and exit 127.
+
+### `REPOSITORY.md`'s two-command comment splits into one line each
+
+- **`all, twice` becomes `all`, once per command** (issue
+  btclib-org/.github#1262): a shared comment compares its whole text
+  against each command's own output.
+
+### `REPOSITORY.md`'s empty reading writes an empty comment
+
+- **`# (nothing)` becomes a bare `#`, already read as empty** (issue
+  btclib-org/.github#1263).
