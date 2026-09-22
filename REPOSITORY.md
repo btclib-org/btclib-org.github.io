@@ -475,9 +475,10 @@ gh api repos/btclib-org/btclib-org.github.io/actions/secrets \
 # []
 gh api orgs/btclib-org/actions/secrets/CLAUDE_CODE_OAUTH_TOKEN \
   --jq '.visibility'
+# all
 gh api orgs/btclib-org/dependabot/secrets/CLAUDE_CODE_OAUTH_TOKEN \
   --jq '.visibility'
-# all, twice
+# all
 ```
 
 `claude-review.yml` is the only workflow here that reads a secret, and
@@ -513,7 +514,7 @@ gh api repos/btclib-org/btclib-org.github.io/actions/variables \
   --jq '.total_count'
 # 0
 gh api orgs/btclib-org/actions/variables --jq '.variables[].name'
-# (nothing)
+#
 gh api orgs/btclib-org/actions/variables --jq '.total_count'
 # 0
 ```
@@ -532,10 +533,16 @@ organization's answer alone would not show the switch off for this tree.
 ## What is not configured, and why
 
 - **No code scanning**, and GitHub's default setup off with it:
-  `gh api repos/btclib-org/btclib-org.github.io/code-scanning/default-setup
-  --jq .state` answers `not-configured`. There is no language CodeQL
-  analyses in this tree — markdown, yaml, shell — and what reads the
-  scripts instead is `shellcheck`, in `.pre-commit-config.yaml`.
+
+  ```shell
+  gh api repos/btclib-org/btclib-org.github.io/code-scanning/default-setup \
+    --jq .state
+  # not-configured
+  ```
+
+  There is no language CodeQL analyses in this tree — markdown, yaml,
+  shell — and what reads the scripts instead is `shellcheck`, in
+  `.pre-commit-config.yaml`.
 - **No `SECURITY.md`, `RELEASING.md` or `RELEASE_NOTES.md`.** Those are
   the rows section 2 of the standard marks for a repository that
   publishes.
