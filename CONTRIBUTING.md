@@ -259,8 +259,8 @@ repository's own, read on github.com, and is not part of the site.
 
 uv is the only thing that has to be installed; it fetches interpreters
 and tools itself. There is no project here — no `pyproject.toml`, no lock
-file, and no Python beyond the script the `check-changelog` hook runs —
-so nothing is synced and every command is a `uvx`:
+file, and no Python at all, `check-changelog` being fetched from
+`btclib-org/.github` — so nothing is synced and every command is a `uvx`:
 
 ```shell
 uvx pre-commit run --all-files
@@ -278,12 +278,10 @@ That last one is worth running before pushing a change to the hook
 config: it catches what a wrong `types_or` tag or a malformed entry would
 otherwise turn into a red lint job.
 
-`check-changelog` is a `language: system` hook running `python3`, and it
-asks for nothing beyond uv: `uvx` puts the environment it built for
-pre-commit ahead of `PATH` for that process, a system hook inherits it,
-and its `bin/` holds the `python3` uv fetched. With a `PATH` resolving no
-`python3` at all, `uvx pre-commit run --all-files check-changelog`
-passes.
+`check-changelog` is fetched from `btclib-org/.github` as a
+`language: script` hook, run through its own shebang, and asks for
+nothing beyond uv: the `python3` it names is the one on the `PATH` uv
+puts ahead of the process.
 
 **Check exit codes, not filtered output.** `pre-commit run ... | grep -v
 Passed` hides a failure, and `grep` finding nothing exits 1, which is not

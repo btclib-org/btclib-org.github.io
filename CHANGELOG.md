@@ -1028,3 +1028,9 @@ serves it.
 
 - **`# (nothing)` becomes a bare `#`, already read as empty** (issue
   btclib-org/.github#1263).
+
+### The `check-changelog` hook is served from `btclib-org/.github`
+
+- **`.github/scripts/check_changelog.py` is deleted, the local hook
+  replaced by the pinned one that tree now serves** (issue
+  btclib-org/.github#1293): `--grandfathered` moves onto its `args:`.

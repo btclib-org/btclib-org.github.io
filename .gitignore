@@ -15,10 +15,3 @@ vendor/
 
 # what macOS writes into a directory it has been looked at in
 .DS_Store
-
-# `git ls-files '*.py'` names only the script check-changelog runs, and
-# importing it -- one way of driving its checks over a constructed
-# input -- writes a bytecode cache. CPython 3 puts that cache in this
-# directory by default rather than beside the source, and writes one
-# per interpreter version
-__pycache__/
