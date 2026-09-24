@@ -1034,3 +1034,9 @@ serves it.
 - **`.github/scripts/check_changelog.py` is deleted, the local hook
   replaced by the pinned one that tree now serves** (issue
   btclib-org/.github#1293): `--grandfathered` moves onto its `args:`.
+
+### The homepage names `btclib-wallet`
+
+- **`index.md` is re-derived at `btclib-org/.github`'s `9ace3f8`, which
+  gained `btclib-wallet`'s entry, and `_config.yml`'s `projects` lists
+  it** (issue btclib-org/btclib#2129).
