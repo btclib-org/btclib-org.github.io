@@ -1040,3 +1040,9 @@ serves it.
 - **`index.md` is re-derived at `btclib-org/.github`'s `9ace3f8`, which
   gained `btclib-wallet`'s entry, and `_config.yml`'s `projects` lists
   it** (issue btclib-org/btclib#2129).
+
+### The homepage no longer lists wallet features under `btclib`
+
+- **`index.md` is re-derived at `btclib-org/.github`'s `a38e580`, whose
+  `btclib` entry leaves BIP32 keys, BIP39 and SLIP39 mnemonics, PSBT and
+  output descriptors to `btclib-wallet`'s** (issue btclib-org/.github#1316).

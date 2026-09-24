@@ -7,7 +7,7 @@
 layout: default
 source_repository: btclib-org/.github
 source_path: profile/README.md
-source_commit: 9ace3f81cc2afc4e431352d7462218820cbfcd5b
+source_commit: a38e58020accb1497c7af9aff726635acdd81a32
 ---
 # btclib.org
 
@@ -36,10 +36,9 @@ they say that too.
 
 - **[btclib](https://github.com/btclib-org/btclib)** — elliptic curve
   cryptography and bitcoin's blockchain, from modular arithmetic up
-  through ECDSA, BIP340 Schnorr, BIP32 keys, BIP39 and SLIP39 mnemonics,
-  addresses, scripts, transactions, PSBT and output descriptors. Not
-  limited to secp256k1: the curve arithmetic serves SEC, NIST, Brainpool
-  and low-cardinality test curves alike.
+  through ECDSA, BIP340 Schnorr, addresses, scripts, transactions and blocks.
+  Not limited to secp256k1: the curve arithmetic serves SEC, NIST, Brainpool and
+  low-cardinality test curves alike.
 - **[btclib-wallet](https://github.com/btclib-org/btclib-wallet)** — the
   wallet built on btclib: BIP32 keys, BIP39 and SLIP39 mnemonics, output
   descriptors, PSBT and the signers for it, transaction building and coin
