@@ -1046,3 +1046,9 @@ serves it.
 - **`index.md` is re-derived at `btclib-org/.github`'s `a38e580`, whose
   `btclib` entry leaves BIP32 keys, BIP39 and SLIP39 mnemonics, PSBT and
   output descriptors to `btclib-wallet`'s** (issue btclib-org/.github#1316).
+
+### `REVIEWING.md` links Conventional Comments at its GitLab Pages address
+
+- **`REVIEWING.md` links `https://conventionalcomments.gitlab.io/`**, a name the
+  `*.gitlab.io` certificate covers, which `conventionalcomments.org` can present
+  and fail the TLS check (issue btclib-org/.github#1341).
