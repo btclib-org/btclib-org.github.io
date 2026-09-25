@@ -1046,3 +1046,9 @@ serves it.
 - **`index.md` is re-derived at `btclib-org/.github`'s `a38e580`, whose
   `btclib` entry leaves BIP32 keys, BIP39 and SLIP39 mnemonics, PSBT and
   output descriptors to `btclib-wallet`'s** (issue btclib-org/.github#1316).
+
+### `CONTRIBUTING.md` and `README.md` link `GOVERNANCE.md` and `ROADMAP.md`
+
+- **Both point a contributor at the organization's `GOVERNANCE.md` and
+  `ROADMAP.md`** (issue btclib-org/.github#1359): `CONTRIBUTING.md` in the
+  paragraph section 14 compares verbatim, `README.md` in the same sentence.
