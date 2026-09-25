@@ -1052,3 +1052,9 @@ serves it.
 - **Both point a contributor at the organization's `GOVERNANCE.md` and
   `ROADMAP.md`** (issue btclib-org/.github#1359): `CONTRIBUTING.md` in the
   paragraph section 14 compares verbatim, `README.md` in the same sentence.
+
+### `REVIEWING.md` lets a filed issue carry its fix
+
+- **An issue filed from a review may say the fix where one is known**
+  (issue btclib-org/.github#1378): *What is filed, and what is not*
+  dropped its "no fix", the filing bar standing as it was.
