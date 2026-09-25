@@ -115,3 +115,8 @@ gives a tier-3 repository: `CONTRIBUTING.md` and `REVIEWING.md`, each the
 same file in every repository up to its last section, `REPOSITORY.md` for
 the settings that live outside the tree, `CLAUDE.md` for what a session
 needs, and `CHANGELOG.md`, `LICENSE`, `COPYRIGHT` and `AUTHORS.md`.
+
+How the organization decides, and who holds which role, is its
+[GOVERNANCE.md](https://github.com/btclib-org/.github/blob/main/GOVERNANCE.md);
+what it intends to do, and what it deliberately does not, is its
+[ROADMAP.md](https://github.com/btclib-org/.github/blob/main/ROADMAP.md).
