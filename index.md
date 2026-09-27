@@ -7,7 +7,7 @@
 layout: default
 source_repository: btclib-org/.github
 source_path: profile/README.md
-source_commit: a38e58020accb1497c7af9aff726635acdd81a32
+source_commit: 2b2f08ca5674dee0a325554a0ee1aeb7b31e4b26
 ---
 # btclib.org
 
@@ -43,6 +43,11 @@ they say that too.
   wallet built on btclib: BIP32 keys, BIP39 and SLIP39 mnemonics, output
   descriptors, PSBT and the signers for it, transaction building and coin
   selection, and a wallet that reads a Bitcoin Core node or an explorer.
+- **[ellipticcurves](https://github.com/btclib-org/ellipticcurves)** —
+  elliptic curve arithmetic and the signature, key-agreement and
+  commitment schemes built on it, over any curve in short Weierstrass
+  form. libsecp256k1 accelerates secp256k1 where the optional
+  btclib-secp256k1 bindings are installed.
 - **[btclib-secp256k1](https://github.com/btclib-org/btclib-secp256k1)**
   — cffi bindings to
   [libsecp256k1](https://github.com/bitcoin-core/secp256k1), Bitcoin
@@ -65,6 +70,10 @@ they say that too.
 - **[btclib-node](https://github.com/btclib-org/btclib-node)** — a
   bitcoin node, consensus and network code in Python, built on btclib.
   Its author reports it downloading and validating the whole chain.
+- **[bitcoin-node-tests](https://github.com/btclib-org/bitcoin-node-tests)**
+  — a conformance suite for any bitcoin node: Bitcoin Core's functional
+  tests rewritten on btclib, bitcoind the oracle and btclib-node the
+  first target.
 - **[bbt](https://github.com/btclib-org/bbt)** — the course the library
   came out of: spreadsheets illustrating finite fields and elliptic
   curves, notebooks, scripts, and a regtest lab.

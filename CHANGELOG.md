@@ -1068,3 +1068,9 @@ serves it.
 
 - **The header now points at `REPOSITORY.md`'s "Required checks on
   main" in place of `CONTRIBUTING.md`'s last section** (closes #92).
+
+### The homepage re-derives with `ellipticcurves` and `bitcoin-node-tests`
+
+- **`index.md` is re-derived at `btclib-org/.github`'s `2b2f08c`, which
+  gained both entries, and `_config.yml`'s `projects` lists both names**
+  (closes #85) (closes #88).
