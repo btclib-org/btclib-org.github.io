@@ -1097,3 +1097,9 @@ serves it.
 
 - **`bundle config set --local` writes `.bundle/config`, which a local
   build otherwise leaves untracked**; it is ignored beside `vendor/`.
+
+### Secret scanning, push protection and Dependabot security updates are on
+
+- **`REPOSITORY.md`'s read-back answers `enabled` for all three the
+  standard asks for** (closes #87), and names security updates'
+  endpoint beside the alerts'.

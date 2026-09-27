@@ -422,30 +422,33 @@ answers with nothing.
 ```shell
 gh api repos/btclib-org/btclib-org.github.io \
   --jq '.security_and_analysis'
-# {"dependabot_security_updates":{"status":"disabled"},
-#  "secret_scanning":{"status":"disabled"},
+# {"dependabot_security_updates":{"status":"enabled"},
+#  "secret_scanning":{"status":"enabled"},
 #  "secret_scanning_non_provider_patterns":{"status":"disabled"},
-#  "secret_scanning_push_protection":{"status":"disabled"},
+#  "secret_scanning_push_protection":{"status":"enabled"},
 #  "secret_scanning_validity_checks":{"status":"disabled"}}
 ```
 
-**The first three are what the standard asks for and none of them is on
-yet.** All three are free on a public repository and off by default, and
-turning them on is a settings change rather than a pull request, so this
-records the gap rather than closing it. The last two are plan-gated: they
-need paid Secret Protection, and the API answers a `PATCH` for them with
-200 while leaving them disabled, so that answer records the plan and not
-a request. The `detect-secrets` hook in `.pre-commit-config.yaml` is the
-compensating control, and it runs before a commit rather than after a
-push.
+**The first three are what the standard asks for, and they are on.** All
+three are free on a public repository and off by default. Each is a
+setting rather than anything the tree carries, so this read-back is where
+it is checked. The last two are plan-gated: they need paid Secret
+Protection, and the API answers a `PATCH` for them with 200 while leaving
+them disabled, so that answer records the plan and not a request. The
+`detect-secrets` hook in `.pre-commit-config.yaml` runs before a commit;
+push protection refuses a detected secret at the push, and secret
+scanning reads what has already landed.
 
 Dependabot alerts answer at their own endpoint, which has no body and
-says so with its status — 204 for enabled, 404 for not:
+says so with its status — 204 for enabled, 404 for not — and security
+updates, the pull requests that answer an alert, at another:
 
 ```shell
 gh api -i repos/btclib-org/btclib-org.github.io/vulnerability-alerts \
   | head -1
 # HTTP/2.0 204 No Content
+gh api repos/btclib-org/btclib-org.github.io/automated-security-fixes
+# {"enabled":true,"paused":false}
 ```
 
 Version bumps are the other half of what Dependabot does here, and they
