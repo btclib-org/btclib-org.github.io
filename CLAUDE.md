@@ -237,6 +237,19 @@ wrong with the branch at all. And prove it can fail before believing a
 zero — rename one of the two headings in a copy and it exits 1, naming
 the line.
 
+**A rebase over a landing that wrote an entry eats the blank line above
+yours.** Every landing but a bot's version bump writes one at the same
+anchor, so this is the ordinary case, and it is the seam `.gitattributes`
+describes: `git rebase` exits 0 and the new heading sits against the
+line above it. The check above passes on that file, the missing line
+being the first of the branch's own block rather than anything of the
+base's. What names it is `check-changelog`, which is `always_run` so
+that any gate run reaches it though a rebase stages nothing; under
+`--all-files`, `markdownlint-cli2 --fix`, later in the same run, also
+puts the line back. Before amending that in, compare the file with the
+new base's blob followed by the branch's own block, byte for byte; a
+fixer run by hand first mends the seam before anything has named it.
+
 ## Verifying
 
 Run the command as documented before claiming it works, and read its exit
