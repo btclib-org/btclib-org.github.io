@@ -1103,3 +1103,9 @@ serves it.
 - **`REPOSITORY.md`'s read-back answers `enabled` for all three the
   standard asks for** (closes #87), and names security updates'
   endpoint beside the alerts'.
+
+### `CLAUDE.md` says what a rebase does to `CHANGELOG.md`
+
+- **A rebase over a landing that wrote an entry eats the blank line
+  above the branch's own**: `CLAUDE.md` names the hook that reports
+  it and the reconstruction to compare against before amending.
