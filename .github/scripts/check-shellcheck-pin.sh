@@ -10,8 +10,9 @@
 #
 # Nothing else reading it is the point. pre-commit.ci's weekly
 # `autoupdate` moves the `rev:` and nothing moves the `==` pin --
-# dependabot has no pre-commit ecosystem -- so the two drift in one
-# direction, on a schedule, while every other gate here stays green.
+# dependabot's `pre-commit` ecosystem exists but is not configured here
+# -- so the two drift in one direction, on a schedule, while every other
+# gate here stays green.
 #
 # The comparison is not string equality. A `rev:` is a git tag and the
 # pin is a PyPI version, and upstream re-cuts a tag with a `-N` suffix
