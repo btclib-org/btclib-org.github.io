@@ -13,13 +13,13 @@
 ## Checks
 
 <!-- `lint.yml` is the whole of what a merge here can be gated on.
-     `website.yml` builds the site on a pull request that touches one
-     of the paths its own `paths` filter names; `homepage.yml` carries
-     no such filter and runs on every non-draft pull request here,
-     checking that `index.md` still matches its own pin. Both report
-     but are not, and must not become, a required check --
-     REPOSITORY.md's "Required checks on main" says why. The point of
-     running the first two locally is not to wait for CI to say so. -->
+     `website.yml` and `homepage.yml` each run on a pull request that
+     touches one of the paths their own `paths` filter names --
+     `website.yml` building the site, `homepage.yml` checking that
+     `index.md` still matches its own pin. Both report but are not, and
+     must not become, a required check -- REPOSITORY.md's "Required
+     checks on main" says why. The point of running the first two
+     locally is not to wait for CI to say so. -->
 
 - [ ] the lint gate is clean: `uvx pre-commit run --all-files`
 - [ ] the site builds: `bundle install && bundle exec jekyll build --strict_front_matter`

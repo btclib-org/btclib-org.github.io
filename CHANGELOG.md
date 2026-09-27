@@ -1058,3 +1058,13 @@ serves it.
 - **An issue filed from a review may say the fix where one is known**
   (issue btclib-org/.github#1378): *What is filed, and what is not*
   dropped its "no fix", the filing bar standing as it was.
+
+### The pull request template says `homepage.yml`'s own filter
+
+- **`website.yml` and `homepage.yml` each run on a pull request that
+  touches the paths their own `paths` filter names** (closes #91).
+
+### `lint.yml` cites `REPOSITORY.md` for why neither is required
+
+- **The header now points at `REPOSITORY.md`'s "Required checks on
+  main" in place of `CONTRIBUTING.md`'s last section** (closes #92).

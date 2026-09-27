@@ -7,8 +7,9 @@ name: lint
 #
 # It is the whole of what a merge here can be gated on. There is no suite
 # and no documentation build in this tree; website.yml builds the site and
-# homepage.yml checks the generated homepage, and CONTRIBUTING.md's last
-# section says why neither of those is a thing to hold a merge on.
+# homepage.yml checks the generated homepage, and REPOSITORY.md's
+# "Required checks on main" says why neither of those is a thing to hold
+# a merge on.
 #
 # The name of the job below becomes the required context, and that is a
 # second step rather than part of this one: a required context nothing
