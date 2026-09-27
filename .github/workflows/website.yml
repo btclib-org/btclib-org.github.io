@@ -18,12 +18,13 @@ name: website
 #
 # The gem, the ruby and the theme are the ones Pages itself runs, and
 # https://pages.github.com/versions.json is what says so rather than a
-# guess repeated here: `github-pages` pins its own dependency set
-# exactly, so the Gemfile naming that one version is the whole of the
-# lock -- there is no Gemfile.lock to commit and none to keep in step.
-# Dependabot's bundler ecosystem moves it, which makes a Pages toolchain
-# upgrade a pull request that builds the site with it before anything is
-# merged.
+# guess repeated here: `github-pages` pins jekyll and the theme
+# directly; some of its own dependencies, and every transitive one, are
+# left as ranges rather than exact versions, which is why `Gemfile.lock`
+# is committed rather than left for a fresh resolve to decide.
+# Dependabot's bundler ecosystem moves both files, which makes a Pages
+# toolchain upgrade a pull request that builds the site with it before
+# anything is merged.
 
 on:
   push:
@@ -39,9 +40,11 @@ on:
     # all, _layouts holds the theme layout this tree carries its own copy
     # of, assets holds the stylesheet and the images that copy points at,
     # and CNAME is copied into the built site, which is where Pages reads
-    # the custom domain from. The script is here because the job runs it
-    # and it can fail on its own. Written out twice rather than through
-    # a yaml anchor, which the workflow parser does not promise
+    # the custom domain from. Gemfile.lock sits beside Gemfile because
+    # bundler resolves and installs from it before jekyll ever runs. The
+    # script is here because the job runs it and it can fail on its own.
+    # Written out twice rather than through a yaml anchor, which the
+    # workflow parser does not promise
     paths:
       - index.md
       - _config.yml
@@ -49,6 +52,7 @@ on:
       - assets/**
       - CNAME
       - Gemfile
+      - Gemfile.lock
       - .github/scripts/check-theme-copies.sh
       - .github/workflows/website.yml
   pull_request:
@@ -65,6 +69,7 @@ on:
       - assets/**
       - CNAME
       - Gemfile
+      - Gemfile.lock
       - .github/scripts/check-theme-copies.sh
       - .github/workflows/website.yml
   # the escape hatch: a run on demand for a branch whose pull request is
@@ -107,9 +112,12 @@ jobs:
       # the ruby Pages runs, from the same versions.json the Gemfile
       # names: a build that passes here on a ruby Pages does not have
       # says nothing about the site GitHub serves.
-      # bundler-cache installs the gems and caches them, keyed by the
-      # Gemfile -- a fresh resolve every run would spend a minute on a
-      # dependency set that only moves when dependabot moves it
+      # bundler-cache installs the gems and caches them, the key
+      # carrying Gemfile.lock's own hash alongside the ruby version and
+      # the runner image -- ruby/setup-ruby's bundler.js reads that file
+      # rather than the Gemfile, so among these the gem set is what moves
+      # the key, and that only when dependabot or a local
+      # `bundle install` moves the lock
       - name: Set up ruby
         uses: ruby/setup-ruby@a0102e0972be65f351c307e2d64b9314a57c8073 # v1.324.0
         with:
@@ -124,16 +132,20 @@ jobs:
       # each one's own additions are left out of the comparison
       - name: The theme files this tree copies are the theme's own
         run: .github/scripts/check-theme-copies.sh
-      # PAGES_REPO_NWO is what jekyll-github-metadata resolves
-      # `site.github` from, which _layouts/default.html reads for the
-      # footer, the profile link and the address of every project in the
-      # sidebar. Unauthenticated, so the fields it cannot reach without a
-      # token are empty rather than wrong -- the claim this job makes is
-      # that the site builds and its own links are well formed, not that
-      # the metadata GitHub injects on its side is present here
+      # PAGES_REPO_NWO and PAGES_PAGES_HOSTNAME are what
+      # jekyll-github-metadata resolves `site.github` from, which
+      # _layouts/default.html reads for the footer, the profile link and
+      # the address of every project in the sidebar. `user_page?` in
+      # jekyll-github-metadata's repository.rb compares the repository
+      # name against `<owner>.<pages_hostname>`, and pages.rb falls back
+      # to `localhost:4000` where PAGES_PAGES_HOSTNAME is unset -- so
+      # without it this job renders the layout's *project*-page branch,
+      # the one Pages does not serve, instead of the *user*-page branch
+      # Pages actually builds here. Neither variable needs a token
       - name: Build the site
         env:
           PAGES_REPO_NWO: ${{ github.repository }}
+          PAGES_PAGES_HOSTNAME: github.io
         run: bundle exec jekyll build --strict_front_matter
       # the defect the build cannot report on itself. A layout whose
       # baseurl is empty renders `{{ '/x' | relative_url }}` as `/%20/x`

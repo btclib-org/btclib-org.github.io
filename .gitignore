@@ -6,11 +6,10 @@ _site/
 .jekyll-metadata
 .sass-cache/
 
-# Gemfile names one gem and that gem pins everything under it exactly,
-# so the version in Gemfile is the lock and there is no second file to
-# commit -- the Gemfile's own header says so. `bundle install` writes
-# this one anyway, on whatever ruby the machine happens to have
-Gemfile.lock
+# Gemfile.lock is committed -- it is the actual lock, `Gemfile` alone
+# leaving every transitive gem as a range -- so only where `bundle
+# install` is asked to vendor the gems themselves is there anything of
+# this build left to ignore
 vendor/
 
 # what macOS writes into a directory it has been looked at in

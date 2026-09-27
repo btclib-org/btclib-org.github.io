@@ -24,10 +24,13 @@
 title: btclib.org
 theme: jekyll-theme-minimal
 
-# the minimal theme offers zip and tar buttons on a project page. This is
-# an organization page, where `site.github.is_project_page` is false and
-# the buttons do not render in any case; the key says so rather than
-# leaving a reader to work out that they cannot appear
+# the minimal theme offers zip and tar buttons wherever `show_downloads`
+# is true; `_layouts/default.html`'s `{% if site.show_downloads %}` is
+# the only gate, reading no `site.github.is_project_page` there at all,
+# so this key decides on every build regardless of what a given build
+# resolves that flag to. An organization page has no use for them, and
+# false says so rather than leaving a reader to assume the theme already
+# keeps them off here
 show_downloads: false
 
 # The organization's repositories, linked in the sidebar under the
