@@ -1080,3 +1080,15 @@ serves it.
 - **Raw HTML `<a>`/`<img>` is refused outright, and a linkless source no
   longer dies under `set -euo pipefail`** (closes #93) (closes #94): the
   extractor missed raw HTML, and an empty grep exit killed the script.
+
+### `website.yml` builds the site as the user page Pages serves
+
+- **The build step sets `PAGES_PAGES_HOSTNAME: github.io`, so the build
+  renders the `is_user_page` branch of the layout Pages actually
+  serves** (closes #89), and the comments claiming otherwise are fixed.
+
+### `Gemfile.lock` is the actual lock
+
+- **Committed, and `.gitignore` no longer excludes it** (closes #90):
+  `github-pages` leaves some of its own dependencies, and every
+  transitive one, as ranges, so this is the actual lock CI resolves.

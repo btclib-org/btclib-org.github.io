@@ -148,6 +148,10 @@ repos:
       - id: codespell
         name: codespell (in place fixes)
         args: [--write-changes]
+        # bundler's own output, not prose: rouge, jekyll's syntax
+        # highlighter and one of github-pages's transitive dependencies,
+        # reads to codespell as a misspelling of rogue
+        exclude: ^Gemfile\.lock$
   # crate-ci/typos re-tags a moving `v1` alias onto the same commit
   # as each release, and `git describe --tags` breaks the tie between
   # two tags on one commit by creation date, which names the alias.

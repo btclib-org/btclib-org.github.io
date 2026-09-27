@@ -1,11 +1,12 @@
 ---
 # two ecosystems, because two is what this tree has: the actions the
-# workflows pin, and the one gem the Gemfile names. There is no manifest
-# and no lock file besides -- `git ls-files 'pyproject.toml' 'uv.lock'`
-# is empty -- and the pre-commit hook revisions are the other thing this
-# repository pins and are not below, dependabot having no pre-commit
-# ecosystem: the `ci:` block of .pre-commit-config.yaml has pre-commit.ci
-# bumping them weekly instead.
+# workflows pin, and the one gem the Gemfile names. There is no Python
+# manifest and no `uv.lock` besides --
+# `git ls-files 'pyproject.toml' 'uv.lock'` is empty -- and the
+# pre-commit hook revisions are the other thing this repository pins and
+# are not below, dependabot having no pre-commit ecosystem: the `ci:`
+# block of .pre-commit-config.yaml has pre-commit.ci bumping them weekly
+# instead.
 #
 # No target-branch: without one dependabot opens against the default
 # branch, which is the only branch a change lands on -- and a

@@ -265,8 +265,8 @@ repository's own, read on github.com, and is not part of the site.
 ### The environment and the gates
 
 uv is the only thing that has to be installed; it fetches interpreters
-and tools itself. There is no project here — no `pyproject.toml`, no lock
-file, and no Python at all, `check-changelog` being fetched from
+and tools itself. There is no project here — no `pyproject.toml`, no
+`uv.lock`, and no Python at all, `check-changelog` being fetched from
 `btclib-org/.github` — so nothing is synced and every command is a `uvx`:
 
 ```shell
@@ -312,8 +312,9 @@ bundle exec jekyll build --strict_front_matter
 bundle exec jekyll serve
 ```
 
-`Gemfile` pins the `github-pages` release, and says why there is no
-`Gemfile.lock` beside it; the ruby is `website.yml`'s
+`Gemfile` pins the `github-pages` release; `Gemfile.lock`, committed
+beside it, is the actual lock, since `github-pages` leaves its own
+transitive dependencies as ranges. The ruby is `website.yml`'s
 `ruby-version`, and <https://pages.github.com/versions.json> is what
 says that the pair is the one Pages itself runs.
 

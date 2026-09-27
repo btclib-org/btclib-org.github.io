@@ -5,12 +5,14 @@
 # preview.
 #
 # github-pages is the gem GitHub publishes to reproduce that builder, and
-# it pins jekyll, the theme and everything under them exactly, which is
-# why there is no Gemfile.lock beside this: the version below is the
-# lock. https://pages.github.com/versions.json is what says which release
-# Pages runs, and which ruby it runs it on; website.yml pins that same
-# ruby, a build passing on one Pages does not have saying nothing about
-# the site GitHub serves.
+# it pins jekyll and the theme directly; some of its own dependencies,
+# and every transitive one, are left as ranges rather than exact
+# versions, so this file alone is not the lock. `Gemfile.lock`, committed
+# beside it, is: `bundle install` writes it and Dependabot's bundler
+# ecosystem moves it. https://pages.github.com/versions.json is what says
+# which release Pages runs, and which ruby it runs it on; website.yml
+# pins that same ruby, a build passing on one Pages does not have saying
+# nothing about the site GitHub serves.
 #
 # Dependabot's bundler ecosystem moves this line, so the day GitHub
 # upgrades its builder arrives as a pull request that builds the site
