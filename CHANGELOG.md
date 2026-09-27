@@ -1074,3 +1074,9 @@ serves it.
 - **`index.md` is re-derived at `btclib-org/.github`'s `2b2f08c`, which
   gained both entries, and `_config.yml`'s `projects` lists both names**
   (closes #85) (closes #88).
+
+### `derive-homepage.sh` refuses raw HTML and survives a linkless source
+
+- **Raw HTML `<a>`/`<img>` is refused outright, and a linkless source no
+  longer dies under `set -euo pipefail`** (closes #93) (closes #94): the
+  extractor missed raw HTML, and an empty grep exit killed the script.
