@@ -1109,3 +1109,9 @@ serves it.
 - **A rebase over a landing that wrote an entry eats the blank line
   above the branch's own**: `CLAUDE.md` names the hook that reports
   it and the reconstruction to compare against before amending.
+
+### SHA pinning is read back on, and Dependabot's `pre-commit` ecosystem exists
+
+- **`REPOSITORY.md` reads back SHA pinning on, and it and the comments
+  say Dependabot's `pre-commit` ecosystem exists and is not used here**
+  (issue btclib-org/.github#1409) (issue btclib-org/.github#1391).

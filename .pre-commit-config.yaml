@@ -349,8 +349,9 @@ repos:
         # CI check the same thing -- the runner image happens to carry
         # shellcheck, so leaving it to chance means CI checking more than
         # a commit does. Pinned, unlike a rev, because nothing bumps an
-        # additional dependency: pre-commit.ci moves rev, dependabot has
-        # no pre-commit ecosystem
+        # additional dependency here: pre-commit.ci moves rev, and
+        # dependabot's `pre-commit` ecosystem exists but is not
+        # configured
         additional_dependencies:
           - shellcheck-py==0.11.0.1
   # actionlint asks whether a workflow is correct, zizmor whether it is

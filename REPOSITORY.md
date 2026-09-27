@@ -193,12 +193,14 @@ has what makes the landing tree current instead.
 
 The rulesets below sit beside this protection and rules aggregate, the
 stricter answer applying where the two overlap. `signatures` answers
-`false` above, so what refuses an unsigned commit is `main-integrity`,
-which carries `required_signatures` with no bypass actor at all. And
-`main-self-merge` asks for the review a second time, `enforce_admins`
-reaching classic protection alone: a solo merge clears the classic half
-by that exemption plus admin and the ruleset's half by the `pull_request`
-bypass, and section 11 has why that mode and not `always`.
+`false` above, [the value the standard states for every
+repository][s11-branch], so what refuses an unsigned commit is
+`main-integrity`, which carries `required_signatures` with no bypass
+actor at all. And `main-self-merge` asks for the review a second time,
+`enforce_admins` reaching classic protection alone: a solo merge clears
+the classic half by that exemption plus admin and the ruleset's half by
+the `pull_request` bypass, and section 11 has why that mode and not
+`always`.
 
 `website.yml`, `homepage.yml` and `links.yml` are not required checks and
 must not become them. Each carries a `paths` filter on `pull_request`,
@@ -399,23 +401,11 @@ back afterwards rather than assuming it moved.
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/actions/permissions \
   --jq '{enabled, allowed_actions, sha_pinning_required}'
-# {"allowed_actions":"all","enabled":true,"sha_pinning_required":false}
+# {"allowed_actions":"all","enabled":true,"sha_pinning_required":true}
 ```
 
-`sha_pinning_required` being off means the forge does not enforce what
-the standard asks for, so an action pinned to a tag rather than to forty
-hex digits would be accepted here. The pins are kept by the convention
-instead, and this is what reads them back — anchored to the line's start
-so that prose mentioning `uses:` is not counted, and excluding a call to
-a reusable workflow of `btclib-org/.github`, which section 10 names at
-`@main` rather than at a commit:
-
-```shell
-grep -hE '^\s*uses:' .github/workflows/*.yml \
-  | grep -v '@[0-9a-f]\{40\} #' | grep -v 'btclib-org/\.github/.*@main'
-```
-
-answers with nothing.
+`sha_pinning_required` is set at the organization level: [section 11 of
+the standard has the reasons for both fields][s11-tokens].
 
 ## Secret scanning and Dependabot
 
@@ -454,9 +444,13 @@ gh api repos/btclib-org/btclib-org.github.io/automated-security-fixes
 Version bumps are the other half of what Dependabot does here, and they
 are a file rather than a setting: `.github/dependabot.yml` declares
 `github-actions`, which the standard gives every tree, and `bundler`,
-which it gives a tree holding a site `Gemfile`. The pre-commit hook
-revisions have no Dependabot ecosystem, and are pre-commit.ci's weekly
-autoupdate instead, per the `ci:` block of `.pre-commit-config.yaml`.
+which it gives a tree holding a site `Gemfile`. Dependabot has a
+`pre-commit` ecosystem too, and the maintainer decided to keep
+pre-commit.ci for hook `rev:` bumps instead
+(btclib-org/.github#1391): the `ci:` block of `.pre-commit-config.yaml`
+already has its weekly autoupdate rewriting `rev:` for every `repo:` but
+`local` and `meta`, so a second bot on the same pin would only compete
+with it.
 
 ## Private vulnerability reporting
 
@@ -574,3 +568,6 @@ with GitHub's API rather than with the standard.
 The price is that a change to any of those is invisible here, and finding
 one means reading the repository document against this file rather than
 running a command.
+
+[s11-branch]: https://github.com/btclib-org/.github/blob/main/README.md#branch-protection-and-rulesets
+[s11-tokens]: https://github.com/btclib-org/.github/blob/main/README.md#tokens-publishing-scanning
