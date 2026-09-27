@@ -30,13 +30,16 @@
 # checks red on branches that had not touched anything.
 #
 # What is refused rather than rewritten is a link destination that is not
-# absolute. github.com resolves a relative destination against the
+# absolute, and a raw HTML `<a>` or `<img>` regardless of its own
+# destination. github.com resolves a relative destination against the
 # repository the file sits in and Jekyll resolves it against the site
 # root, so the same text is two different links; every destination in the
 # source is absolute today, and the refusal is what keeps that a property
 # rather than a coincidence. Rewriting them here was the alternative, and
 # it fails the paragraph above: the body would no longer be the source's
-# bytes.
+# bytes. Extracting an HTML tag's href or src and checking it the same
+# way was the other alternative, and is rejected as machinery this
+# script's markdown-only reading does not otherwise need.
 
 set -euo pipefail
 
@@ -69,17 +72,23 @@ body=$(curl -fsSL "$RAW/$REPOSITORY/$commit/$SOURCE")
 # every link destination the file carries: the inline form, and the
 # reference definition form that markdownlint's MD053 would otherwise be
 # the only reader of. Refused unless it names a scheme or is a fragment
-# of this same page -- those two are what the renderers agree about
+# of this same page -- those two are what the renderers agree about. A
+# raw HTML `<a>` or `<img>` is refused outright, regardless of its own
+# destination
 destinations=$(
     printf '%s\n' "$body" \
         | grep -oE '\]\([^)]*\)|^ {0,3}\[[^]]+\]: *[^ ]+' \
-        | sed -Ee 's/^\]\(//' -e 's/\)$//' -e 's/^ {0,3}\[[^]]*\]: *//'
+        | sed -Ee 's/^\]\(//' -e 's/\)$//' -e 's/^ {0,3}\[[^]]*\]: *//' \
+        || true
 )
 relative=$(printf '%s\n' "$destinations" | grep -vE '^([a-z][a-z0-9+.-]*:|#)' || true)
-if [ -n "$relative" ]; then
-    echo "$0: $SOURCE carries a destination that is not absolute," \
-         "which github.com and Jekyll resolve differently:" >&2
-    printf '%s\n' "$relative" >&2
+html=$(printf '%s\n' "$body" | grep -oiE '<(a|img)([[:space:]/>]|$)' || true)
+if [ -n "$relative" ] || [ -n "$html" ]; then
+    echo "$0: $SOURCE carries a destination that is not absolute, or a" \
+         "raw HTML <a>/<img> whose href or src this script does not" \
+         "parse:" >&2
+    [ -n "$relative" ] && printf '%s\n' "$relative" >&2
+    [ -n "$html" ] && printf '%s\n' "$html" >&2
     exit 1
 fi
 
