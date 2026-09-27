@@ -9,8 +9,10 @@ _site/
 # Gemfile.lock is committed -- it is the actual lock, `Gemfile` alone
 # leaving every transitive gem as a range -- so only where `bundle
 # install` is asked to vendor the gems themselves is there anything of
-# this build left to ignore
+# this build left to ignore: vendor/ holds the gems, and .bundle/ the
+# `bundle config set --local` that asked for them there
 vendor/
+.bundle/
 
 # what macOS writes into a directory it has been looked at in
 .DS_Store

@@ -1092,3 +1092,8 @@ serves it.
 - **Committed, and `.gitignore` no longer excludes it** (closes #90):
   `github-pages` leaves some of its own dependencies, and every
   transitive one, as ranges, so this is the actual lock CI resolves.
+
+### `.gitignore` ignores `.bundle/`
+
+- **`bundle config set --local` writes `.bundle/config`, which a local
+  build otherwise leaves untracked**; it is ignored beside `vendor/`.
