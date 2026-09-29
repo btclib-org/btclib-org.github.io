@@ -7,7 +7,7 @@
 layout: default
 source_repository: btclib-org/.github
 source_path: profile/README.md
-source_commit: 48c00e23e04b152692a75c26b9b743dd0fdfb0fd
+source_commit: 6b70e14400a1737c38baf3d8c61705faf6df31cd
 ---
 # btclib.org
 
@@ -35,6 +35,9 @@ whenever that makes them clearer.
 - **[btclib](https://github.com/btclib-org/btclib)** — bitcoin's
   protocol on top of btclib-ecc: addresses, scripts, transactions and
   blocks.
+- **[btclib-mnemonics](https://github.com/btclib-org/btclib-mnemonics)** —
+  BIP39, SLIP39 and Electrum mnemonics, from the entropy up to the seed,
+  and nothing of bitcoin above it.
 - **[btclib-wallet](https://github.com/btclib-org/btclib-wallet)** —
   from a seed to a signed, broadcast transaction: BIP32 keys, BIP39 and
   SLIP39 mnemonics, descriptors, PSBT, coin selection.
@@ -60,6 +63,14 @@ whenever that makes them clearer.
   the standard every repository here follows.
 - **[btclib-org.github.io](https://github.com/btclib-org/btclib-org.github.io)**
   — the site serving this page at btclib.org.
+
+## How they depend on each other
+
+![How the organization's packages depend on each other](./dependencies.svg)
+
+An arrow points at what a package depends on, and a dashed one at what
+only the extra it is labelled with installs. An extra in brackets is one
+the package asks of what the arrow points at.
 
 ## Tested against other people's vectors
 

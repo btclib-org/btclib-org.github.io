@@ -1127,3 +1127,9 @@ serves it.
 - **`derive-homepage.sh` writes each `./<name>.svg` image of
   `profile/README.md` beside `index.md`, and `homepage.yml` compares
   them as it compares the page** (issue btclib-org/.github#1437).
+
+### The homepage shows the dependency graph and btclib-mnemonics
+
+- **`index.md` is re-derived at `btclib-org/.github`'s `6b70e14`, with
+  `dependencies.svg` beside it, and `_config.yml`'s `projects` gains
+  `btclib-mnemonics`** (issue btclib-org/.github#1437).
