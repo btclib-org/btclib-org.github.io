@@ -1115,3 +1115,9 @@ serves it.
 - **`REPOSITORY.md` reads back SHA pinning on, and it and the comments
   say Dependabot's `pre-commit` ecosystem exists and is not used here**
   (issue btclib-org/.github#1409) (issue btclib-org/.github#1391).
+
+### The homepage re-derives from the rewritten organization page
+
+- **`index.md` is re-derived at `btclib-org/.github`'s `48c00e2`, and
+  `_config.yml`'s `projects` lists `btclib-ecc` where it listed
+  `ellipticcurves`** (issue btclib-org/.github#1434).
