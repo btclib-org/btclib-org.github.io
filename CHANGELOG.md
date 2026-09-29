@@ -1121,3 +1121,9 @@ serves it.
 - **`index.md` is re-derived at `btclib-org/.github`'s `48c00e2`, and
   `_config.yml`'s `projects` lists `btclib-ecc` where it listed
   `ellipticcurves`** (issue btclib-org/.github#1434).
+
+### The derivation carries the SVG images the organization page shows
+
+- **`derive-homepage.sh` writes each `./<name>.svg` image of
+  `profile/README.md` beside `index.md`, and `homepage.yml` compares
+  them as it compares the page** (issue btclib-org/.github#1437).

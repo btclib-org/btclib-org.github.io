@@ -5,12 +5,13 @@ name: homepage
 # .github/scripts/derive-homepage.sh is what generates it. This is the
 # pair of questions that mechanism needs somebody to keep asking:
 #
-#   verify -- is the committed index.md what its own pin derives to? A
-#     hand edit is then a refusal rather than a convention, which is the
-#     whole reason the file records the commit it came from.
-#   stale  -- does btclib-org/.github's profile/README.md still say what
-#     this site says? The pin is a commit, so it goes out of date on
-#     every landing there; what matters is the text, and that is what
+#   verify -- are the committed index.md and the images it shows what
+#     its own pin derives to? A hand edit is then a refusal rather than a
+#     convention, which is the whole reason the file records the commit
+#     it came from.
+#   stale  -- does btclib-org/.github's profile/README.md still show what
+#     this site shows? The pin is a commit, so it goes out of date on
+#     every landing there; what matters is the page, and that is what
 #     this compares.
 #
 # They run on different events because they answer to different people.
@@ -50,18 +51,21 @@ on:
     # cancels the run still holding it
     types: [opened, reopened, synchronize, ready_for_review, closed]
     # what verify reads of this tree, and this file, so that a change to
-    # it is checked by the thing it configures. A pull request touching
-    # none of the three cannot change verify's answer, and stale never
-    # runs on this event -- its own if: below -- so a list under this key
-    # withholds nothing from it and narrows no other trigger. Section 10
-    # of btclib-org/.github's README.md asks a calendar workflow's
-    # pull_request for exactly this filter and grants an unfiltered one
-    # only for a reason stated in the header; the nearest it names, a
-    # required check that would otherwise never run, is not this file's:
-    # nothing in it is one, and with the filter none may become one,
-    # which REPOSITORY.md's "Required checks on main" reads back
+    # it is checked by the thing it configures. `*.svg` is the root's
+    # alone, where the script writes the images the page shows. A pull
+    # request touching none of these cannot change verify's answer, and
+    # stale never runs on this event -- its own if: below -- so a list
+    # under this key withholds nothing from it and narrows no other
+    # trigger. Section 10 of btclib-org/.github's README.md asks a
+    # calendar workflow's pull_request for exactly this filter and grants
+    # an unfiltered one only for a reason stated in the header; the
+    # nearest it names, a required check that would otherwise never run,
+    # is not this file's: nothing in it is one, and with the filter none
+    # may become one, which REPOSITORY.md's "Required checks on main"
+    # reads back
     paths:
       - index.md
+      - "*.svg"
       - .github/scripts/derive-homepage.sh
       - .github/workflows/homepage.yml
   workflow_dispatch:
@@ -138,19 +142,22 @@ jobs:
               exit 1
               ;;
           esac
-      # the script rewrites index.md whole, so what git reports
-      # afterwards is every way the committed file differs from what its
-      # own pin derives to -- a hand edit to the body, a hand edit to the
-      # front matter, a pin moved without re-deriving
+      # the script rewrites index.md whole and writes each image it shows,
+      # so what git reports afterwards is every way the committed files
+      # differ from what their own pin derives to -- a hand edit to the
+      # body, to the front matter or to an image, a pin moved without
+      # re-deriving. --intent-to-add is what puts an image nobody
+      # committed into that diff
       - name: Re-derive at that commit and compare
         env:
           PIN: ${{ steps.pin.outputs.commit }}
         run: |
           ./.github/scripts/derive-homepage.sh "$PIN"
-          if ! git diff --exit-code -- index.md; then
-            echo "::error::index.md is not what its own pin derives" \
-                 "to. It is generated: CONTRIBUTING.md's \"Changing the" \
-                 "homepage\" is how it is changed, and a correction to" \
+          git add --intent-to-add --all
+          if ! git diff --exit-code; then
+            echo "::error::index.md or an image it shows is not what" \
+                 "the pin derives to. It is generated: CONTRIBUTING.md's" \
+                 "\"Changing the homepage\" is how it is changed, and a correction to" \
                  "what the page says belongs in btclib-org/.github."
             exit 1
           fi
@@ -167,31 +174,22 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      # the same read the verify job makes, and it is repeated rather
-      # than shared: a job cannot read another job's step output without
-      # `needs`, and making this job wait on that one would leave the
-      # notification unsent whenever the gate is red
-      - name: Read the commit index.md records
-        id: pin
-        run: |
-          pin=$(awk '$0=="---"{n++;next} n==1&&$1=="source_commit:"{print $2;exit}' index.md)
-          echo "commit=$pin" >> "$GITHUB_OUTPUT"
-      # the text and not the commit. That repository lands changes for
+      # the page and not the commit. That repository lands changes for
       # its own reasons every week, so a pin behind its main says
-      # nothing; what this site owes is the same prose, and two fetches
-      # are what answer it
-      - name: Compare the pinned text against that repository's main
-        env:
-          PIN: ${{ steps.pin.outputs.commit }}
-          RAW: https://raw.githubusercontent.com/btclib-org/.github
+      # nothing; what this site owes is the same text and the same
+      # images, and deriving again at main's tip is what answers it.
+      # Every difference but the one in the pin's own line is something
+      # main shows and this site does not, and --intent-to-add is what
+      # puts an image main shows for the first time into that diff
+      - name: Derive at that repository's main and compare
         run: |
-          curl -fsSL "$RAW/$PIN/profile/README.md" > pinned.md
-          curl -fsSL "$RAW/main/profile/README.md" > current.md
-          if ! cmp -s pinned.md current.md; then
-            diff -u pinned.md current.md || true
-            echo "::error::btclib-org/.github's profile/README.md has" \
-                 "moved and this site has not. CONTRIBUTING.md's" \
-                 "\"Changing the homepage\" is what moves it, the" \
+          main=$(git ls-remote https://github.com/btclib-org/.github main | cut -f1)
+          ./.github/scripts/derive-homepage.sh "$main"
+          git add --intent-to-add --all
+          if ! git diff --exit-code -I '^source_commit: '; then
+            echo "::error::btclib-org/.github's profile/README.md, or" \
+                 "an image it shows, has moved and this site has not." \
+                 "CONTRIBUTING.md's \"Changing the homepage\" is what moves it, the" \
                  "projects hook refusing the derivation alone where a" \
                  "repository was added or dropped."
             exit 1
