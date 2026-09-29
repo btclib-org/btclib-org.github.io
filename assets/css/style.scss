@@ -61,7 +61,8 @@ header ul.projects {
 // how much room there is between them is the window's height, and the
 // two meet on a short one -- which is the theme's own arrangement and
 // not something introduced here, the header having always grown with
-// whatever it holds.
+// whatever it holds. The block after the rules below is what this tree
+// does about that.
 footer p.supporters {
   margin: 0 0 10px;
 }
@@ -92,4 +93,61 @@ footer p.supporters-note + p {
 footer p.supporters img {
   height: 42px;
   width: auto;
+}
+
+// Below the window height at which the fixed header and the fixed
+// footer no longer fit one above the other, both return to the flow, so
+// the sidebar scrolls with the page instead of the footer covering the
+// end of the list of projects, and the end of a list taller than the
+// window can be reached, which a fixed header does not allow. Taller
+// windows keep the theme's fixed sidebar. At the widths where the theme
+// has already made them static this changes nothing, so the query names
+// no width.
+//
+// The height at which they stop fitting is the header's bottom edge, plus
+// the footer's height, plus the 50px the theme leaves under the footer.
+// The header's bottom edge grows with the list of projects: one row of
+// it is the list's line height, which is 1.4 times the body's 14px, and
+// everything else above the list's last row is a height of its own --
+// the offset of the header from the top of the window, the title, the
+// tagline, the profile link, the label above the list and the list's
+// bottom margin. The footer's height grows with the supporters the same
+// way: one logo is its own height, the line it sits on and the margin
+// under it, and the rest is a height of its own -- the margin under the
+// logos, the sentence and the theme's credit.
+//
+// The row and the logo are counted from _config.yml's `projects` and
+// `supporters`, so a repository or a supporter added there moves the
+// threshold on the next build. Only the four heights below are measured:
+// the one row and the one logo, and the two remainders, read off the
+// fixed layout in a browser at the width the sidebar has above the
+// theme's breakpoint, with the remainders taken as the height less its
+// rows. They are measured again, at a window a pixel under the
+// threshold and a pixel over it, when the styling above changes what a
+// row or a logo is and when a release of the theme moves a number this
+// derivation reads from it: the 50px and the body's 14px, the header's
+// offset and the sidebar's width. check-theme-copies.sh does not read
+// the theme's sass, so nothing else says that a release did.
+//
+// The logo's line is taller than the logo by the space the font leaves
+// below a baseline, and that space is the typeface's: the theme's own
+// gives a footer a pixel a logo shorter than the fallback stack does
+// while it has not loaded. The logo is measured with the fallback, the
+// taller of the two, so that the threshold holds in either state.
+//
+// The total is rounded up to a whole pixel, so that at the threshold
+// the two blocks stop short of touching rather than meeting exactly.
+{% assign sidebar_row = 19.6 -%}
+{% assign sidebar_fixed = 236 -%}
+{% assign footer_logo = 56 -%}
+{% assign footer_fixed = 65 -%}
+{% assign theme_footer_gap = 50 -%}
+{% assign header_bottom = site.projects | size | times: sidebar_row | plus: sidebar_fixed -%}
+{% assign footer_height = site.supporters | size | times: footer_logo | plus: footer_fixed -%}
+{% assign sidebar_fits = header_bottom | plus: footer_height | plus: theme_footer_gap | ceil -%}
+@media screen and (max-height: {{ sidebar_fits }}px) {
+  header,
+  footer {
+    position: static;
+  }
 }
