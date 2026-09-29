@@ -1133,3 +1133,8 @@ serves it.
 - **`index.md` is re-derived at `btclib-org/.github`'s `6b70e14`, with
   `dependencies.svg` beside it, and `_config.yml`'s `projects` gains
   `btclib-mnemonics`** (issue btclib-org/.github#1437).
+
+### The homepage re-derives from the redrawn dependency graph
+
+- **`index.md` is re-derived at `btclib-org/.github`'s `435e7d1`, and
+  `dependencies.svg` beside it** (issue btclib-org/.github#1449).

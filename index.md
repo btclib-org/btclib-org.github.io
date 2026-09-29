@@ -7,7 +7,7 @@
 layout: default
 source_repository: btclib-org/.github
 source_path: profile/README.md
-source_commit: 6b70e14400a1737c38baf3d8c61705faf6df31cd
+source_commit: 435e7d17ee9fdc336e34705c9cb5a56fd20fbb1d
 ---
 # btclib.org
 
@@ -68,9 +68,13 @@ whenever that makes them clearer.
 
 ![How the organization's packages depend on each other](./dependencies.svg)
 
-An arrow points at what a package depends on, and a dashed one at what
-only the extra it is labelled with installs. An extra in brackets is one
-the package asks of what the arrow points at.
+An arrow points at what a package depends on, which is on a row above
+it, and a dashed one at what only an extra of the package installs. An
+arrow is drawn only where the package does not already install its
+target through the arrows that are drawn, so `btclib-wallet` has none to
+`btclib-ecc`, which `btclib` brings. A grey dashed box is a C library and
+not a package of the organization: the dotted line to it says
+`btclib-secp256k1` bundles it, built in rather than installed beside it.
 
 ## Tested against other people's vectors
 
