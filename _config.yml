@@ -56,11 +56,11 @@ projects:
   - bitcoin-node-tests
   - btclib
   - btclib-benchmarks
+  - btclib-ecc
   - btclib-node
   - btclib-org.github.io
   - btclib-secp256k1
   - btclib-wallet
-  - ellipticcurves
   - portanode
 
 # The institutions that support the work, credited in the footer beside
