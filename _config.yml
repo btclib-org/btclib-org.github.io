@@ -57,6 +57,7 @@ projects:
   - btclib
   - btclib-benchmarks
   - btclib-ecc
+  - btclib-mnemonics
   - btclib-node
   - btclib-org.github.io
   - btclib-secp256k1
