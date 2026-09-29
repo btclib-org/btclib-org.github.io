@@ -1138,3 +1138,9 @@ serves it.
 
 - **`index.md` is re-derived at `btclib-org/.github`'s `435e7d1`, and
   `dependencies.svg` beside it** (issue btclib-org/.github#1449).
+
+### The sidebar scrolls with the page on a window too short for it
+
+- **Below a window height computed from `_config.yml`'s `projects` and
+  `supporters`, the sidebar's header and footer return to the page's
+  flow** (closes #107), so the logos stop covering the list.
