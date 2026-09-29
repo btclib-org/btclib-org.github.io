@@ -66,9 +66,13 @@ awk 'n>=2 {print} $0=="---" {n++}' index.md | cmp - <(curl -fsSL \
   index.md)/profile/README.md")
 ```
 
+An SVG the page shows from `profile/` is written beside `index.md` from
+the same commit, and is that file's bytes as well.
+
 `homepage.yml` asks the same question on a pull request that touches
-`index.md`, the script or that workflow, and asks a second one on `main`:
-whether that source still says what this site says.
+`index.md`, an SVG at the root, the script or that workflow, and asks a
+second one on `main`: whether that source still shows what this site
+shows.
 `CONTRIBUTING.md`'s *Changing the homepage* is what to do about either
 answer, and the script's own header has the alternatives that were
 weighed against deriving — transcribing the page, a git submodule, a

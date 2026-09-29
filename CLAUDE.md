@@ -142,7 +142,8 @@ request is what moves `origin/main`.
 - **`index.md` is generated, and editing it is the mistake this tree is
   shaped to catch.** Its body is `btclib-org/.github`'s
   `profile/README.md` at the commit its own front matter records, byte
-  for byte. A correction to what the site *says* is a pull request
+  for byte, and an SVG at the root is an image that page shows, derived
+  with it. A correction to what the site *says* is a pull request
   against that repository; what happens here afterwards is
   `CONTRIBUTING.md`'s *Changing the homepage*, which is the derivation
   and, where the organization's set of repositories moved, `_config.yml`

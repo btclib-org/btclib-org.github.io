@@ -329,9 +329,12 @@ sha=$(git ls-remote https://github.com/btclib-org/.github main | cut -f1)
 ./.github/scripts/derive-homepage.sh "$sha"
 ```
 
-That rewrites `index.md` whole. Commit the result as it stands — the
-front matter records the commit it came from, and `homepage.yml` refuses
-a pull request whose `index.md` is not what that commit derives to.
+That rewrites `index.md` whole, and writes beside it each SVG the page
+shows from `profile/`. Commit the result as it stands, images included —
+the front matter records the commit it came from, and `homepage.yml`
+refuses a pull request whose `index.md` or images are not what that
+commit derives to. An image the page no longer shows is not removed by
+the script, and goes in the same commit as a deletion.
 
 Where the organization gained or lost a repository, `_config.yml`'s
 `projects` moves with it in the same commit: the sidebar's list and the

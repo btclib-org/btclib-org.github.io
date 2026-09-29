@@ -36,7 +36,8 @@ on:
     # actually builds
     branches: [main]
     # what a Jekyll build reads, and nothing else. index.md is the
-    # homepage, _config.yml decides what else in the root is published at
+    # homepage, a root `*.svg` an image derive-homepage.sh writes beside
+    # it, _config.yml decides what else in the root is published at
     # all, _layouts holds the theme layout this tree carries its own copy
     # of, assets holds the stylesheet and the images that copy points at,
     # and CNAME is copied into the built site, which is where Pages reads
@@ -47,6 +48,7 @@ on:
     # workflow parser does not promise
     paths:
       - index.md
+      - "*.svg"
       - _config.yml
       - _layouts/**
       - assets/**
@@ -64,6 +66,7 @@ on:
     types: [opened, reopened, synchronize, ready_for_review, closed]
     paths:
       - index.md
+      - "*.svg"
       - _config.yml
       - _layouts/**
       - assets/**
@@ -196,6 +199,28 @@ jobs:
           grep -q 'class="projects"' _site/index.html
           grep -q 'class="supporters"' _site/index.html
           grep -q 'class="supporters-note"' _site/index.html
+      # the site builds whether or not anything answers an image's src:
+      # an SVG the derivation did not write, or a file the exclude list
+      # keeps out, is a broken image on a green run. Read off the built
+      # page rather than off index.md, the src there being what a browser
+      # asks for -- the build writes a markdown `./<name>` as `/<name>` --
+      # and every src with no scheme and no host is this site's, the
+      # supporters' logos included. The loop is the pipeline's last
+      # command, so its `exit 1` is the step's status
+      - name: Every image the built homepage serves from here is built
+        run: |
+          grep -oE '<img [^>]*src="[^"]+"' _site/index.html \
+            | sed -E 's/.*src="([^"]+)"/\1/' \
+            | grep -vE '^([a-z][a-z0-9+.-]*:|//)' \
+            | while read -r src; do
+                path=${src#./}
+                path=${path#/}
+                test -s "_site/$path" || {
+                  echo "::error::_site/index.html shows $src, which the build lacks"
+                  exit 1
+                }
+                echo "_site/index.html shows $src, and the build has it"
+              done
       # Pages reads the custom domain from the *built* site, so an
       # exclude entry, a rename or a deletion that keeps CNAME out of
       # _site releases btclib.org on the next build -- and releases it

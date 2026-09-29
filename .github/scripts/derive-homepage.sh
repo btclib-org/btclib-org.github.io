@@ -33,13 +33,31 @@
 # absolute, and a raw HTML `<a>` or `<img>` regardless of its own
 # destination. github.com resolves a relative destination against the
 # repository the file sits in and Jekyll resolves it against the site
-# root, so the same text is two different links; every destination in the
-# source is absolute today, and the refusal is what keeps that a property
-# rather than a coincidence. Rewriting them here was the alternative, and
-# it fails the paragraph above: the body would no longer be the source's
-# bytes. Extracting an HTML tag's href or src and checking it the same
-# way was the other alternative, and is rejected as machinery this
-# script's markdown-only reading does not otherwise need.
+# root, so the same text is two different links; the refusal is what
+# keeps every destination absolute as a property rather than a
+# coincidence. Rewriting them here was the alternative, and it fails the
+# paragraph above: the body would no longer be the source's bytes.
+# Extracting an HTML tag's href or src and checking it the same way was
+# the other alternative, and is rejected as machinery this script's
+# markdown-only reading does not otherwise need.
+#
+# The one relative destination taken is a markdown image of an SVG in
+# the source's own directory, `![...](./<name>.svg)`, and the script
+# makes it resolve on the site by carrying the file: it writes the SVG at
+# that same commit beside index.md, which is where Jekyll resolves it.
+# github.com resolves that destination in the organization's page to
+# /btclib-org/.github/raw/main/profile/<name>.svg, measured on another
+# organization's page carrying one:
+#
+#   curl -fsSL https://github.com/sonatype-nexus-community \
+#     | grep -o '<img[^>]*community-logo[^>]*>'
+#
+# The name is lowercase letters, digits and hyphens before `.svg`, a
+# shape none of this tree's own root files has -- `git ls-files
+# ':(glob)*.svg'` lists only what this script wrote -- so a written image
+# overwrites nothing of the tree's. Nothing removes an image the source
+# stops showing: that is a file to delete in the commit that moves the
+# pin.
 
 set -euo pipefail
 
@@ -69,20 +87,33 @@ fi
 
 body=$(curl -fsSL "$RAW/$REPOSITORY/$commit/$SOURCE")
 
-# every link destination the file carries: the inline form, and the
+# the images the header above takes, as the names written beside
+# index.md; and the body with each of them blanked out, which is what the
+# refusal below reads, so that a link to the same file is still refused
+IMAGE='!\[[^]]*\]\(\./[a-z0-9-]+\.svg\)'
+images=$(
+    printf '%s\n' "$body" \
+        | grep -oE "$IMAGE" \
+        | sed -E 's/^.*\(\.\/(.*)\)$/\1/' \
+        | sort -u \
+        || true
+)
+rest=$(printf '%s\n' "$body" | sed -E "s|$IMAGE||g")
+
+# every link destination the rest carries: the inline form, and the
 # reference definition form that markdownlint's MD053 would otherwise be
 # the only reader of. Refused unless it names a scheme or is a fragment
 # of this same page -- those two are what the renderers agree about. A
 # raw HTML `<a>` or `<img>` is refused outright, regardless of its own
 # destination
 destinations=$(
-    printf '%s\n' "$body" \
+    printf '%s\n' "$rest" \
         | grep -oE '\]\([^)]*\)|^ {0,3}\[[^]]+\]: *[^ ]+' \
         | sed -Ee 's/^\]\(//' -e 's/\)$//' -e 's/^ {0,3}\[[^]]*\]: *//' \
         || true
 )
 relative=$(printf '%s\n' "$destinations" | grep -vE '^([a-z][a-z0-9+.-]*:|#)' || true)
-html=$(printf '%s\n' "$body" | grep -oiE '<(a|img)([[:space:]/>]|$)' || true)
+html=$(printf '%s\n' "$rest" | grep -oiE '<(a|img)([[:space:]/>]|$)' || true)
 if [ -n "$relative" ] || [ -n "$html" ]; then
     echo "$0: $SOURCE carries a destination that is not absolute, or a" \
          "raw HTML <a>/<img> whose href or src this script does not" \
@@ -91,6 +122,10 @@ if [ -n "$relative" ] || [ -n "$html" ]; then
     [ -n "$html" ] && printf '%s\n' "$html" >&2
     exit 1
 fi
+
+for image in $images; do
+    curl -fsSL -o "$image" "$RAW/$REPOSITORY/$commit/$(dirname "$SOURCE")/$image"
+done
 
 # `layout` is the only key Jekyll reads here; the rest is the pin and the
 # notice. A YAML comment is invisible to a reader of the rendered page,
