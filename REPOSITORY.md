@@ -176,7 +176,7 @@ gh api repos/btclib-org/btclib-org.github.io/branches/main/protection \
 **`Lint` is the required check, and classic protection is where it is
 bound.** Section 16 of the standard puts the required checks there, bound
 to `15368`, the Actions app, so nothing else can report the context;
-`lint.yml`'s one job is that context, and there is no aggregate job to
+`lint.yml`'s `Lint` job is that context, and there is no aggregate job to
 name. A context cannot be bound before a workflow has produced it, which
 puts `lint.yml` ahead of the rule wherever either is recreated. What
 restores the protection is a `PUT` of the whole object, that verb
@@ -202,15 +202,17 @@ the classic half by that exemption plus admin and the ruleset's half by
 the `pull_request` bypass, and section 11 has why that mode and not
 `always`.
 
-`website.yml`, `homepage.yml` and `links.yml` are not required checks and
-must not become them. Each carries a `paths` filter on `pull_request`,
-and a required check that produces no run blocks a merge where a skipped
-one satisfies it. `homepage.yml`'s `stale` job has a reason of its own
-besides: it runs only off a pull request, and what it reports is that
-another repository moved, which is nothing a merge here should wait on.
-`links.yml`'s is a weekly question about the internet that no branch here
-introduced, its filter being its own file alone. `claude-review.yml` is
-not one either, and its own header says why.
+`website.yml`, `homepage.yml` and `links.yml` are not required checks and must
+not become them. Each carries a `paths` filter on `pull_request`, and a required
+check that produces no run blocks a merge where a skipped one satisfies it.
+`homepage.yml`'s `stale` job has a reason of its own besides: it runs only off a
+pull request, and what it reports is that another repository moved, which is
+nothing a merge here should wait on. `links.yml`'s is a weekly question about
+the internet that no branch here introduced, its filter being its own file
+alone. `claude-review.yml` is not one either, and its own header says why.
+`lint.yml`'s second job, `Dependency review`, is not in the rule yet: requiring
+it is the maintainer's step once a pull request has produced its context
+(btclib-org/.github#1465).
 
 ## Branch protection and the rulesets
 
