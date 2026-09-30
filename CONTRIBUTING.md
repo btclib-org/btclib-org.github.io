@@ -350,12 +350,14 @@ in the refusal rather than to be worked out.
 
 ### What gates a merge, and what only reports
 
-**`lint.yml` runs the gate above on every pull request**, with `uvx
-pre-commit run --all-files`, which is the same command this section
-gives you: one declaration of what the hooks are, so a hook added to
-`.pre-commit-config.yaml` needs no edit to a workflow.
-`REPOSITORY.md`'s *Required checks on main* is where the rule that binds
-it is read back from the endpoint.
+**`lint.yml` runs the gate above on every pull request**, with `uvx pre-commit
+run --all-files`, which is the same command this section gives you: one
+declaration of what the hooks are, so a hook added to `.pre-commit-config.yaml`
+needs no edit to a workflow. `REPOSITORY.md`'s *Required checks on main* is
+where the rule that binds it is read back from the endpoint. `lint.yml`'s second
+job, `Dependency review`, reports on the dependencies a pull request adds and is
+not in the rule yet: requiring it is the maintainer's step once a pull request
+has produced its context (btclib-org/.github#1465).
 
 `homepage.yml`'s verify job answers whether `index.md` is still what its
 own pin derives to, and it is the check that makes *never edited by
