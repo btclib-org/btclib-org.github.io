@@ -1156,3 +1156,9 @@ serves it.
 - **`lint.yml` carries `btclib-org/.github`'s `reusable-lint.yml` job**
   (issue btclib-org/.github#1465): `Dependency review` fails on an added
   advisory of `moderate` severity or above, or an unlisted licence.
+
+### `CLAUDE.md` carries btclib-org/.github's shorter primary-checkout section
+
+- **The shared section is btclib-org/.github's, byte for byte; the notes
+  on the theme copies and the changelog position are shortened, and the
+  site-build note goes** (issue btclib-org/.github#1494).
