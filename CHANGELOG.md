@@ -1144,3 +1144,9 @@ serves it.
 - **Below a window height computed from `_config.yml`'s `projects` and
   `supporters`, the sidebar's header and footer return to the page's
   flow** (closes #107), so the logos stop covering the list.
+
+### `CONTRIBUTING.md` points a newcomer at `good first issue`
+
+- **An issue carrying the label is small and self-contained** (issue
+  btclib-org/.github#1362): *The issue tracker* says so, and links the
+  organization-wide search for the open ones.
