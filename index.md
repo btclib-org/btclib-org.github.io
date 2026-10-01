@@ -7,7 +7,7 @@
 layout: default
 source_repository: btclib-org/.github
 source_path: profile/README.md
-source_commit: 435e7d17ee9fdc336e34705c9cb5a56fd20fbb1d
+source_commit: ee9df6c5f6765dc00ad10a84b825a4c5b165cd8b
 ---
 # btclib.org
 
@@ -61,6 +61,9 @@ whenever that makes them clearer.
   Core and Electrum on a portable disk, for macOS, Windows and Linux.
 - **[.github](https://github.com/btclib-org/.github)** — this page, and
   the standard every repository here follows.
+- **[claude-process](https://github.com/btclib-org/claude-process)** —
+  the process the maintainers follow with Claude Code: the
+  `/btclib-org` command and the writer and reviewer agents.
 - **[btclib-org.github.io](https://github.com/btclib-org/btclib-org.github.io)**
   — the site serving this page at btclib.org.
 
@@ -72,9 +75,12 @@ An arrow points at what a package depends on, which is on a row above
 it, and a dashed one at what only an extra of the package installs. An
 arrow is drawn only where the package does not already install its
 target through the arrows that are drawn, so `btclib-wallet` has none to
-`btclib-ecc`, which `btclib` brings. A grey dashed box is a C library and
-not a package of the organization: the dotted line to it says
-`btclib-secp256k1` bundles it, built in rather than installed beside it.
+`btclib-ecc`, which `btclib` brings. `btclib-node` keeps its own to
+`btclib` all the same, asking it for the `secp256k1` extra, which
+`btclib-wallet` installs `btclib` without. A grey dashed box is a C
+library and not a package of the organization: the dotted line to it
+says `btclib-secp256k1` bundles it, built in rather than installed beside
+it.
 
 ## Tested against other people's vectors
 

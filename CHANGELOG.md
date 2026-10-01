@@ -1173,3 +1173,9 @@ serves it.
 - **The sentence saying no language is analysable is replaced** (closes
   #115): it names what default setup would scan here, and that section
   10 does not give this tree `codeql`.
+
+### The homepage re-derives at the claude-process and btclib-node changes
+
+- **`index.md` is re-derived at `btclib-org/.github`'s `ee9df6c`, and
+  `dependencies.svg` beside it; `projects` gains `claude-process`**
+  (closes #118).
