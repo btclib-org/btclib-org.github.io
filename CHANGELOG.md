@@ -1179,3 +1179,9 @@ serves it.
 - **`index.md` is re-derived at `btclib-org/.github`'s `ee9df6c`, and
   `dependencies.svg` beside it; `projects` gains `claude-process`**
   (closes #118).
+
+### A `Signed-off-by:` trailer on every commit of a pull request
+
+- **`lint.yml` carries `btclib-org/.github`'s `Sign-off` job, which refuses a
+  commit not signed off by its author** (issue btclib-org/.github#1467):
+  `CONTRIBUTING.md`'s shared half says how to sign off.
