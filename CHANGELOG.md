@@ -1167,3 +1167,9 @@ serves it.
 
 - **`REPOSITORY.md` and `CONTRIBUTING.md` name `Dependency review` as a
   required check beside `Lint`** (issue btclib-org/.github#1465).
+
+### `REPOSITORY.md` names what CodeQL would analyse here
+
+- **The sentence saying no language is analysable is replaced** (closes
+  #115): it names what default setup would scan here, and that section
+  10 does not give this tree `codeql`.

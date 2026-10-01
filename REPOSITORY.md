@@ -533,13 +533,14 @@ organization's answer alone would not show the switch off for this tree.
 
   ```shell
   gh api repos/btclib-org/btclib-org.github.io/code-scanning/default-setup \
-    --jq .state
-  # not-configured
+    --jq '{state, languages}'
+  # {"languages":["actions","ruby"],"state":"not-configured"}
   ```
 
-  There is no language CodeQL analyses in this tree — markdown, yaml,
-  shell — and what reads the scripts instead is `shellcheck`, in
-  `.pre-commit-config.yaml`.
+  Section 10 of the standard names the trees that run `codeql`, and this
+  is not one of them. Default setup would scan `actions`, the workflows
+  `actionlint` and `zizmor` read in the gate, and `ruby`, which here is
+  the `Gemfile` alone. `shellcheck` reads the scripts.
 - **No `SECURITY.md`, `RELEASING.md` or `RELEASE_NOTES.md`.** Those are
   the rows section 2 of the standard marks for a repository that
   publishes.
