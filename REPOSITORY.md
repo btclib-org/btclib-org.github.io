@@ -177,14 +177,14 @@ gh api repos/btclib-org/btclib-org.github.io/branches/main/protection \
 **`Lint` and `Dependency review` are the required checks, and classic
 protection is where they are bound.** Section 16 of the standard puts the
 required checks there, bound to `15368`, the Actions app, so nothing else can
-report a context; `lint.yml`'s jobs are those contexts, and there is no
-aggregate job to name. A context cannot be bound before a workflow has
-produced it, which puts `lint.yml` ahead of the rule wherever either is
-recreated. What restores the protection is a `PUT` of the whole object, that
-verb clearing every field it is not given; the object at the foot of the
-section of this name in `btclib-org/.github`'s own `REPOSITORY.md` is what
-this endpoint answers here, field for field, so it is pointed at rather than
-copied.
+report a context; `lint.yml`'s `Lint` and `Dependency review` jobs are
+those contexts, and there is no aggregate job to name. A context cannot be
+bound before a workflow has produced it, which puts `lint.yml` ahead of the
+rule wherever either is recreated. What restores the protection is a `PUT`
+of the whole object, that verb clearing every field it is not given; the
+object at the foot of the section of this name in `btclib-org/.github`'s own
+`REPOSITORY.md` is what this endpoint answers here, field for field, so it is
+pointed at rather than copied.
 
 `strict` asks that a branch be current with `main` before it merges, and
 `enforce_admins: false` clears the whole of classic protection for an
