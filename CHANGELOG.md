@@ -1162,3 +1162,8 @@ serves it.
 - **The shared section is btclib-org/.github's, byte for byte; the notes
   on the theme copies and the changelog position are shortened, and the
   site-build note goes** (issue btclib-org/.github#1494).
+
+### `Dependency review` is a required check
+
+- **`REPOSITORY.md` and `CONTRIBUTING.md` name `Dependency review` as a
+  required check beside `Lint`** (issue btclib-org/.github#1465).

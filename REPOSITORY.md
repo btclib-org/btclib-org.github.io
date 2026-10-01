@@ -165,7 +165,8 @@ gh api repos/btclib-org/btclib-org.github.io/branches/main/protection \
          force_pushes: .allow_force_pushes.enabled,
          deletions: .allow_deletions.enabled,
          conversation_resolution: .required_conversation_resolution.enabled}'
-# {"checks":[{"app_id":15368,"context":"Lint"}],
+# {"checks":[{"app_id":15368,"context":"Lint"},
+#            {"app_id":15368,"context":"Dependency review"}],
 #  "conversation_resolution":true,"deletions":false,"enforce_admins":false,
 #  "force_pushes":false,"linear_history":true,
 #  "reviews":{"dismiss_stale_reviews":true,
@@ -173,21 +174,21 @@ gh api repos/btclib-org/btclib-org.github.io/branches/main/protection \
 #  "signatures":false,"strict":true}
 ```
 
-**`Lint` is the required check, and classic protection is where it is
-bound.** Section 16 of the standard puts the required checks there, bound
-to `15368`, the Actions app, so nothing else can report the context;
-`lint.yml`'s `Lint` job is that context, and there is no aggregate job to
-name. A context cannot be bound before a workflow has produced it, which
-puts `lint.yml` ahead of the rule wherever either is recreated. What
-restores the protection is a `PUT` of the whole object, that verb
-clearing every field it is not given; the object at the foot of the
-section of this name in `btclib-org/.github`'s own `REPOSITORY.md` is
-what this endpoint answers here, field for field, so it is pointed at
-rather than copied.
+**`Lint` and `Dependency review` are the required checks, and classic
+protection is where they are bound.** Section 16 of the standard puts the
+required checks there, bound to `15368`, the Actions app, so nothing else can
+report a context; `lint.yml`'s jobs are those contexts, and there is no
+aggregate job to name. A context cannot be bound before a workflow has
+produced it, which puts `lint.yml` ahead of the rule wherever either is
+recreated. What restores the protection is a `PUT` of the whole object, that
+verb clearing every field it is not given; the object at the foot of the
+section of this name in `btclib-org/.github`'s own `REPOSITORY.md` is what
+this endpoint answers here, field for field, so it is pointed at rather than
+copied.
 
 `strict` asks that a branch be current with `main` before it merges, and
 `enforce_admins: false` clears the whole of classic protection for an
-administrator — the check, the review and `strict` alike — which is what
+administrator — the checks, the review and `strict` alike — which is what
 makes a solo merge possible at all. Section 11 pairs the two settings and
 has what makes the landing tree current instead.
 
@@ -210,9 +211,6 @@ pull request, and what it reports is that another repository moved, which is
 nothing a merge here should wait on. `links.yml`'s is a weekly question about
 the internet that no branch here introduced, its filter being its own file
 alone. `claude-review.yml` is not one either, and its own header says why.
-`lint.yml`'s second job, `Dependency review`, is not in the rule yet: requiring
-it is the maintainer's step once a pull request has produced its context
-(btclib-org/.github#1465).
 
 ## Branch protection and the rulesets
 
