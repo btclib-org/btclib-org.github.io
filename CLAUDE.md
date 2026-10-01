@@ -24,118 +24,43 @@ it. Everything else in the tree is process around those.
 
 ## The primary checkout is the maintainer's
 
-**Never work in it.** No edit, no `git add`, no commit, no branch
-switch, no rebase, no `git stash` — the hooks fix files in place. It is a
-local reference only, and it stays on `main`.
-
-Reading it is fine, but `git fetch` moves `refs/remotes/origin/main` and
-leaves the work tree where it was, so a `grep` or a `Read` against the
-checkout answers for whenever it was last brought forward, not for now.
-The read that cannot go stale is `git show origin/main:<path>`: it
-answers from the ref `git fetch` just moved, never from the tree.
-
-Where the checkout has to be current rather than merely readable, a
-fast-forward of a clean `main` brings it up:
+Never work in it: no edit, no `git add`, no commit, no branch switch, no
+rebase, no `git stash` — the hooks fix files in place. The one write
+allowed there brings it forward, and only while it is on `main` and
+`git status --porcelain` prints nothing; where it is not, stop:
 
 ```shell
-git fetch origin && git merge --ff-only origin/main
+checkout=<checkout>
 ```
-
-That writes no commit, switches no branch and runs no hook, so it is on
-the permitted side of *never work in it*, not an exception to it. Stop
-if the checkout is not on `main` or is not clean: that is no longer
-bringing it forward.
-
-**Every session works in a worktree**, its own, from the first edit, named
-`wt-<tracker>-<issue>-<repo>-<role>` rather than after the issue alone, most
-general part first: an issue filed in `btclib-org/.github`'s tracker is the key
-and the repository is a detail of it — `btclib-org/.github#255` is one issue
-owed by seven repositories, `btclib-org/.github#177` by two — so the repository
-is what varies underneath an issue rather than the other way round, which is why
-`repo` comes after `issue`. Naming it that way also sorts every worktree of one
-issue together, which is what a port leaves behind.
-
-Each of the four parts earns its place against a different collision,
-and none of them is the same collision. `tracker` is the repository
-whose issue tracker holds the issue: an issue number is unique only
-within one tracker, so `btclib-org/.github#45` and
-`btclib-org/btclib#45` are different issues that would otherwise name
-the same worktree. `issue` is what prevents the collision that has
-actually happened — two worktrees of different work sharing a generic
-basename in one repository's own `.git`, keyed on its path's basename.
-`repo` prevents a different collision, a *path* one rather than a `.git`
-one: two repositories each keep their own `.git/worktrees/<basename>`
-and cannot collide there, but the workers of one session share one
-scratchpad directory, so a session carrying one issue into several
-repositories computes the same target path for each of them, and `git
-worktree add` refuses a directory that already exists — or worse, a
-second worker reads the first one's tree. `role` covers the narrower
-case of a coder and its reviewer holding a worktree at once, which the
-ordinary sequence avoids by each removing its own.
-
-An issue of `btclib-org/.github`'s tracker, worked in `btclib` by a coder, names
-its worktree `wt-github-255-btclib-coder`. The environment is created in the
-worktree, not the checkout, by whatever that tree's own `CONTRIBUTING.md` names
-under *The environment and the gates*, and a session reads that section, not
-this one, for the command. The editing, the gates and the commits all happen in
-the worktree before the push.
 
 ```shell
-WT=<scratchpad>/wt-<tracker>-<issue>-<repo>-<role>
-git worktree add "$WT" origin/main -b <branch>
-git -C "$WT" push origin HEAD:refs/heads/<branch>
+git -C "${checkout:?}" pull --ff-only
 ```
 
-`-b <branch>` sits after the path and the commit-ish so that the placeholder
-ends the command, which is section 9 of `btclib-org/.github`'s rule. With the
-placeholder ahead of `"$WT"`, its `<` and its `>` are redirections performed
-left to right, so the `>` is reached only where the reader's own directory
-already holds the name `branch`: there the `<` succeeds, the line runs, and the
-`>` takes `"$WT"` as its target — a path with no directory at it is the file it
-creates. Ordinarily nothing holds that name, so the `<` fails first (`no such
-file or directory: branch`) and the line ends before the `>` opens anything.
+Read it only after that, once `git -C <checkout> rev-parse HEAD
+origin/main` prints one sha twice. A measurement that has to hold at a
+named revision reads `git -C <checkout> show <sha>:<path>` instead.
 
-The push names the worktree with `git -C "$WT"` because a `cd` binds the
-shell that runs it: a session that runs each line as its own command
-starts the next one in the directory it began in, the primary checkout,
-so a push after a `cd` offers that checkout's `HEAD` instead of the
-worktree's. `env -C <dir>` is the same binding for a command that takes
-no `-C` of its own. Neither binding rescues the assignment above it: a
-session that loses the `cd` loses `WT` with it, and `git -C ""` is
-documented to leave the working directory unchanged, so that push lands
-the same way, exit 0 and no diagnostic. That silence is `git`'s rather
-than the binding's: the BSD `env` macOS ships documents no case for an
-empty `-C` and refuses one — `cannot change directory to ''`, exit 125 —
-so a line bound with `env -C` stops there instead of running against the
-wrong tree. What the `-C` buys is a path that can be written out in
-full; write it out.
-
-Removing the worktree is part of finishing, and it stands in a block of
-its own: the block above ends in a placeholder, and a shell that
-discards that line as a parse error reads the next as a fresh command —
-which, in one block, is this line against whatever `$WT` already held.
-Standing alone it is a second fence, so `${WT:?}` is what it writes:
-with `$WT` unset or empty the expansion fails and the removal does not
-run. Those are the only cases it catches — a `$WT` an earlier session or
-command left holding a path expands, and the removal runs against
-whatever worktree that path names.
+Every session works in a worktree of its own, from its first edit, named
+`wt-<tracker>-<issue>-<repo>-<role>` — `wt-github-255-btclib-writer` for
+issue 255 of `btclib-org/.github`'s tracker, worked in `btclib` by a
+writer. The environment is created there, with the command `CONTRIBUTING.md`
+names under *The environment and the gates*. Every path is written out in
+full:
 
 ```shell
-git worktree remove --force "${WT:?}"
+git worktree add \
+  <scratchpad>/wt-<tracker>-<issue>-<repo>-<role> origin/main -b <branch>
 ```
 
-**Never `git stash` in a worktree either: `refs/stash` is shared.** A
-worktree isolates files, not refs, so `git stash push` pushes onto the
-same stack every other session pops from. Commit to your own branch
-instead.
+Removing it is part of finishing:
 
-**Do not rewrite `refs/heads/main`, and move it only onto
-`origin/main`.** That name is the local branch's, and no ruleset reaches
-it: a ruleset binds the forge's copy. The fast-forward above moves it
-onto `origin/main` and is inside that, where a merge, a commit on `main`
-or an `update-ref` to a branch tip leaves the ref somewhere
-`origin/main` is not. Your own branch is what you push, and the pull
-request is what moves `origin/main`.
+```shell
+git worktree remove --force <scratchpad>/wt-<tracker>-<issue>-<repo>-<role>
+```
+
+`refs/stash` and the local `main` are shared by every worktree: never
+`git stash`, and move `main` only by the fast-forward above.
 
 ## Non-obvious facts that will otherwise waste a session
 
@@ -156,13 +81,6 @@ request is what moves `origin/main`.
   defaults: dropping them would publish the `Gemfile`. A file added to
   the root with no entry is served at `btclib.org/<name>` whether
   anybody meant it to be or not.
-- **The site build is not part of the lint gate and cannot be run with
-  uv.** jekyll wants a ruby and the `github-pages` gem, both pinned to
-  what GitHub Pages itself runs; `website.yml` is where that build
-  happens, and `bundle exec jekyll build` is the local equivalent for a
-  machine that has that ruby. A session on a machine that does not has no
-  way to answer whether the site renders, and says so rather than
-  reasoning about it.
 - **A `cron:` here is section 10's to name, never this tree's to
   choose.** That section of the standard is a calendar of two tables —
   one giving a workflow its day and hour, the other giving a repository
@@ -180,25 +98,12 @@ request is what moves `origin/main`.
   time, and `btclib-org/btclib` released this one for this tree to claim
   it: `REPOSITORY.md`'s *Pages, which is btclib.org* has the state and
   btclib-org/.github#530 the sequence.
-- **`_layouts/default.html` and `assets/css/style.scss` each carry a
-  gem's file inside them, and those bytes are not this tree's to
-  edit** — the layout everywhere outside its fences, and the stylesheet
-  up to and including its import, which is the whole of the gem's
-  stylesheet and nothing after it. The first is
-  `jekyll-theme-minimal`'s own layout with fenced blocks added, the
-  second its own stylesheet with rules appended, and
-  `.github/scripts/check-theme-copies.sh` — which `website.yml` runs —
-  strips the fenced blocks and requires the remainder to be the gem's
-  file, and requires the stylesheet to open with the gem's. So a change
-  made outside a fence, or to the stylesheet up to and including its
-  import, is a red check whatever it improves; everything below that
-  import, this tree's own comment there included, is ordinary text to
-  edit. Where the theme is what moved, take its new file and carry this
-  tree's parts across, finding them by grepping the copy being replaced
-  for the fence marker rather than by remembering how many there were:
-  the script's count asks for at least one begin fence and for the ends
-  to match it, which a block dropped whole satisfies as long as another
-  remains.
+- **`_layouts/default.html` outside its fences and `assets/css/style.scss`
+  up to and including its import are the gem's bytes**, and
+  `.github/scripts/check-theme-copies.sh`, which `website.yml` runs, fails
+  on any change there. When the theme moves, take its new files and carry
+  this tree's fenced blocks across, found by grepping for the fence
+  marker.
 - **A finding about the text the site serves is filed in
   `btclib-org/.github`**, that being the tree the text lives in. This
   repository's own tracker is for the site's configuration, the
@@ -210,46 +115,21 @@ Section 9 of the standard is the prose style and governs this file too.
 `CONTRIBUTING.md`'s *Pull requests* has what a title does with the issue
 it closes, and section 9's changelog bullets what an entry cites.
 
-**`CHANGELOG.md`'s `### Added` and `### Changed` are landed text, not the
-shape to copy.** Section 9 gives a `###` to one entry and never to a
-theme several entries share, so a new entry takes a heading of its own at
-the end of the open section — after those two, with nothing above it
-moving, which is that section's own rule for a file that already carries
-them. The two stay: *Nothing already written is rewritten*, and a branch
-that reshapes them edits the record rather than adding to it.
-
-That the entry landed where it belongs is read rather than assumed:
-`git diff origin/main..HEAD -- CHANGELOG.md` is the read, section 9
-saying `check-changelog` names the seam and not the position, which is
-a person's to check instead. What the command below adds is an exit
-code: the same question asked so that a script, or a session with a
-hundred lines of diff in front of it, gets an answer rather than
-something to look at.
+**`CHANGELOG.md`'s `### Added` and `### Changed` are landed themes, not
+the shape to copy:** a new entry takes its own `###` at the end of the
+open section (section 9). After a rebase onto `origin/main`, this exits 0
+when nothing above the new block moved:
 
 ```shell
-n=$(git show origin/main:CHANGELOG.md | wc -c)
-head -c "$n" CHANGELOG.md | cmp - <(git show origin/main:CHANGELOG.md)
+worktree=<worktree>
 ```
 
-Exit 0 says nothing above the new block moved. Read it *after* the
-rebase and against the base you rebased onto: run before one, on a branch
-whose `origin/main` has since gained an entry, it exits 1 with nothing
-wrong with the branch at all. And prove it can fail before believing a
-zero — rename one of the two headings in a copy and it exits 1, naming
-the line.
-
-**A rebase over a landing that wrote an entry eats the blank line above
-yours.** Every landing but a bot's version bump writes one at the same
-anchor, so this is the ordinary case, and it is the seam `.gitattributes`
-describes: `git rebase` exits 0 and the new heading sits against the
-line above it. The check above passes on that file, the missing line
-being the first of the branch's own block rather than anything of the
-base's. What names it is `check-changelog`, which is `always_run` so
-that any gate run reaches it though a rebase stages nothing; under
-`--all-files`, `markdownlint-cli2 --fix`, later in the same run, also
-puts the line back. Before amending that in, compare the file with the
-new base's blob followed by the branch's own block, byte for byte; a
-fixer run by hand first mends the seam before anything has named it.
+```shell
+: "${worktree:?}" &&
+  head -c "$(git -C "$worktree" show origin/main:CHANGELOG.md | wc -c)" \
+    "$worktree/CHANGELOG.md" |
+  cmp - <(git -C "$worktree" show origin/main:CHANGELOG.md)
+```
 
 ## Verifying
 
