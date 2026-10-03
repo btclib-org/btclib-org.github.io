@@ -39,11 +39,7 @@ show_downloads: false
 # `index.md` of the directory of that name, which links the repository.
 # So an entry here is a repository name and nothing else, and
 # .github/scripts/check-built-pages.sh requires the built site to hold
-# its page.
-#
-# `.github/` is this tree's own and Jekyll skips a dot path, so
-# `.github`'s page is dot-github/index.md, and its `permalink: /.github/`
-# serves it there.
+# its page. `project_paths`, below the list, names the two that differ.
 #
 # All of them, in the order sort gives, rather than a selection: the
 # page's own body names every one of the organization's repositories, and
@@ -71,6 +67,15 @@ projects:
   - btclib-wallet
   - claude-process
   - portanode
+
+# The two projects whose page is not at btclib.org/<name>/, because GitHub
+# Pages serves neither address: /.github/ is a dot path, and
+# /btclib-org.github.io/, this site's own repository name, redirects to
+# the root. The sidebar still shows the repository name.
+# The layout and .github/scripts/check-built-pages.sh read this map.
+project_paths:
+  .github: github
+  btclib-org.github.io: website
 
 # The institutions that support the work, credited in the footer beside
 # the hosting and the theme credit. The page's own body names the same

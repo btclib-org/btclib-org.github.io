@@ -1220,3 +1220,8 @@ serves it.
 - **Each project has a page, and every sidebar link goes to one** (closes
   #125): `project_pages` is gone, and `.github`'s page is
   `dot-github/index.md` with `permalink: /.github/`.
+
+### `.github` and `btclib-org.github.io` have their pages at `/github/` and `/website/`
+
+- **GitHub Pages serves neither `/.github/` nor `/btclib-org.github.io/`**
+  (issue #125): `_config.yml`'s `project_paths` gives the two their paths.

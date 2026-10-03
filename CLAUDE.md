@@ -20,7 +20,7 @@ and the rows of the root-files table marked for that tier.
 
 `index.md` is the homepage and the product, and so is each project's page,
 the `index.md` of the directory named for it in `_config.yml`'s `projects`,
-or of `dot-github/` for `.github`;
+or of the one `project_paths` gives it;
 `_config.yml`, `Gemfile`, `_layouts/` and `assets/` are what Jekyll and
 GitHub Pages read to serve them. Everything else in the tree is process
 around those.

@@ -2,7 +2,6 @@
 layout: default
 title: .github
 description: The btclib-org repository standard, and the organization profile
-permalink: /.github/
 ---
 <!-- markdownlint-configure-file {"MD025": {"front_matter_title": ""}} -->
 
