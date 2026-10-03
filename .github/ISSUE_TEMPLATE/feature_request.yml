@@ -8,8 +8,8 @@ body:
     attributes:
       value: >
         What this tree decides is how the site is built and served: the
-        layout, the stylesheet, the sidebar's list, the domain, and the
-        workflows that check them. What the homepage *says* is
+        layout, the stylesheet, the sidebar's list, the domain, the text of
+        the project pages, and the workflows that check them. What the homepage *says* is
         [btclib-org/.github](https://github.com/btclib-org/.github/issues)'s
         `profile/README.md`, and a change to the text is asked for there.
 

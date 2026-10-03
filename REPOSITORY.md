@@ -331,9 +331,9 @@ gh api repos/btclib-org/btclib-org.github.io \
 ```
 
 Issues are on: this repository's own tracker is where a defect in the
-site, the derivation or the workflows is filed. A finding about the text
-the site serves is not one of those — that text is
-`btclib-org/.github`'s, and so is its tracker.
+site, the derivation, the workflows or the text of the project pages is
+filed. A finding about the homepage's text is not one of those — that
+text is `btclib-org/.github`'s, and so is its tracker.
 
 The wiki and the projects board are off. The standard states no rule
 about either, so no answer to them is a decision here.

@@ -1,8 +1,8 @@
 ---
-# The new-issue page of this repository. The forms beside this file are
-# the kinds of issue this tree takes -- the site's configuration, the
-# derivation and the workflows -- and the links below are for what has a
-# better address than any of them.
+# The new-issue page of this repository. The forms beside this file are the
+# kinds of issue this tree takes -- the site's configuration, the
+# derivation, the workflows and the project pages' text -- and the links
+# below are for what has a better address than any of them.
 #
 # Blank issues are off: a question has a form of its own here, which is
 # what a blank box would otherwise be the only home for.
@@ -11,8 +11,8 @@
 # only `^https?://` -- so each names one address and none of them
 # resolves against this tree. That is why the second entry names the
 # organization's tracker rather than the page the text lives in: the
-# text is one file in one repository, and its tracker is where a reader
-# of the site is sent.
+# homepage's text is one file in one repository, and its tracker is where
+# a reader of the homepage is sent.
 blank_issues_enabled: false
 contact_links:
   # first, because a vulnerability is the one report that must not be

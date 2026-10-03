@@ -285,6 +285,9 @@ is **generated**: `.github/scripts/derive-homepage.sh` writes it from
 page and the one place that text is written. `README.md` here is the
 repository's own, read on github.com, and is not part of the site.
 
+The directories named by `_config.yml`'s `project_pages` each hold the
+page of one project, written here by hand from that project's own files.
+
 ### The environment and the gates
 
 uv is the only thing that has to be installed; it fetches interpreters
@@ -343,7 +346,7 @@ says that the pair is the one Pages itself runs.
 
 ### Changing the homepage
 
-The text is not this repository's. A correction to what the site says is
+The text is not this repository's. A correction to what the homepage says is
 a pull request against `btclib-org/.github`'s `profile/README.md`; what
 happens here afterwards is the pin moving:
 
