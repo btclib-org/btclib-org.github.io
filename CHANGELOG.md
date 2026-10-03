@@ -1231,3 +1231,15 @@ serves it.
 - **The review paragraph no longer says the review is off** (issue
   btclib-org/.github#452): the maintainer lands their own pull requests
   through the bypass, and `two_person_review` is unmet.
+
+### `CONTRIBUTING.md` says every pull request lands on another person's approval
+
+- **`CONTRIBUTING.md` and `REVIEWING.md` say every pull request, the
+  maintainer's included, lands with an approving review from somebody other than
+  its author; the bypass is for emergencies** (issue btclib-org/.github#1362).
+
+### Earlier entries on how a pull request lands
+
+- Entries above that have the maintainer landing without another person's
+  approval describe the rule before issue btclib-org/.github#1362 (issue
+  btclib-org/.github#1569).
