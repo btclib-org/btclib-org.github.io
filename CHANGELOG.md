@@ -1243,3 +1243,9 @@ serves it.
 - Entries above that have the maintainer landing without another person's
   approval describe the rule before issue btclib-org/.github#1362 (issue
   btclib-org/.github#1569).
+
+### `REPOSITORY.md` reads the review switch as the organization's
+
+- **The variables section states only what is this repository's own**
+  (closes #130): the review switch is the organization's, so flipping it
+  needs no edit here.
