@@ -26,7 +26,7 @@
 # is inside one -- and the JSON-LD block of `{% seo %}`, a data block
 # that no browser runs.
 #
-# Separately, `_config.yml`'s `project_pages` says which pages must exist.
+# Separately, `_config.yml`'s `projects` says which pages must exist.
 #
 # Usage: check-built-pages.sh [site-directory]  (default _site)
 set -eu
@@ -40,12 +40,12 @@ if [ ! -f "$CONFIG" ] || [ ! -d "$SITE" ]; then
 fi
 
 pages=$(awk '
-    $0 == "project_pages:"               { seen = 1; next }
+    $0 == "projects:"                    { seen = 1; next }
     seen && /^[A-Za-z]/                  { exit }
     seen && /^[[:space:]]*-[[:space:]]/  { print $2 }
 ' "$CONFIG")
 if [ -z "$pages" ]; then
-    echo "::error::$CONFIG has no project_pages list, or none this reads"
+    echo "::error::$CONFIG has no projects list, or none this reads"
     exit 1
 fi
 

@@ -287,8 +287,9 @@ is **generated**: `.github/scripts/derive-homepage.sh` writes it from
 page and the one place that text is written. `README.md` here is the
 repository's own, read on github.com, and is not part of the site.
 
-The directories named by `_config.yml`'s `project_pages` each hold the
+The directories named by `_config.yml`'s `projects` each hold the
 page of one project, written here by hand from that project's own files.
+`.github`'s is `dot-github/`, which serves it at `/.github/`.
 
 ### The environment and the gates
 
@@ -365,7 +366,8 @@ commit derives to. An image the page no longer shows is not removed by
 the script, and goes in the same commit as a deletion.
 
 Where the organization gained or lost a repository, `_config.yml`'s
-`projects` moves with it in the same commit: the sidebar's list and the
+`projects` moves with it in the same commit, and so does its page,
+`<name>/index.md`, which `website.yml` requires. The sidebar's list and the
 body's links are one set, and the `projects` hook refuses a commit in
 which they are two. Its message prints both, so what to add or drop is
 in the refusal rather than to be worked out.
