@@ -1225,3 +1225,9 @@ serves it.
 
 - **GitHub Pages serves neither `/.github/` nor `/btclib-org.github.io/`**
   (issue #125): `_config.yml`'s `project_paths` gives the two their paths.
+
+### `CONTRIBUTING.md` says the ack of record is a bot's
+
+- **The review paragraph no longer says the review is off** (issue
+  btclib-org/.github#452): the maintainer lands their own pull requests
+  through the bypass, and `two_person_review` is unmet.
