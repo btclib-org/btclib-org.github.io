@@ -1214,3 +1214,9 @@ serves it.
 - **`REPOSITORY.md` reads `web_commit_signoff_required` back** (closes
   btclib-org/.github#1540): section 11 of the standard states the
   organization setting.
+
+### Every project has a page on btclib.org, and the sidebar links to it
+
+- **Each project has a page, and every sidebar link goes to one** (closes
+  #125): `project_pages` is gone, and `.github`'s page is
+  `dot-github/index.md` with `permalink: /.github/`.

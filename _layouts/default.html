@@ -30,9 +30,8 @@ there were. A fence is recognized at the start of a line only, so a
 line that mentions the marker part way through a sentence is prose and
 closes nothing.
 
-The blocks read `site.projects`, `site.project_pages` and
-`site.supporters`; _config.yml defines all three and says there what they
-are for.
+The blocks read `site.projects` and `site.supporters`; _config.yml
+defines both and says there what they are for.
 btclib:end {%- endcomment -%}
 <!DOCTYPE html>
 <html lang="{{ site.lang | default: "en-US" }}">
@@ -72,11 +71,7 @@ btclib:end {%- endcomment -%}
         <p class="projects">The projects</p>
         <ul class="projects">
           {%- for project in site.projects %}
-          {%- if site.project_pages contains project %}
           <li><a href="{{ project | prepend: "/" | append: "/" | relative_url }}">{{ project }}</a></li>
-          {%- else %}
-          <li><a href="{{ site.github.owner_url }}/{{ project }}">{{ project }}</a></li>
-          {%- endif %}
           {%- endfor %}
         </ul>
         {% endif %}
