@@ -408,6 +408,18 @@ gh api repos/btclib-org/btclib-org.github.io/actions/permissions \
 `sha_pinning_required` is set at the organization level: [section 11 of
 the standard has the reasons for both fields][s11-tokens].
 
+## Sign-off on web commits
+
+```shell
+gh api repos/btclib-org/btclib-org.github.io --jq .web_commit_signoff_required
+# true
+gh api orgs/btclib-org --jq .web_commit_signoff_required
+# true
+```
+
+Set at the organization level, [for the reason section 11
+gives][s11-sigs].
+
 ## Secret scanning and Dependabot
 
 ```shell
@@ -562,14 +574,15 @@ empty answer records no decision. Whichever of them is used one day
 arrives with the section that uses it.
 
 **A field the standard states no rule about.** `allow_forking`,
-`allow_update_branch`, `has_discussions`, `has_downloads` and
-`web_commit_signoff_required` are in the repository document and in none
-of the `--jq` objects here. Recording a field on no rule grows this file
-with GitHub's API rather than with the standard.
+`allow_update_branch`, `has_discussions` and `has_downloads` are in the
+repository document and in none of the `--jq` objects here. Recording a
+field on no rule grows this file with GitHub's API rather than with the
+standard.
 
 The price is that a change to any of those is invisible here, and finding
 one means reading the repository document against this file rather than
 running a command.
 
 [s11-branch]: https://github.com/btclib-org/.github/blob/main/README.md#branch-protection-and-rulesets
+[s11-sigs]: https://github.com/btclib-org/.github/blob/main/README.md#signatures
 [s11-tokens]: https://github.com/btclib-org/.github/blob/main/README.md#tokens-publishing-scanning
