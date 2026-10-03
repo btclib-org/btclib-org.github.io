@@ -1208,3 +1208,9 @@ serves it.
 
 - **A pull request whose commits lack the `Signed-off-by:` trailer cannot
   merge** (issue btclib-org/.github#1550): `Sign-off` is a required check.
+
+### `REPOSITORY.md` reads back the web sign-off setting
+
+- **`REPOSITORY.md` reads `web_commit_signoff_required` back** (closes
+  btclib-org/.github#1540): section 11 of the standard states the
+  organization setting.
