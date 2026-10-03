@@ -1197,3 +1197,9 @@ serves it.
 - **The shared half says a local review of a named sha stands in for the
   ack while `claude-review.yml` is off** (issue
   btclib-org/.github#1527).
+
+### Each scorecard project has a page at `btclib.org/<project>/`
+
+- **A page for each project in `_config.yml`'s `project_pages`** (issue
+  btclib-org/.github#1362): what the project is, how to install it, and
+  links to its documentation, source, releases, security policy and license.

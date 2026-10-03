@@ -35,19 +35,20 @@ on:
     # question of the commit a merge creates, which is the commit Pages
     # actually builds
     branches: [main]
-    # what a Jekyll build reads, and nothing else. index.md is the
-    # homepage, a root `*.svg` an image derive-homepage.sh writes beside
-    # it, _config.yml decides what else in the root is published at
-    # all, _layouts holds the theme layout this tree carries its own copy
-    # of, assets holds the stylesheet and the images that copy points at,
-    # and CNAME is copied into the built site, which is where Pages reads
-    # the custom domain from. Gemfile.lock sits beside Gemfile because
-    # bundler resolves and installs from it before jekyll ever runs. The
-    # script is here because the job runs it and it can fail on its own.
-    # Written out twice rather than through a yaml anchor, which the
-    # workflow parser does not promise
+    # what a Jekyll build reads, and nothing else. index.md is the homepage,
+    # a root `*.svg` an image derive-homepage.sh writes beside it,
+    # `*/index.md` the page of a project, _config.yml decides what else in
+    # the root is published at all, _layouts holds the theme layout this
+    # tree carries its own copy of, assets holds the stylesheet and the
+    # images that copy points at, and CNAME is copied into the built site,
+    # which is where Pages reads the custom domain from. Gemfile.lock sits
+    # beside Gemfile because bundler resolves and installs from it before
+    # jekyll ever runs. The two scripts are here because the job runs them
+    # and each can fail on its own. Written out twice rather than through a
+    # yaml anchor, which the workflow parser does not promise
     paths:
       - index.md
+      - "*/index.md"
       - "*.svg"
       - _config.yml
       - _layouts/**
@@ -56,6 +57,7 @@ on:
       - Gemfile
       - Gemfile.lock
       - .github/scripts/check-theme-copies.sh
+      - .github/scripts/check-built-pages.sh
       - .github/workflows/website.yml
   pull_request:
     # ready_for_review, so a pull request marked ready gets the run the
@@ -66,6 +68,7 @@ on:
     types: [opened, reopened, synchronize, ready_for_review, closed]
     paths:
       - index.md
+      - "*/index.md"
       - "*.svg"
       - _config.yml
       - _layouts/**
@@ -74,6 +77,7 @@ on:
       - Gemfile
       - Gemfile.lock
       - .github/scripts/check-theme-copies.sh
+      - .github/scripts/check-built-pages.sh
       - .github/workflows/website.yml
   # the escape hatch: a run on demand for a branch whose pull request is
   # not open yet, and the way to ask the question after a Pages upgrade
@@ -199,6 +203,12 @@ jobs:
           grep -q 'class="projects"' _site/index.html
           grep -q 'class="supporters"' _site/index.html
           grep -q 'class="supporters-note"' _site/index.html
+      # btclib.org may be served under a Content-Security-Policy, which
+      # the layout and the project pages have to hold under. The check
+      # allows same-origin loads only, which is stricter than the policy;
+      # its header says what it reads and what it leaves out
+      - name: The built pages hold under a same-origin policy
+        run: .github/scripts/check-built-pages.sh
       # the site builds whether or not anything answers an image's src:
       # an SVG the derivation did not write, or a file the exclude list
       # keeps out, is a broken image on a green run. Read off the built

@@ -2,13 +2,13 @@
 name: links
 
 # What this repository serves is index.md, whose body is
-# btclib-org/.github's profile/README.md byte for byte, and its link
-# destinations are absolute -- all but one of them pointing outside this
-# tree. Nothing else here asks whether they still resolve:
-# .pre-commit-config.yaml's local-link-prefix is about how a destination
-# is *spelled*, and website.yml builds the site without fetching anything
-# it links to. So the organization's most public page is what this asks
-# about.
+# btclib-org/.github's profile/README.md byte for byte, and the project
+# pages, one index.md each. Their link destinations are absolute -- all but
+# one of the homepage's pointing outside this tree. Nothing else here asks
+# whether they still resolve: .pre-commit-config.yaml's local-link-prefix is
+# about how a destination is *spelled*, and website.yml builds the site
+# without fetching anything it links to. So the organization's most public
+# page is what this asks about.
 #
 # The exception is the interesting one. https://btclib.org/ is this
 # tree's own product, and the root markdown links it. So this is the only

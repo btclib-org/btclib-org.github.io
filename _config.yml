@@ -8,8 +8,9 @@
 #
 # REPOSITORY.md records that setting and is where it is read back. What
 # it means here is that this file, CNAME, Gemfile, index.md, _layouts
-# and assets are website sources, and that every other file in main's
-# root is a URL under btclib.org whether it was meant to be one or not --
+# and assets, and the directory of each `project_pages` entry below, are
+# website sources, and that every other file in main's root is a URL
+# under btclib.org whether it was meant to be one or not --
 # which is what the exclude list below is for.
 #
 # `title` is rendered twice by the theme -- as the heading of the
@@ -36,7 +37,8 @@ show_downloads: false
 # The organization's repositories, linked in the sidebar under the
 # profile link by _layouts/default.html, which builds each address as
 # site.github.owner_url with the name appended -- so an entry here is a
-# repository name and nothing else.
+# repository name and nothing else. Where the name is also one of
+# `project_pages`, below, the link goes to that page instead.
 #
 # All of them, in the order sort gives, rather than a selection: the
 # page's own body names every one of the organization's repositories, and
@@ -64,6 +66,21 @@ projects:
   - btclib-wallet
   - claude-process
   - portanode
+
+# The projects that have a page of their own at btclib.org/<name>/, which
+# is a directory of this tree holding an index.md. The sidebar links such
+# a project to that page, and the page links its repository; any other
+# project is linked to its repository directly. Each is a name in the
+# list above, and .github/scripts/check-built-pages.sh requires the built
+# site to hold its page.
+project_pages:
+  - bitcoin-core-rpc
+  - btclib
+  - btclib-ecc
+  - btclib-mnemonics
+  - btclib-node
+  - btclib-secp256k1
+  - btclib-wallet
 
 # The institutions that support the work, credited in the footer beside
 # the hosting and the theme credit. The page's own body names the same

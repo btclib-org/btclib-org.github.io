@@ -18,9 +18,11 @@ and the rows of the root-files table marked for that tier.
 
 ## Architecture
 
-`index.md` is the homepage and the product; `_config.yml`, `Gemfile`,
-`_layouts/` and `assets/` are what Jekyll and GitHub Pages read to serve
-it. Everything else in the tree is process around those.
+`index.md` is the homepage and the product, and so is the `index.md` of
+each directory `_config.yml`'s `project_pages` names, a project's page;
+`_config.yml`, `Gemfile`, `_layouts/` and `assets/` are what Jekyll and
+GitHub Pages read to serve them. Everything else in the tree is process
+around those.
 
 ## The primary checkout is the maintainer's
 
@@ -73,7 +75,7 @@ git worktree remove --force <scratchpad>/wt-<tracker>-<issue>-<repo>-<role>
   shaped to catch.** Its body is `btclib-org/.github`'s
   `profile/README.md` at the commit its own front matter records, byte
   for byte, and an SVG at the root is an image that page shows, derived
-  with it. A correction to what the site *says* is a pull request
+  with it. A correction to what the homepage *says* is a pull request
   against that repository; what happens here afterwards is
   `CONTRIBUTING.md`'s *Changing the homepage*, which is the derivation
   and, where the organization's set of repositories moved, `_config.yml`
@@ -109,10 +111,10 @@ git worktree remove --force <scratchpad>/wt-<tracker>-<issue>-<repo>-<role>
   on any change there. When the theme moves, take its new files and carry
   this tree's fenced blocks across, found by grepping for the fence
   marker.
-- **A finding about the text the site serves is filed in
+- **A finding about the homepage's text is filed in
   `btclib-org/.github`**, that being the tree the text lives in. This
   repository's own tracker is for the site's configuration, the
-  derivation and the workflows.
+  derivation, the workflows and the text of the project pages.
 
 ## Conventions to match
 

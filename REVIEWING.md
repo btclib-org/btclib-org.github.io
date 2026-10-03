@@ -476,7 +476,7 @@ because that document, and not this one, is where the rule lives.
 - **Does the diff edit `index.md` by hand?** That file is generated, and
   every byte of it below the front matter belongs to
   `btclib-org/.github`'s `profile/README.md`. A correction to what the
-  site says is a pull request against that repository;
+  homepage says is a pull request against that repository;
   `CONTRIBUTING.md`'s *Changing the homepage* is what happens here
   afterwards. `homepage.yml` refuses the hand edit, and a diff that
   carries one is a finding whatever the check says.

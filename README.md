@@ -124,3 +124,21 @@ How the organization decides, and who holds which role, is its
 [GOVERNANCE.md](https://github.com/btclib-org/.github/blob/main/GOVERNANCE.md);
 what it intends to do, and what it deliberately does not, is its
 [ROADMAP.md](https://github.com/btclib-org/.github/blob/main/ROADMAP.md).
+
+## The project pages
+
+Each project in `_config.yml`'s `project_pages` has a page at
+`btclib.org/<project>/`: the `index.md` of the directory of that name. A
+page says what the project is and how to install it, and links its
+documentation, source, releases, changelog, security policy and license.
+Its facts are the project's own, read from its `pyproject.toml`,
+`README.md` and `SECURITY.md`. When one of those changes, its page here is
+updated by hand. The sidebar of every page links the project to its page.
+
+btclib-org/.github#1362 plans to serve btclib.org under a
+`Content-Security-Policy`. The pages carry no inline script or style, no
+`style` attribute, no event handler and no load from another origin.
+`.github/scripts/check-built-pages.sh` reads the built HTML for each of
+those, and `website.yml` runs it. It allows same-origin loads only, which
+is stricter than the policy: the policy also admits scripts from
+cdnjs.cloudflare.com and `data:` images.

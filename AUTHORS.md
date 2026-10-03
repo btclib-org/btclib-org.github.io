@@ -25,6 +25,6 @@ and is here on those terms:
   there. They are marks belonging to their owners, carried here to
   credit them and for nothing else.
 
-What is authored here is the site's configuration, the workflows, the
-scripts, and the parts of those two theme files this tree marks as its
-own.
+What is authored here is the site's configuration, the project pages,
+the workflows, the scripts, and the parts of those two theme files this
+tree marks as its own.
