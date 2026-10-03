@@ -1203,3 +1203,8 @@ serves it.
 - **A page for each project in `_config.yml`'s `project_pages`** (issue
   btclib-org/.github#1362): what the project is, how to install it, and
   links to its documentation, source, releases, security policy and license.
+
+### The `Sign-off` check is required
+
+- **A pull request whose commits lack the `Signed-off-by:` trailer cannot
+  merge** (issue btclib-org/.github#1550): `Sign-off` is a required check.
