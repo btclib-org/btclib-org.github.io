@@ -59,7 +59,9 @@ exactly them, so a red run there is a local run that was not done.
 **Every commit of a pull request carries a `Signed-off-by:` trailer
 naming its author**, which certifies the [Developer Certificate of
 Origin][dco]. `git commit -s` adds it, and `git rebase --signoff <base>`
-adds it to commits already made. [The standard's *Signatures*][s-sigs]
+adds it to commits already made. The `Sign-off` check is required, so a
+pull request whose commits lack the trailer cannot merge; its failure
+prints the command that adds it. [The standard's *Signatures*][s-sigs]
 says why a signature does not replace it, and which commits the
 `Sign-off` job skips.
 
@@ -375,7 +377,7 @@ run --all-files`, which is the same command this section gives you: one
 declaration of what the hooks are, so a hook added to `.pre-commit-config.yaml`
 needs no edit to a workflow. `REPOSITORY.md`'s *Required checks on main* is
 where the rule that binds it is read back from the endpoint. `lint.yml`'s second
-job, `Dependency review`, is required too.
+job, `Dependency review`, is required too, and so is its `Sign-off` job.
 
 `homepage.yml`'s verify job answers whether `index.md` is still what its
 own pin derives to, and it is the check that makes *never edited by
