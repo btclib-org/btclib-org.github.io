@@ -287,9 +287,9 @@ is **generated**: `.github/scripts/derive-homepage.sh` writes it from
 page and the one place that text is written. `README.md` here is the
 repository's own, read on github.com, and is not part of the site.
 
-The directories named by `_config.yml`'s `projects` each hold the
-page of one project, written here by hand from that project's own files.
-`.github`'s is `dot-github/`, which serves it at `/.github/`.
+Each project's page is the `index.md` of the directory named for it in
+`_config.yml`'s `projects`, or of the one `project_paths` gives it, written
+here by hand from that project's own files.
 
 ### The environment and the gates
 

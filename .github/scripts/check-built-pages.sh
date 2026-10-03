@@ -26,7 +26,8 @@
 # is inside one -- and the JSON-LD block of `{% seo %}`, a data block
 # that no browser runs.
 #
-# Separately, `_config.yml`'s `projects` says which pages must exist.
+# Separately, `_config.yml`'s `projects` says which pages must exist, at
+# the path `project_paths` gives where it gives one.
 #
 # Usage: check-built-pages.sh [site-directory]  (default _site)
 set -eu
@@ -49,8 +50,15 @@ if [ -z "$pages" ]; then
     exit 1
 fi
 
+# a project's page is its name, unless `project_paths` gives another
 status=0
-for page in $pages; do
+for project in $pages; do
+    page=$(awk -v p="$project" '
+        $0 == "project_paths:"               { seen = 1; next }
+        seen && /^[A-Za-z]/                  { exit }
+        seen && $1 == p ":"                  { print $2; found = 1; exit }
+        END { if (!found) print p }
+    ' "$CONFIG")
     if [ ! -s "$SITE/$page/index.html" ]; then
         echo "::error::$SITE/$page/index.html is not built"
         status=1
