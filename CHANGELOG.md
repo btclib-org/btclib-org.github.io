@@ -1232,8 +1232,8 @@ serves it.
   btclib-org/.github#452): the maintainer lands their own pull requests
   through the bypass, and `two_person_review` is unmet.
 
-### `CONTRIBUTING.md` says every pull request lands on an owner's approval
+### `CONTRIBUTING.md` says every pull request lands on another person's approval
 
 - **The bypass is for emergencies only** (issue
   btclib-org/.github#1362): the maintainer's pull requests land on
-  another owner's approving review.
+  another person's approving review.
