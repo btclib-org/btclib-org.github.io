@@ -1267,3 +1267,9 @@ serves it.
 - **A workflow builds btclib.org with Jekyll 4 and deploys it from `main`**
   (closes #136) (closes #116): `Gemfile.lock` holds no `rubyzip`, and
   the domain is Pages' `cname` setting, not a `CNAME` file.
+
+### `check-changelog` refuses an entry added to an older release
+
+- **A `###` heading under a release older than the newest, absent at the
+  merge base with `origin/main`, is refused** (issue
+  btclib-org/.github#1614).
