@@ -1,7 +1,7 @@
 ---
 name: Question
 description: Ask how the site is built, or why it is built that way
-labels: [question]
+type: Task
 
 body:
   - type: markdown
