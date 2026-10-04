@@ -8,11 +8,10 @@
 #   assets/css/style.scss    the stylesheet, with rules appended
 #
 # Each is a fact about that gem recorded outside the gem, and the gem
-# moves: Gemfile pins github-pages, github-pages pins the theme, and
-# dependabot bumps that line. Nothing else here would notice a theme
-# whose files changed underneath the copies -- the site would build green
-# and serve the chrome of a release nobody runs any more, or half a
-# stylesheet.
+# moves: Gemfile names the theme and dependabot bumps it. Nothing else
+# here would notice a theme whose files changed underneath the copies --
+# the site would build green and serve the chrome of a release nobody
+# runs any more, or half a stylesheet.
 #
 # So the copies are checked rather than trusted. They are checked
 # differently because they are shaped differently: the layout's additions

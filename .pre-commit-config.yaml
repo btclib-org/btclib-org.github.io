@@ -10,7 +10,7 @@
 # reads either language: prettier is confined by its own `files:` below
 # to yaml and one jsonc, which is the choice restated where it is made.
 # What reads them as what they are is .github/workflows/website.yml,
-# which builds the site with the toolchain Pages runs, and
+# which builds the site, and
 # .github/scripts/check-theme-copies.sh, which that workflow runs.
 #
 # The logo files under assets/img are the other new type, and they do get
@@ -37,7 +37,7 @@
 # arriving with it.
 #
 # What no hook here reads is the site build: jekyll wants a ruby and the
-# `github-pages` gem, which CONTRIBUTING.md's last section gives and
+# gems `Gemfile` names, which CONTRIBUTING.md's last section gives and
 # `.github/workflows/website.yml` runs. A hook wrapping it would put a
 # ruby toolchain on every machine that commits, where uv is the only
 # prerequisite that file asks for.
@@ -149,8 +149,8 @@ repos:
         name: codespell (in place fixes)
         args: [--write-changes]
         # bundler's own output, not prose: rouge, jekyll's syntax
-        # highlighter and one of github-pages's transitive dependencies,
-        # reads to codespell as a misspelling of rogue
+        # highlighter and one of its transitive dependencies, reads to
+        # codespell as a misspelling of rogue
         exclude: ^Gemfile\.lock$
   # crate-ci/typos re-tags a moving `v1` alias onto the same commit
   # as each release, and `git describe --tags` breaks the tie between

@@ -1,6 +1,6 @@
 # What a local Jekyll build leaves behind. `bundle exec jekyll build`
-# writes _site/ and the two caches beside it; GitHub Pages builds on its
-# own side and none of this is ever served from here.
+# writes _site/ and the two caches beside it; the site served is the one
+# website.yml builds, and none of this is ever served from here.
 _site/
 .jekyll-cache/
 .jekyll-metadata

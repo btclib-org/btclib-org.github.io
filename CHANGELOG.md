@@ -1261,3 +1261,9 @@ serves it.
 - **`CONTRIBUTING.md`'s emergency paragraph says `--admin` skips the
   required checks too** (issue btclib-org/.github#1597):
   `REVIEWING.md`'s "hold the merge" excepts it.
+
+### `website.yml` builds and deploys the site, and `github-pages` leaves the `Gemfile`
+
+- **A workflow builds btclib.org with Jekyll 4 and deploys it from `main`**
+  (closes #136) (closes #116): `Gemfile.lock` holds no `rubyzip`, and
+  the domain is Pages' `cname` setting, not a `CNAME` file.

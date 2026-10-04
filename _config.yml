@@ -1,14 +1,13 @@
 ---
-# The btclib organization website, served by GitHub Pages from
-# main's root with the classic builder:
+# The btclib organization website, built by .github/workflows/website.yml
+# and served by GitHub Pages from what that workflow deploys:
 #
 #   $ gh api repos/btclib-org/btclib-org.github.io/pages
-#   {"cname": "btclib.org", "build_type": "legacy",
-#    "source": {"branch": "main", "path": "/"}}
+#   {"cname": "btclib.org", "build_type": "workflow", ...}
 #
 # REPOSITORY.md records that setting and is where it is read back. What
-# it means here is that this file, CNAME, Gemfile, index.md, _layouts
-# and assets, and the page directory of each project below, are website
+# it means here is that this file, Gemfile, index.md, _layouts and
+# assets, and the page directory of each project below, are website
 # sources, and that every other file in main's root is a URL
 # under btclib.org whether it was meant to be one or not --
 # which is what the exclude list below is for.
@@ -33,6 +32,11 @@ theme: jekyll-theme-minimal
 # false says so rather than leaving a reader to assume the theme already
 # keeps them off here
 show_downloads: false
+
+# the stylesheet is served alone: no `style.css.map` for a browser to ask
+# for, and nothing in the page refers to one
+sass:
+  sourcemap: never
 
 # The organization's repositories, linked in the sidebar by
 # _layouts/default.html, each to its page at btclib.org/<name>/: the
@@ -131,10 +135,8 @@ supporters:
 # and CLAUDE.md and REPOSITORY.md are what a session and a maintainer
 # read, not a visitor.
 #
-# Not excluded, deliberately: index.md is the homepage, LICENSE is the
-# licence of what the page says, and CNAME is what Pages reads from the
-# built site to know the custom domain -- excluding it would release
-# btclib.org on the next build.
+# Not excluded, deliberately: index.md is the homepage and LICENSE is the
+# licence of what the page says.
 #
 # Anything whose name begins with a dot needs no entry -- Jekyll's own
 # EntryFilter drops those before this list is consulted, which is why

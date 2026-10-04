@@ -44,19 +44,19 @@ updates:
     cooldown:
       default-days: 7
 
-  # the Gemfile, which is the site rather than this repository: one gem,
-  # github-pages, pinned to the release GitHub's own Pages builder runs.
-  # Nothing installs it to serve the site -- that build happens on
-  # GitHub's side -- so what a bump means here is that the builder itself
-  # moved, and website.yml is what then answers whether the site still
-  # renders under it. Ungrouped, a single gem having nothing to group
-  # with, and the cooldown left at the same week: this one tracks a
-  # release GitHub has already deployed, so the week is a formality
-  # rather than a quarantine
+  # the Gemfile, which is the site rather than this repository: the gems
+  # website.yml builds it with. A bump here is a pull request whose
+  # website.yml run builds the site with the new gems, and that run is
+  # what answers whether the site still renders. Grouped, so that gems
+  # moving together are one pull request and one build, and the cooldown
+  # the same week as above
   - package-ecosystem: bundler
     directory: /
     schedule:
       interval: weekly
       day: thursday
+    groups:
+      gems:
+        patterns: ["*"]
     cooldown:
       default-days: 7

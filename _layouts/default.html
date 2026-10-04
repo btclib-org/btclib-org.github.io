@@ -9,12 +9,11 @@ fragments. This paragraph is fenced the same way, being no more the
 theme's than they are.
 
 A copy of a gem's file is a fact about that gem recorded outside it, and
-`Gemfile`'s `github-pages` pin -- which pins the theme, among everything
-else it pins -- is a line dependabot moves. So the copy is gated rather
-than trusted: `.github/scripts/check-theme-copies.sh` removes every
-fenced block and compares what is left with the layout in the installed
-gem, and `website.yml` runs it in the job where bundler has already
-resolved that gem. A theme upgrade that changes this layout then arrives
+`Gemfile`'s `jekyll-theme-minimal` line is one dependabot moves. So the
+copy is gated rather than trusted: `.github/scripts/check-theme-copies.sh`
+removes every fenced block and compares what is left with the layout in
+the installed gem, and `website.yml` runs it in the job where bundler has
+already resolved that gem. A theme upgrade that changes this layout then arrives
 as a red check on dependabot's own pull request, rather than as a page
 serving the chrome of a release nobody runs any more.
 

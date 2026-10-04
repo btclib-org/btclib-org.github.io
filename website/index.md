@@ -7,8 +7,8 @@ description: The btclib organization website
 
 # btclib-org.github.io
 
-btclib-org.github.io is the repository that serves this site. GitHub Pages
-builds it from `main` with the classic Jekyll builder.
+btclib-org.github.io is the repository that serves this site. A workflow
+builds it with Jekyll and deploys it to GitHub Pages from `main`.
 
 The homepage is generated from the organization page, `profile/README.md` in
 `.github`. Each project has a page of its own, written here by hand from the

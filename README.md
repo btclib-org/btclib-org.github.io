@@ -40,10 +40,10 @@ tree's row a curation rather than a reading. -->
 [![links](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/links.yml/badge.svg?branch=main)](https://github.com/btclib-org/btclib-org.github.io/actions/workflows/links.yml?query=branch%3Amain)
 
 The organization site served at [btclib.org](https://btclib.org/), and
-nothing else: no package, no suite, no documentation build. GitHub Pages
-builds it from this repository's `main` branch at the root, with the
-classic Jekyll builder, and `CNAME` is what claims the domain —
-`REPOSITORY.md` reads both settings back from the endpoint.
+nothing else: no package, no suite, no documentation build. A workflow
+builds it with Jekyll and deploys it to GitHub Pages from `main`, and
+Pages' `cname` setting is what claims the domain — `REPOSITORY.md` reads
+both settings back from the endpoint.
 
 ## The homepage is generated
 
@@ -86,14 +86,8 @@ default rather than adding to it, so a file added to this directory
 without an entry becomes a URL under `btclib.org` whether anybody meant
 it to or not.
 
-`CNAME` holds `btclib.org`, and Pages reads it out of the built site on
-every build: it is the domain claim as a file rather than only as a
-setting, which is why `website.yml` asserts that the site it builds
-still carries it.
-
-`Gemfile` names the `github-pages` release GitHub's own builder runs, so
-`website.yml` can build the site with the same toolchain and fail out
-loud where the builder on GitHub's side fails silently.
+`Gemfile` names the gems `website.yml` builds the site with: Jekyll, the
+theme, and the two plugins the layout uses.
 
 `_layouts/default.html` is the theme's own layout with fenced blocks
 added to it: the sidebar's list of the organization's repositories, the

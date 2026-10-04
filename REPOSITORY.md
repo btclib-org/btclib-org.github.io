@@ -52,10 +52,13 @@ This is the setting the repository exists for:
 
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/pages \
-  --jq '{build_type, source, cname, https_enforced, public, status}'
-# {"build_type":"legacy","cname":"btclib.org","https_enforced":true,
-#  "public":true,"source":{"branch":"main","path":"/"},"status":"built"}
+  --jq '{build_type, source, cname, https_enforced, public}'
+# {"build_type":"workflow","cname":"btclib.org","https_enforced":true,
+#  "public":true,"source":{"branch":"main","path":"/"}}
 ```
+
+`workflow` means Pages serves what `website.yml` deploys and builds
+nothing itself.
 
 **`https_enforced` is `true`, and a certificate is what that field is
 about.** GitHub issues one for a custom domain on its own, and the one
@@ -89,24 +92,22 @@ macOS ships is a LibreSSL, which has no such option and exits `1` on it.
 A command recorded here is for whoever reads the file, not for whichever
 build happened to be first on one `PATH`.
 
-`legacy` is GitHub's own Jekyll builder, run on GitHub's side from
-`main`'s root. It writes no log a maintainer can read and reports a
-failure nowhere, which is why `website.yml` builds the same site with the
-ruby and the gem `Gemfile` pins: that workflow's own header has the
-argument, and a red check there is the only thing that says the site
-stopped rendering.
+The tree holds no `CNAME`; the commit that added it dates the claim.
+
+`legacy`, the other value, is GitHub's own Jekyll builder run on
+GitHub's side from `main`'s root, with the `github-pages` gem and not
+this tree's `Gemfile`. It writes no log a maintainer can read, and it
+pins `jekyll-remote-theme`, which keeps `rubyzip` below 3.4.0.
 
 **`cname` is what this repository claims the organization's domain
-with, and `CNAME` in the root is the same value.** Pages reads that file
-out of the *built* site on each build, which is what makes the setting a
-file here rather than only a setting: `_config.yml` excluding it, or a
-deletion, releases `btclib.org` on the next build, and `website.yml`
-asserts the built site's copy for that reason. A custom domain belongs
-to one repository at a time, so the claim required `btclib-org/btclib`
-to release it first; btclib-org/.github#530 is the decision and the
-sequence, and `btclib`'s own `REPOSITORY.md` records that it no longer
-holds the domain — with the readback, that repository's Pages site being
-the thing it no longer has.
+with, and it is a setting only.** Under `workflow` Pages ignores a
+`CNAME` file, so the tree holds none; under `legacy` it reads one from
+the built site, and a build without it releases `btclib.org`. A custom
+domain belongs to one repository at a time, so the claim required
+`btclib-org/btclib` to release it first; btclib-org/.github#530 is the
+decision and the sequence, and `btclib`'s own `REPOSITORY.md` records
+that it no longer holds the domain — with the readback, that
+repository's Pages site being the thing it no longer has.
 
 **A readback here asks for an object and not a field**: `{cname}` rather
 than `.cname`, because `gh api --jq '.cname'` prints an **empty line**
@@ -507,11 +508,23 @@ gh api repos/btclib-org/btclib-org.github.io/environments \
 # ["github-pages"]
 ```
 
-`github-pages` is GitHub's own, created when Pages was enabled, and no
-workflow here deploys through it: the classic builder does not use a
-deployment environment the way the Actions builder does. There is no
-`pypi` environment and no trusted publisher, nothing here being
-published.
+`github-pages` is GitHub's own, created when Pages was enabled, and
+`website.yml`'s deploy job names it. Its deployment branch policy allows
+`main` alone, so a run on a branch cannot deploy even where the job's own
+condition is wrong:
+
+```shell
+env=repos/btclib-org/btclib-org.github.io/environments/github-pages
+gh api "$env" --jq '{deployment_branch_policy}'
+# {"deployment_branch_policy":{"custom_branch_policies":true,
+#  "protected_branches":false}}
+gh api "$env/deployment-branch-policies" \
+  --jq '[.branch_policies[] | {name, type}]'
+# [{"name":"main","type":"branch"}]
+```
+
+There is no `pypi` environment and no trusted publisher, nothing here
+being published.
 
 ## Variables
 
