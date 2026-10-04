@@ -1,7 +1,7 @@
 ---
 name: Feature request
 description: Change how the site is built or served
-labels: [enhancement]
+type: Feature
 
 body:
   - type: markdown

@@ -1249,3 +1249,9 @@ serves it.
 - **The variables section states only what is this repository's own**
   (closes #130): the review switch is the organization's, so flipping it
   needs no edit here.
+
+### The forms set a type, and the history files lose `merge=union`
+
+- **The forms set a `type:` and no kind label, and `.gitattributes` is gone**
+  (issue btclib-org/.github#1584, issue btclib-org/.github#1582). Entries
+  above on `.gitattributes` or `merge=union` predate its removal.
