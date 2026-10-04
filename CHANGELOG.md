@@ -1255,3 +1255,9 @@ serves it.
 - **The forms set a `type:` and no kind label, and `.gitattributes` is gone**
   (issue btclib-org/.github#1584, issue btclib-org/.github#1582). Entries
   above on `.gitattributes` or `merge=union` predate its removal.
+
+### `--admin` waits for no required check
+
+- **`CONTRIBUTING.md`'s emergency paragraph says `--admin` skips the
+  required checks too** (issue btclib-org/.github#1597):
+  `REVIEWING.md`'s "hold the merge" excepts it.
