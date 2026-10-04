@@ -12,10 +12,9 @@ name: links
 #
 # The exception is the interesting one. https://btclib.org/ is this
 # tree's own product, and the root markdown links it. So this is the only
-# thing here that fetches the deployed site at all. The failure CLAUDE.md warns
-# about, a CNAME that stops reaching _site, releases the domain with no
-# error anywhere; it would surface in this run and in nothing else that
-# is scheduled.
+# thing here that fetches the deployed site at all. A site that stops
+# answering at its address, its domain released or a deploy failed, shows
+# in this run and in nothing else that is scheduled.
 #
 # Not a merge gate, and that is the design rather than an omission. A
 # link rots without anybody touching the repository, so asking per commit

@@ -335,9 +335,8 @@ installs it for every other. Run the gate by hand before committing.
 
 **What the gate does not reach is the site itself.** The hooks read
 prose, yaml and the scripts; none of them builds Jekyll.
-`website.yml` does, with the ruby and the gem GitHub Pages runs, and it
-is the only place the build is asked for — a local preview wants that
-same pair:
+`website.yml` does, and it is the only place the build is asked for — a
+local preview wants the same ruby and gems:
 
 ```shell
 bundle install
@@ -345,11 +344,10 @@ bundle exec jekyll build --strict_front_matter
 bundle exec jekyll serve
 ```
 
-`Gemfile` pins the `github-pages` release; `Gemfile.lock`, committed
-beside it, is the actual lock, since `github-pages` leaves its own
-transitive dependencies as ranges. The ruby is `website.yml`'s
-`ruby-version`, and <https://pages.github.com/versions.json> is what
-says that the pair is the one Pages itself runs.
+`Gemfile` names Jekyll, the theme and the two plugins the layout uses;
+`Gemfile.lock`, committed beside it, is the lock. The ruby is
+`website.yml`'s `ruby-version`. On `main` the same workflow deploys what
+it built, so a gem that builds a different site is a change to the site.
 
 ### Changing the homepage
 

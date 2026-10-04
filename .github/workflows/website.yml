@@ -1,59 +1,56 @@
 ---
 name: website
 
-# https://btclib.org/ is this repository's own root, served by
-# GitHub Pages from main with the classic builder --
+# https://btclib.org/ is this repository's own root. This workflow builds
+# the site with the gems `Gemfile` names and, on main, deploys it:
 # `gh api repos/btclib-org/btclib-org.github.io/pages` answers
-# `build_type: legacy`, and REPOSITORY.md records the setting. That
-# builder is the reason this workflow exists: it runs on GitHub's side,
-# writes no log a maintainer can read, and reports a failure nowhere. A
-# layout it cannot render is served broken until somebody fetches the
-# page and reads the HTML.
+# `build_type: workflow`, and REPOSITORY.md records the setting. Pages
+# builds nothing itself, so a layout Jekyll cannot render fails here, out
+# loud, before anything is served.
 #
-# So the build is done here as well, where it can fail out loud. Not a
-# required check: it carries a `paths` filter, and a required check that
-# produces no run blocks a merge where a skipped one satisfies it. What
-# it buys without being required is a red X on the pull request that
-# breaks the site, which is earlier than a visitor finding it.
+# The build job runs on every pull request and every push to main. Its
+# check is not a required one: it carries a `paths` filter, and a required
+# check that produces no run blocks a merge where a skipped one satisfies
+# it. What it buys without being required is a red X on the pull request
+# that breaks the site.
 #
-# The gem, the ruby and the theme are the ones Pages itself runs, and
-# https://pages.github.com/versions.json is what says so rather than a
-# guess repeated here: `github-pages` pins jekyll and the theme
-# directly; some of its own dependencies, and every transitive one, are
-# left as ranges rather than exact versions, which is why `Gemfile.lock`
-# is committed rather than left for a fresh resolve to decide.
-# Dependabot's bundler ecosystem moves both files, which makes a Pages
-# toolchain upgrade a pull request that builds the site with it before
-# anything is merged.
+# The deploy job runs on main only and is the only one holding
+# `pages: write` and `id-token: write`, which `actions/deploy-pages`
+# needs. The `github-pages` environment it names allows deployments from
+# main alone (REPOSITORY.md), so a branch could not deploy even if the
+# condition below were wrong.
+#
+# Dependabot's bundler ecosystem moves `Gemfile` and `Gemfile.lock`, which
+# makes a toolchain upgrade a pull request that builds the site with it
+# before anything is merged.
 
 on:
   push:
     # main only, for the reason lint.yml gives at the same key: a push to
     # a branch with an open pull request would run this twice, in two
     # concurrency groups that do not cancel each other, and the
-    # pull_request run is the one worth keeping. On main it asks the
-    # question of the commit a merge creates, which is the commit Pages
-    # actually builds
+    # pull_request run is the one worth keeping. On main it builds and
+    # deploys the commit a merge creates
     branches: [main]
     # what a Jekyll build reads, and nothing else. index.md is the homepage,
+    # LICENSE is published as it stands,
     # a root `*.svg` an image derive-homepage.sh writes beside it,
     # `*/index.md` the page of a project, _config.yml decides what else in
     # the root is published at all, _layouts holds the theme layout this
     # tree carries its own copy of, assets holds the stylesheet and the
-    # images that copy points at, and CNAME is copied into the built site,
-    # which is where Pages reads the custom domain from. Gemfile.lock sits
-    # beside Gemfile because bundler resolves and installs from it before
-    # jekyll ever runs. The two scripts are here because the job runs them
-    # and each can fail on its own. Written out twice rather than through a
-    # yaml anchor, which the workflow parser does not promise
+    # images that copy points at. Gemfile.lock sits beside Gemfile because
+    # bundler resolves and installs from it before jekyll ever runs. The
+    # two scripts are here because the job runs them and each can fail on
+    # its own. Written out twice rather than through a yaml anchor, which
+    # the workflow parser does not promise
     paths:
       - index.md
+      - LICENSE
       - "*/index.md"
       - "*.svg"
       - _config.yml
       - _layouts/**
       - assets/**
-      - CNAME
       - Gemfile
       - Gemfile.lock
       - .github/scripts/check-theme-copies.sh
@@ -68,20 +65,19 @@ on:
     types: [opened, reopened, synchronize, ready_for_review, closed]
     paths:
       - index.md
+      - LICENSE
       - "*/index.md"
       - "*.svg"
       - _config.yml
       - _layouts/**
       - assets/**
-      - CNAME
       - Gemfile
       - Gemfile.lock
       - .github/scripts/check-theme-copies.sh
       - .github/scripts/check-built-pages.sh
       - .github/workflows/website.yml
-  # the escape hatch: a run on demand for a branch whose pull request is
-  # not open yet, and the way to ask the question after a Pages upgrade
-  # that touched no file here
+  # a run on demand: for a branch whose pull request is not open yet, and
+  # on main a redeploy that no file change asks for
   workflow_dispatch:
 
 # least privilege for the GITHUB_TOKEN: everything running in a job
@@ -90,16 +86,20 @@ on:
 permissions:
   contents: read
 
-# cancel superseded runs on the same branch or pull request. The group is
-# named literally rather than with github.workflow, which in a called
-# workflow is the caller's name
+# cancel superseded runs on the same branch or pull request, but never on
+# main, where a run may be deploying. The group is named literally
+# rather than with github.workflow, which in a called workflow is the
+# caller's name
 concurrency:
   group: website-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 jobs:
   website:
     name: Build the website
+    permissions:
+      contents: read
+      pages: read # configure-pages reads the Pages settings
     # a draft pull request is work in progress and spends no runner here
     # either. A closed one spends none either -- the trigger above takes
     # the closed event only to supersede a run this ref's group is still
@@ -116,9 +116,8 @@ jobs:
         with:
           # the build reads the tree and nothing pushes it back
           persist-credentials: false
-      # the ruby Pages runs, from the same versions.json the Gemfile
-      # names: a build that passes here on a ruby Pages does not have
-      # says nothing about the site GitHub serves.
+      # ruby 4.0, the newest 4.0.x this setup-ruby knows; nothing here has
+      # to match GitHub's own builder.
       # bundler-cache installs the gems and caches them, the key
       # carrying Gemfile.lock's own hash alongside the ruby version and
       # the runner image -- ruby/setup-ruby's bundler.js reads that file
@@ -128,17 +127,23 @@ jobs:
       - name: Set up ruby
         uses: ruby/setup-ruby@762794c140bbeda0f1224786aa33b4b46783a6c1 # v1.326.0
         with:
-          ruby-version: "3.3.4"
+          ruby-version: "4.0"
           bundler-cache: true
       # the theme files this tree keeps its own copies of, which are
-      # what a github-pages bump can falsify in silence: the gem moves,
-      # the site still builds, and the page serves the chrome of a
-      # release nobody runs, or a stylesheet missing half of itself.
+      # what a theme bump can falsify in silence: the gem moves, the site
+      # still builds, and the page serves the chrome of a release nobody
+      # runs, or a stylesheet missing half of itself.
       # Before the build rather than after, this being a question about
       # the sources; the script says which files it compares and how
       # each one's own additions are left out of the comparison
       - name: The theme files this tree copies are the theme's own
         run: .github/scripts/check-theme-copies.sh
+      # the Pages settings, from which the build takes its base path. It
+      # is empty under the custom domain, and stays right if the domain
+      # ever goes
+      - name: Configure Pages
+        id: pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
       # PAGES_REPO_NWO and PAGES_PAGES_HOSTNAME are what
       # jekyll-github-metadata resolves `site.github` from, which
       # _layouts/default.html reads for the footer, the profile link and
@@ -148,12 +153,13 @@ jobs:
       # to `localhost:4000` where PAGES_PAGES_HOSTNAME is unset -- so
       # without it this job renders the layout's *project*-page branch,
       # the one Pages does not serve, instead of the *user*-page branch
-      # Pages actually builds here. Neither variable needs a token
+      # the layout the site is served with. Neither variable needs a token
       - name: Build the site
         env:
           PAGES_REPO_NWO: ${{ github.repository }}
           PAGES_PAGES_HOSTNAME: github.io
-        run: bundle exec jekyll build --strict_front_matter
+          BASE_PATH: ${{ steps.pages.outputs.base_path }}
+        run: bundle exec jekyll build --strict_front_matter --baseurl "$BASE_PATH"
       # the defect the build cannot report on itself. A layout whose
       # baseurl is empty renders `{{ '/x' | relative_url }}` as `/%20/x`
       # and jekyll exits zero, so the page is served with a script tag
@@ -213,8 +219,8 @@ jobs:
       # an SVG the derivation did not write, or a file the exclude list
       # keeps out, is a broken image on a green run. Read off the built
       # page rather than off index.md, the src there being what a browser
-      # asks for -- the build writes a markdown `./<name>` as `/<name>` --
-      # and every src with no scheme and no host is this site's, the
+      # asks for -- written as the markdown has it, `./<name>` included, which
+      # the loop strips -- and every src with no scheme and no host is this site's, the
       # supporters' logos included. The loop is the pipeline's last
       # command, so its `exit 1` is the step's status
       - name: Every image the built homepage serves from here is built
@@ -231,13 +237,37 @@ jobs:
                 }
                 echo "_site/index.html shows $src, and the build has it"
               done
-      # Pages reads the custom domain from the *built* site, so an
-      # exclude entry, a rename or a deletion that keeps CNAME out of
-      # _site releases btclib.org on the next build -- and releases it
-      # the way this workflow exists to catch, with a green build and no
-      # log anywhere saying so. The value is asserted and not only the
-      # file's presence: a CNAME holding some other name hands the
-      # domain over just as completely
-      - name: The built site claims btclib.org
+      # the stylesheet's cache-buster is `site.github.build_revision`, and
+      # a build that cannot resolve it writes `?v=` with nothing after it:
+      # the same URL for every release, so a browser keeps the old
+      # stylesheet. The value is the commit this run built
+      - name: The stylesheet link carries the revision built
+        env:
+          REVISION: ${{ github.sha }}
         run: |
-          test "$(cat _site/CNAME)" = "btclib.org"
+          grep -q "assets/css/style.css?v=${REVISION}\"" _site/index.html
+      # only a push or a dispatch on main deploys. The artifact is what the
+      # job above built and checked
+      - name: Upload the site
+        if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: _site
+
+  deploy:
+    name: Deploy the website
+    needs: website
+    if: ${{ github.event_name != 'pull_request' && github.ref == 'refs/heads/main' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    # the only job that may write to Pages
+    permissions:
+      pages: write # deploy-pages publishes the artifact
+      id-token: write # deploy-pages proves to Pages that the run is this repository's
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy to Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

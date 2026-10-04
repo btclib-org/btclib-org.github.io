@@ -1,21 +1,21 @@
-# The btclib.org website, and only that: GitHub Pages builds it on its
-# own side, so nothing here is installed to serve the site. What
-# this file is for is a build that can fail out loud --
-# .github/workflows/website.yml -- and a local `bundle exec jekyll serve`
-# preview.
+# The btclib.org website. .github/workflows/website.yml builds it with
+# these gems and, on main, deploys it; Pages builds nothing itself. A
+# local preview runs the same build: `bundle exec jekyll serve`.
 #
-# github-pages is the gem GitHub publishes to reproduce that builder, and
-# it pins jekyll and the theme directly; some of its own dependencies,
-# and every transitive one, are left as ranges rather than exact
-# versions, so this file alone is not the lock. `Gemfile.lock`, committed
-# beside it, is: `bundle install` writes it and Dependabot's bundler
-# ecosystem moves it. https://pages.github.com/versions.json is what says
-# which release Pages runs, and which ruby it runs it on; website.yml
-# pins that same ruby, a build passing on one Pages does not have saying
-# nothing about the site GitHub serves.
+# The gems are the ones the site uses and no others: jekyll, the theme,
+# `{% seo %}` from jekyll-seo-tag and `site.github` from
+# jekyll-github-metadata, both read by _layouts/default.html. Jekyll
+# loads the :jekyll_plugins group without a `plugins` key.
 #
-# Dependabot's bundler ecosystem moves this line, so the day GitHub
-# upgrades its builder arrives as a pull request that builds the site
-# with the new one rather than as a page that stopped rendering.
+# `Gemfile.lock`, committed beside this file, is the lock. Dependabot's
+# bundler ecosystem moves both files, so a release arrives as a pull
+# request that builds the site with it before it is merged.
 source 'https://rubygems.org'
-gem 'github-pages', '232', group: :jekyll_plugins
+
+gem 'jekyll', '~> 4.4'
+gem 'jekyll-theme-minimal', '~> 0.2'
+
+group :jekyll_plugins do
+  gem 'jekyll-github-metadata'
+  gem 'jekyll-seo-tag'
+end

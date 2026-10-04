@@ -493,11 +493,11 @@ because that document, and not this one, is where the rule lives.
   is what decides, and its `exclude:` list replaces Jekyll's default
   rather than adding to it: a file added to the root with no entry there
   is a URL under `btclib.org` whether anybody meant it to be one or not.
-- **Does the diff keep `CNAME` in the built site?** Pages reads the
-  custom domain from `_site`, so an exclude entry, a rename or a
-  deletion releases `btclib.org` on the next build and reports it
-  nowhere. `website.yml` asserts the built copy, and a diff that reaches
-  that file or that list is read against it.
+- **Does the diff let a branch deploy, or widen what the deploy job
+  holds?** Only `website.yml`'s deploy job has `pages: write` and
+  `id-token: write`, and it runs on `main` alone. A diff that reaches
+  that job's `if`, its permissions or the `github-pages` environment is
+  read against `REPOSITORY.md`'s record of that environment.
 - **Does the diff edit a theme file outside this tree's own part of
   it?** `_layouts/default.html` is `jekyll-theme-minimal`'s layout with
   fenced blocks added and `assets/css/style.scss` is its stylesheet with

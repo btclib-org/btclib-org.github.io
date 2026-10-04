@@ -98,14 +98,15 @@ git worktree remove --force <scratchpad>/wt-<tracker>-<issue>-<repo>-<role>
   has, `36 4 * * 6` and `36 3 * * 6`, both that calendar read and not a
   time anybody picked here. A schedule for anything else needs its row
   in that tree first, which is the order that section states.
-- **`CNAME` is the domain claim, and Pages reads it out of the *built*
-  site.** So `btclib.org` is released by anything that keeps that file
-  out of `_site` — a `_config.yml` exclude entry, a rename, a deletion —
-  on the next build, with no error anywhere; `website.yml` asserts the
-  built copy for that reason. A domain belongs to one repository at a
-  time, and `btclib-org/btclib` released this one for this tree to claim
-  it: `REPOSITORY.md`'s *Pages, which is btclib.org* has the state and
-  btclib-org/.github#530 the sequence.
+- **The domain is Pages' `cname` setting, and the tree holds no `CNAME`
+  file.** Under `build_type: workflow` Pages ignores that file, so a
+  `CNAME` added to the root claims nothing. A domain belongs to one
+  repository at a time, and `btclib-org/btclib` released this one for
+  this tree to claim it: `REPOSITORY.md`'s *Pages, which is btclib.org*
+  has the setting and btclib-org/.github#530 the sequence.
+- **`website.yml` builds and deploys the site, and Pages builds nothing.**
+  Switching `build_type` back to `legacy` releases `btclib.org` on the
+  next build, the tree holding no `CNAME`.
 - **`_layouts/default.html` outside its fences and `assets/css/style.scss`
   up to and including its import are the gem's bytes**, and
   `.github/scripts/check-theme-copies.sh`, which `website.yml` runs, fails
