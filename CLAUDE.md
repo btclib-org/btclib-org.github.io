@@ -122,7 +122,7 @@ git worktree remove --force <scratchpad>/wt-<tracker>-<issue>-<repo>-<role>
 
 Section 9 of the standard is the prose style and governs this file too.
 `CONTRIBUTING.md`'s *Pull requests* has what a title does with the issue
-it closes. A pull request adds no `CHANGELOG.md` entry.
+it closes, and which pull request writes the changelog and the release notes.
 
 ## Verifying
 
