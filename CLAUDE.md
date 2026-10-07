@@ -122,23 +122,7 @@ git worktree remove --force <scratchpad>/wt-<tracker>-<issue>-<repo>-<role>
 
 Section 9 of the standard is the prose style and governs this file too.
 `CONTRIBUTING.md`'s *Pull requests* has what a title does with the issue
-it closes, and section 9's changelog bullets what an entry cites.
-
-**`CHANGELOG.md`'s `### Added` and `### Changed` are landed themes, not
-the shape to copy:** a new entry takes its own `###` at the end of the
-open section (section 9). After a rebase onto `origin/main`, this exits 0
-when nothing above the new block moved:
-
-```shell
-worktree=<worktree>
-```
-
-```shell
-: "${worktree:?}" &&
-  head -c "$(git -C "$worktree" show origin/main:CHANGELOG.md | wc -c)" \
-    "$worktree/CHANGELOG.md" |
-  cmp - <(git -C "$worktree" show origin/main:CHANGELOG.md)
-```
+it closes. A pull request adds no `CHANGELOG.md` entry.
 
 ## Verifying
 
