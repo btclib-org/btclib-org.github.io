@@ -23,7 +23,6 @@
 
 - [ ] the lint gate is clean: `uvx pre-commit run --all-files`
 - [ ] the site builds: `bundle install && bundle exec jekyll build --strict_front_matter`
-- [ ] `CHANGELOG.md` has an entry, if a user would notice the change
 - [ ] every commit carries a verified signature
 
 ## Anything the reviewer should know

@@ -1,8 +1,9 @@
 # Changelog
 
-Every user-visible change to this repository, by group. A user here is a
-visitor to <https://btclib.org/> and whoever maintains the tree that
-serves it.
+The history of this repository is `git log` of `main`. Nothing here is
+released — this repository ships by being read — so no entry is added. The
+entries below were written before that, grouped by subject rather than
+by version, and stay as they are.
 
 ## Unreleased
 

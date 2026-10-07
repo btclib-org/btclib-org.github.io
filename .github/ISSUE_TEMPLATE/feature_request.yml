@@ -46,3 +46,13 @@ body:
       description: >
         Another way of arriving at the same page, and what a reader of
         the site as it stands would notice.
+
+  - type: markdown
+    attributes:
+      value: >
+        **Sign-off.** Whoever takes this issue signs off every commit
+        (`git commit -s`). The required `Sign-off` check refuses a pull
+        request whose commits lack the `Signed-off-by:` trailer;
+        [`CONTRIBUTING.md`'s *Pull
+        requests*](https://github.com/btclib-org/.github/blob/main/CONTRIBUTING.md#pull-requests)
+        says why.

@@ -7,7 +7,7 @@
 layout: default
 source_repository: btclib-org/.github
 source_path: profile/README.md
-source_commit: ee9df6c5f6765dc00ad10a84b825a4c5b165cd8b
+source_commit: 70f5915abed3b982009996ae52254fbc68c00dfc
 ---
 # btclib.org
 
@@ -92,8 +92,7 @@ and re-checked weekly. Coverage is held at 100%.
 
 Issues and pull requests go to each repository; its README and
 `CONTRIBUTING.md` say how. A change needs a clean lint gate, a passing
-suite at full coverage, a signed commit, and a changelog entry where a
-user would notice.
+suite at full coverage and a signed commit.
 
 ## License
 
