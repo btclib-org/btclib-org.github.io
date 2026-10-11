@@ -190,9 +190,10 @@ pointed at rather than copied.
 
 `strict` asks that a branch be current with `main` before it merges, and
 `enforce_admins: false` clears the whole of classic protection for an
-administrator — the checks, the review and `strict` alike — which is what
-makes a merge through the bypass possible at all. Section 11 pairs the
-two settings and has what makes the landing tree current instead.
+administrator — the checks, the review and `strict` alike — so a merge
+through the maintainer's bypass waits for none of these checks, as
+`CONTRIBUTING.md`'s *Landing it* says. Section 11 pairs the two settings
+and has what makes the landing tree current instead.
 
 The rulesets below sit beside this protection and rules aggregate, the
 stricter answer applying where the two overlap. `signatures` answers
@@ -201,8 +202,8 @@ repository][s11-branch], so what refuses an unsigned commit is
 `main-integrity`, which carries `required_signatures` with no bypass
 actor at all. And `main-self-merge` asks for the review a second time,
 `enforce_admins` reaching classic protection alone: a merge through the
-bypass clears the classic half by that exemption plus admin and the
-ruleset's half by the `pull_request` bypass, and section 11 has why that
+bypass clears the classic half as the paragraph above says, and the
+ruleset's half by the `pull_request` bypass. Section 11 has why that
 mode and not `always`.
 
 `website.yml`, `homepage.yml` and `links.yml` are not required checks and must
