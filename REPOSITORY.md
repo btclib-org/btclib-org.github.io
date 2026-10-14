@@ -173,7 +173,7 @@ gh api repos/btclib-org/btclib-org.github.io/branches/main/protection \
 #  "force_pushes":false,"linear_history":true,
 #  "reviews":{"dismiss_stale_reviews":true,
 #             "required_approving_review_count":1},
-#  "signatures":false,"strict":true}
+#  "signatures":false,"strict":false}
 ```
 
 **`Lint`, `Dependency review` and `Sign-off` are the required checks, and
@@ -188,12 +188,12 @@ object at the foot of the section of this name in `btclib-org/.github`'s own
 `REPOSITORY.md` is what this endpoint answers here, field for field, so it is
 pointed at rather than copied.
 
-`strict` asks that a branch be current with `main` before it merges, and
+`strict` is off for [the reason section 11 gives][s11-branch].
+
 `enforce_admins: false` clears the whole of classic protection for an
-administrator — the checks, the review and `strict` alike — so a merge
-through the maintainer's bypass waits for none of these checks, as
-`CONTRIBUTING.md`'s *Landing it* says. Section 11 pairs the two settings
-and has what makes the landing tree current instead.
+administrator, the checks and the review alike, so a merge through the
+maintainer's bypass waits for none of these checks, as `CONTRIBUTING.md`'s
+*Landing it* says.
 
 The rulesets below sit beside this protection and rules aggregate, the
 stricter answer applying where the two overlap. `signatures` answers
