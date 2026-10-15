@@ -198,9 +198,9 @@ maintainer's bypass waits for none of these checks, as `CONTRIBUTING.md`'s
 The rulesets below sit beside this protection and rules aggregate, the
 stricter answer applying where the two overlap. `signatures` answers
 `false` above, [the value the standard states for every
-repository][s11-branch], so what refuses an unsigned commit is
-`main-integrity`, which carries `required_signatures` with no bypass
-actor at all. And `main-self-merge` asks for the review a second time,
+repository][s11-branch], as it does in every ruleset over `main`:
+`Signed commits` below says what checks the signature instead. And
+`main-self-merge` asks for the review a second time,
 `enforce_admins` reaching classic protection alone: a merge through the
 bypass clears the classic half as the paragraph above says, and the
 ruleset's half by the `pull_request` bypass. Section 11 has why that
@@ -233,8 +233,8 @@ gh api repos/btclib-org/btclib-org.github.io/rulesets --jq '.[].id' \
            bypass: [.bypass_actors[]?.bypass_mode]}'
 # {"bypass":[],"enforcement":"active","name":"main-integrity",
 #  "refs":["refs/heads/main"],
-#  "rules":["required_signatures","required_linear_history",
-#           "non_fast_forward","deletion"],"target":"branch"}
+#  "rules":["required_linear_history","non_fast_forward","deletion"],
+#  "target":"branch"}
 # {"bypass":["pull_request"],"enforcement":"active",
 #  "name":"main-self-merge","refs":["refs/heads/main"],
 #  "rules":["pull_request"],"target":"branch"}
@@ -242,7 +242,7 @@ gh api repos/btclib-org/btclib-org.github.io/rulesets --jq '.[].id' \
 #  "refs":["refs/tags/v*"],"rules":["required_signatures"],"target":"tag"}
 ```
 
-- `main-integrity` — required signatures, required linear history, no
+- `main-integrity` — required linear history, no
   force pushes, no deletions — with **no bypass actor at all**, which is
   what makes every one of those true of an administrator too.
 - `main-self-merge` — a pull request, an approving review, stale reviews
@@ -286,19 +286,22 @@ gh api repos/btclib-org/btclib-org.github.io/commits/main \
 # {"reason":"valid","verified":true}
 ```
 
-`required_signatures` refuses an unsigned commit at the push rather than
-noticing it afterwards, and with an empty bypass list it refuses one from
-everybody. Any valid signer satisfies it — the maintainer's key, GitHub's
-web-flow key on a button-driven merge, a bot's.
+No ruleset over `main` carries `required_signatures`, so nothing refuses
+an unsigned commit at the push. `verified-signatures.yml` checks after the
+push: for each commit pushed it reads the call above and fails naming any
+whose `verified` is not `true`. A red run is read in the Actions tab; the
+check is not a required one. Any valid signer satisfies it — the
+maintainer's key, GitHub's web-flow key on a button-driven merge, a bot's.
+[The standard asks for a verified commit and not for a particular
+signer][s11-sigs].
 
-What no rule covers is a commit before it is pushed:
-`git log -1 --format='%G? %GS'`, an `N` being a defect to fix rather than
-to explain.
+`git log -1 --format='%G? %GS'` answers for a commit before it is pushed,
+an `N` being a defect to fix rather than to explain.
 
 The call above answers for whichever commit is at the tip today, so it is
 a fact about a changing world rather than a setting: the next merge
 changes what it answers with nothing here having decided differently.
-Read at 2026-09-21T21:38:10Z.
+Read at 2026-10-15T16:49:04Z.
 
 ## Merge methods
 
