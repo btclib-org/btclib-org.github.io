@@ -360,6 +360,9 @@ rots with nobody touching this tree, so it runs weekly and on demand
 rather than per commit, and its own header says why a merge must not
 wait on it. A pull request sees it only when it changes that file.
 
+`verified-signatures.yml` reports after each push to `main` whether every
+commit pushed is `verified`; [the standard's *Signatures*][s-sigs] has the rule.
+
 ### A version, and no release
 
 Nothing here is released: no index carries it, no GitHub release cuts it,
