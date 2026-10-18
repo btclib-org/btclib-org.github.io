@@ -7,7 +7,7 @@
 layout: default
 source_repository: btclib-org/.github
 source_path: profile/README.md
-source_commit: 02394e578088bacf17bc797586b0d51e56d47f49
+source_commit: ac290efe94dfbd4d0889fddb78fb4f1d49f12b84
 ---
 # btclib.org
 
@@ -32,10 +32,13 @@ whenever that makes them clearer.
   built on it: ECDSA, BIP340 Schnorr, MuSig2, FROST, Diffie-Hellman,
   commitments and range proofs. For secp256k1 it uses btclib-secp256k1,
   and tests its own arithmetic against it.
+- **[base58-bech32](https://github.com/btclib-org/base58-bech32)** —
+  Base58, Base58Check, bech32, bech32m, SS58 and CashAddr codecs, on
+  the standard library alone.
 - **[btclib](https://github.com/btclib-org/btclib)** — bitcoin's
   protocol on top of btclib-ecc: addresses, scripts, transactions and
   blocks.
-- **[btclib-mnemonics](https://github.com/btclib-org/btclib-mnemonics)** —
+- **[bip39-slip39](https://github.com/btclib-org/bip39-slip39)** —
   BIP39, SLIP39 and Electrum mnemonics, from the entropy up to the seed,
   and nothing of bitcoin above it.
 - **[btclib-wallet](https://github.com/btclib-org/btclib-wallet)** —
