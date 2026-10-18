@@ -58,13 +58,14 @@ sass:
 # organization adds reaches the sidebar or reaches nothing.
 projects:
   - .github
+  - base58-bech32
   - bbt
+  - bip39-slip39
   - bitcoin-core-rpc
   - bitcoin-node-tests
   - btclib
   - btclib-benchmarks
   - btclib-ecc
-  - btclib-mnemonics
   - btclib-node
   - btclib-org.github.io
   - btclib-secp256k1
