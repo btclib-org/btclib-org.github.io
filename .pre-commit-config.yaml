@@ -345,9 +345,9 @@ repos:
   # get right -- claude-review.yml holds a credential -- and it is the
   # one an author is least able to see by reading.
   # The auditor persona runs on every commit, this tree having reached
-  # zero findings under it: a new one is a defect the comments this
-  # commit added did not anticipate, and whoever trips it owes the tree
-  # a third comment or a narrower grant, not a suppression
+  # zero findings under it: a finding fails it, and is answered by a fix,
+  # a narrower grant, a reason on the grant's own line, or an inline
+  # decline with its reason beside it
   - repo: https://github.com/zizmorcore/zizmor-pre-commit
     rev: v1.31.1
     hooks:
