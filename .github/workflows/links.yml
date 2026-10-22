@@ -27,7 +27,7 @@ name: links
 #
 # A finding here is often not this repository's to fix. index.md is
 # generated, so a rotted link in its body is a pull request against
-# btclib-org/.github; CLAUDE.md's own note on that file is the rule, and
+# btclib-org/.github; README.md says how this homepage is derived, and
 # what lands here afterwards is CONTRIBUTING.md's Changing the homepage.
 
 on:

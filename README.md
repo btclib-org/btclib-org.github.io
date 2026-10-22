@@ -111,7 +111,7 @@ The rest is what section 2 of
 [the organization's standard](https://github.com/btclib-org/.github)
 gives a tier-3 repository: `CONTRIBUTING.md` and `REVIEWING.md`, each the
 same file in every repository up to its last section, `REPOSITORY.md` for
-the settings that live outside the tree, `CLAUDE.md` for what a session
+the settings that live outside the tree, `AGENTS.md` for what a session
 needs, and `CHANGELOG.md`, `LICENSE`, `COPYRIGHT` and `AUTHORS.md`.
 
 How the organization decides, and who holds which role, is its

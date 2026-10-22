@@ -8,7 +8,7 @@ review is not about.
 This is the reviewer's half of [CONTRIBUTING.md](./CONTRIBUTING.md),
 which is the author's. It does not restate the rules a review cites —
 most are in the organization's standard, the rest in that file, in
-REPOSITORY.md and in CLAUDE.md — and a finding names the line that
+REPOSITORY.md and in AGENTS.md — and a finding names the line that
 states them rather than a copy kept here.
 
 **This file is the same in every repository of the organization**, and
@@ -79,8 +79,7 @@ directions:
    child, the author answers it twice and resolves it once.
 1. **The tree at that sha**, checked out and gated. `gh pr checkout <N>`,
    and whatever this repository's `CONTRIBUTING.md` says builds its
-   environment; `CLAUDE.md` has where a checkout may be made and where it
-   may not.
+   environment; `CONTRIBUTING.md` has the worktree procedure.
 
 Read the whole diff before writing the first comment. A comment on line
 5 that line 60 answers costs the author a reply and the reviewer their
@@ -529,8 +528,8 @@ because that document, and not this one, is where the rule lives.
   a fence and the stylesheet up to and including its import — not
   everything above the appended rules, this tree's own comment sitting
   between the two. `.github/scripts/check-theme-copies.sh` refuses a
-  change to them, and `CLAUDE.md` says how one is made where the theme
-  is what moved. What that script cannot see is a fenced block dropped
+  change to them. When the theme moves, carry this tree's fenced blocks
+  across to the new gem copy. What that script cannot see is a fenced block dropped
   whole, the fences going with it; `website.yml` asserts in the built
   page the two blocks a visitor is shown, which leaves the header saying
   what the file is — so a diff that shortens the layout is read for

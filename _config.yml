@@ -133,7 +133,7 @@ supporters:
 # raw markdown. Two are named for a reason of their own: README.md is the
 # repository's README and not the site's homepage, the two being
 # different documents here where a tree with no index.md has only one;
-# and CLAUDE.md and REPOSITORY.md are what a session and a maintainer
+# and AGENTS.md and REPOSITORY.md are what a session and a maintainer
 # read, not a visitor.
 #
 # Not excluded, deliberately: index.md is the homepage and LICENSE is the
@@ -157,7 +157,7 @@ exclude:
   # this repository's own documents
   - AUTHORS.md
   - CHANGELOG.md
-  - CLAUDE.md
+  - AGENTS.md
   - CONTRIBUTING.md
   - COPYRIGHT
   - README.md
