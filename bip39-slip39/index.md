@@ -15,20 +15,20 @@ btclib-wallet is the library above this one.
 
 ## Install
 
-The package on PyPI is named btclib-mnemonics.
+The package on PyPI is named bip39-slip39.
 
 ```shell
-python -m pip install --upgrade btclib-mnemonics
+python -m pip install --upgrade bip39-slip39
 ```
 
 ## Links
 
-- [Documentation](https://btclib-mnemonics.readthedocs.io)
+- [Documentation](https://bip39-slip39.readthedocs.io)
 - [Source](https://github.com/btclib-org/bip39-slip39)
 - [Releases](https://github.com/btclib-org/bip39-slip39/releases)
 - [Release notes](https://github.com/btclib-org/bip39-slip39/blob/main/RELEASE_NOTES.md)
 - [Changelog](https://github.com/btclib-org/bip39-slip39/blob/main/CHANGELOG.md)
-- [The package on PyPI](https://pypi.org/project/btclib-mnemonics/)
+- [The package on PyPI](https://pypi.org/project/bip39-slip39/)
 - [Issues](https://github.com/btclib-org/bip39-slip39/issues)
 - [Contributing](https://github.com/btclib-org/bip39-slip39/blob/main/CONTRIBUTING.md)
 - [Security policy](https://github.com/btclib-org/bip39-slip39/blob/main/SECURITY.md)
