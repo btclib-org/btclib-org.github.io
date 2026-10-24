@@ -19,10 +19,13 @@
      `index.md` still matches its own pin. Both report but are not, and
      must not become, a required check -- REPOSITORY.md's "Required
      checks on main" says why. The point of running the first two
-     locally is not to wait for CI to say so. -->
+     locally is not to wait for CI to say so. The last box is yours
+     alone: no CI run can check it. -->
 
 - [ ] the lint gate is clean: `uvx pre-commit run --all-files`
 - [ ] the site builds: `bundle install && bundle exec jekyll build --strict_front_matter`
+- [ ] I have read and understood every line of this change, and can
+      answer a review of it without the model
 
 ## Anything the reviewer should know
 
