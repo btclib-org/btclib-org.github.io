@@ -8,9 +8,10 @@ description: The btclib-org Claude Code process
 # claude-process
 
 claude-process is the process the btclib-org maintainers follow with
-[Claude Code](https://claude.com/claude-code): the `/btclib-org` command, from an
-issue or a pull request to `main`, the writer and reviewer agents, and the gate
-lock every worker takes before its heavy gates.
+[Claude Code](https://claude.com/claude-code): the `/btclib-iss` and
+`/btclib-pr` commands, from an issue or a pull request to `main`, the
+`/btclib-table` command, which only reads, the writer and reviewer agents, and
+the gate lock every worker takes before its heavy gates.
 
 ## Install
 
@@ -24,7 +25,9 @@ The README has the `ln -s` lines and the prerequisites: Claude Code, `gh`, `uv`
 and signed commits. Then:
 
 ```text
-/btclib-org <issue or pull request number>
+/btclib-iss <issue number>
+/btclib-pr <pull request number>
+/btclib-table
 ```
 
 ## Links

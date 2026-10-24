@@ -35,7 +35,8 @@ on:
     # what a Jekyll build reads, and nothing else. index.md is the homepage,
     # LICENSE is published as it stands,
     # a root `*.svg` an image derive-homepage.sh writes beside it,
-    # `*/index.md` the page of a project, _config.yml decides what else in
+    # `*/index.md` the page of a project, `*/index.html` the one page
+    # that is a redirect and no project's, _config.yml decides what else in
     # the root is published at all, _layouts holds the theme layout this
     # tree carries its own copy of, assets holds the stylesheet and the
     # images that copy points at. Gemfile.lock sits beside Gemfile because
@@ -47,6 +48,7 @@ on:
       - index.md
       - LICENSE
       - "*/index.md"
+      - "*/index.html"
       - "*.svg"
       - _config.yml
       - _layouts/**
@@ -67,6 +69,7 @@ on:
       - index.md
       - LICENSE
       - "*/index.md"
+      - "*/index.html"
       - "*.svg"
       - _config.yml
       - _layouts/**
