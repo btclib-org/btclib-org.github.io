@@ -7,7 +7,7 @@
 layout: default
 source_repository: btclib-org/.github
 source_path: profile/README.md
-source_commit: 5c63292797c5d92626acb77530f10ec0d04b0eb4
+source_commit: 6a666ff4aadef2976d84da1a35da5ca73ffe4611
 ---
 # btclib.org
 
@@ -66,7 +66,8 @@ whenever that makes them clearer.
   the standard every repository here follows.
 - **[claude-process](https://github.com/btclib-org/claude-process)** —
   the process the maintainers follow with Claude Code: the
-  `/btclib-org` command and the writer and reviewer agents.
+  `/btclib-iss`, `/btclib-pr` and `/btclib-table` commands and the
+  writer and reviewer agents.
 - **[btclib-org.github.io](https://github.com/btclib-org/btclib-org.github.io)**
   — the site serving this page at btclib.org.
 
@@ -93,9 +94,15 @@ and re-checked weekly. Coverage is held at 100%.
 
 ## Contributing
 
+Development is LLM-based: humans are welcome, as long as they are
+comfortable with agentic development ;-). A contribution must have been
+read and understood by the person who submits it.
+[`CONTRIBUTING.md`](https://github.com/btclib-org/.github/blob/main/CONTRIBUTING.md#working-with-an-llm)
+has the rules.
+
 Issues and pull requests go to each repository; its README and
 `CONTRIBUTING.md` say how. A change needs a clean lint gate, a passing
-suite at full coverage and a signed commit.
+suite at full coverage and signed-off commits.
 
 ## License
 
