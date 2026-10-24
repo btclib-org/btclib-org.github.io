@@ -65,12 +65,12 @@ projects:
   - bitcoin-node-tests
   - btclib
   - btclib-benchmarks
-  - btclib-ecc
   - btclib-node
   - btclib-org.github.io
   - btclib-secp256k1
   - btclib-wallet
   - claude-process
+  - ecc
   - portanode
 
 # The two projects whose page is not at btclib.org/<name>/, because GitHub
