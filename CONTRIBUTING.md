@@ -326,7 +326,7 @@ prose, yaml and the scripts; none of them builds Jekyll.
 local preview wants the same ruby and gems:
 
 ```shell
-bundle install
+BUNDLE_FROZEN=true bundle install
 bundle exec jekyll build --strict_front_matter
 bundle exec jekyll serve
 ```
@@ -335,6 +335,11 @@ bundle exec jekyll serve
 `Gemfile.lock`, committed beside it, is the lock. The ruby is
 `website.yml`'s `ruby-version`. On `main` the same workflow deploys what
 it built, so a gem that builds a different site is a change to the site.
+
+`BUNDLE_FROZEN=true` installs `Gemfile.lock` as written. Without it, a
+bundler run at another version than the lock's `BUNDLED WITH` rewrites
+the lock. A change to `Gemfile` is locked by a plain `bundle install`,
+which frozen mode refuses to do.
 
 ### Changing the homepage
 

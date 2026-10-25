@@ -22,7 +22,8 @@
      locally is not to wait for CI to say so. -->
 
 - [ ] the lint gate is clean: `uvx pre-commit run --all-files`
-- [ ] the site builds: `bundle install && bundle exec jekyll build --strict_front_matter`
+- [ ] the site builds: `BUNDLE_FROZEN=true bundle install`, then
+  `bundle exec jekyll build --strict_front_matter`
 
 ## Anything the reviewer should know
 
