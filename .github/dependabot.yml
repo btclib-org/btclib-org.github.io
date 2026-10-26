@@ -18,7 +18,8 @@
 #
 # The seven-day cooldown is what the weekly interval is really trading
 # against: a compromised release is usually yanked within days, and
-# nothing is offered here before it has been public a week. The interval
+# nothing but btclib-org/.github's tags, excluded in the github-actions
+# block, is offered here before it has been public a week. The interval
 # decides how long after that week the offer arrives, not whether it
 # waits at all.
 version: 2
@@ -43,6 +44,9 @@ updates:
         patterns: ["*"]
     cooldown:
       default-days: 7
+      # the exclude section 11 of btclib-org/.github's README.md gives for
+      # that repository's own tags, which the calls in .github/workflows pin
+      exclude: ["btclib-org/.github/*"]
 
   # the Gemfile, which is the site rather than this repository: the gems
   # website.yml builds it with. A bump here is a pull request whose
