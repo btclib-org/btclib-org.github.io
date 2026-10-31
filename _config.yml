@@ -60,6 +60,7 @@ projects:
   - .github
   - base58-bech32
   - bbt
+  - bip32-descriptors
   - bip39-slip39
   - bitcoin-core-rpc
   - bitcoin-node-tests
