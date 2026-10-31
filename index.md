@@ -7,7 +7,7 @@
 layout: default
 source_repository: btclib-org/.github
 source_path: profile/README.md
-source_commit: 55fddd5fbb401374767010b3ec61d2e9b7ff1ced
+source_commit: 3c9dd8ef94ded885f1bb60ee0b65391bc1aea8c1
 ---
 # btclib.org
 
@@ -41,6 +41,9 @@ whenever that makes them clearer.
 - **[bip39-slip39](https://github.com/btclib-org/bip39-slip39)** —
   BIP39, SLIP39 and Electrum mnemonics, from the entropy up to the seed,
   and nothing of bitcoin above it.
+- **[bip32-descriptors](https://github.com/btclib-org/bip32-descriptors)**
+  — BIP32 keys, output script descriptors and miniscript, on top of
+  btclib.
 - **[btclib-wallet](https://github.com/btclib-org/btclib-wallet)** —
   from a seed to a signed, broadcast transaction: BIP32 keys, BIP39 and
   SLIP39 mnemonics, descriptors, PSBT, coin selection.
