@@ -212,11 +212,10 @@ jobs:
           grep -q 'class="projects"' _site/index.html
           grep -q 'class="supporters"' _site/index.html
           grep -q 'class="supporters-note"' _site/index.html
-      # btclib.org may be served under a Content-Security-Policy, which
-      # the layout and the project pages have to hold under. The check
-      # allows same-origin loads only, which is stricter than the policy;
-      # its header says what it reads and what it leaves out
-      - name: The built pages hold under a same-origin policy
+      # btclib.org is served under a Content-Security-Policy, which the
+      # layout and the project pages have to hold under. The check's
+      # header says what it reads and what it leaves out
+      - name: The built pages carry no inline code and no load from elsewhere
         run: .github/scripts/check-built-pages.sh
       # the site builds whether or not anything answers an image's src:
       # an SVG the derivation did not write, or a file the exclude list

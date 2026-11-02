@@ -15,10 +15,9 @@ body:
 
 
         `_layouts/default.html` and `assets/css/style.scss` each carry
-        the theme gem's own file, which this tree does not edit: the
-        layout outside its fenced blocks and the stylesheet up to and
-        including its import are the gem's bytes, and a check refuses a
-        change to either.
+        the theme gem's own file: the layout outside its fenced blocks,
+        less one comment, and the stylesheet up to and including its
+        import are the gem's bytes, and a check refuses a change to either.
 
   - type: textarea
     id: what

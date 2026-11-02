@@ -18,14 +18,15 @@
 # two paragraphs down applied rather than an exception to it.
 #
 # Text hooks reaching them is not nothing: typos rewrote three letters
-# inside the layout the first time it saw it, which is what .typos.toml's
-# second entry is for. And it is why the rule stated below -- a hook is
-# added the day the tree grows the file it reads -- does not apply to
-# these two, html and scss though the tree now holds: part of each has to
-# stay the gem's bytes exactly, the layout everywhere outside its fenced
-# blocks and the stylesheet up to and including its import, which is what
-# check-theme-copies.sh asks. A hook here that writes into those parts
-# would put this gate against that one with no state satisfying both.
+# inside the layout the first time it saw it, which is what
+# .typos.toml's second entry is for. And it is why the rule stated below
+# -- a hook is added the day the tree grows the file it reads -- does
+# not apply to these two, html and scss though the tree now holds: part
+# of each has to stay the gem's bytes exactly, the layout everywhere
+# outside its fenced blocks, less one comment, and the stylesheet up to
+# and including its import, which is what check-theme-copies.sh asks. A
+# hook here that writes into those parts would put this gate against
+# that one with no state satisfying both.
 #
 # What is absent is absent for a measured reason rather than an
 # oversight. `git ls-files '*.py'` is empty, which is why no python hook
