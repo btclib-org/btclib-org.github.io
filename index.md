@@ -7,7 +7,7 @@
 layout: default
 source_repository: btclib-org/.github
 source_path: profile/README.md
-source_commit: b58ebd1e99318c546219da622c9b8930531b0965
+source_commit: e5c4d560586d925f632a0983fe4b8a938142ef3f
 ---
 # btclib.org
 
@@ -68,9 +68,9 @@ whenever that makes them clearer.
 - **[.github](https://github.com/btclib-org/.github)** — this page, and
   the standard every repository here follows.
 - **[ai-agents-process](https://github.com/btclib-org/ai-agents-process)** —
-  the process the maintainers follow with Claude Code: the
-  `/btclib-iss`, `/btclib-pr` and `/btclib-table` commands and the
-  writer and reviewer agents.
+  the process the maintainers follow with LLM coding agents: the
+  `/btclib-iss`, `/btclib-pr` and `/btclib-table` skills and the writer
+  and reviewer agents.
 - **[btclib-org.github.io](https://github.com/btclib-org/btclib-org.github.io)**
   — the site serving this page at btclib.org.
 
