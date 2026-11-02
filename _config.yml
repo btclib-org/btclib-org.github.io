@@ -76,13 +76,11 @@ projects:
 
 # The projects whose page is not at btclib.org/<name>/. GitHub Pages
 # serves neither /.github/, a dot path, nor /btclib-org.github.io/, this
-# site's own repository name, which redirects to the root.
-# ai-agents-process's page is at /claude-process/, the repository's old
-# name, until #188 moves it. The sidebar still shows the repository name.
+# site's own repository name, which redirects to the root. The sidebar
+# still shows the repository name.
 # The layout and .github/scripts/check-built-pages.sh read this map.
 project_paths:
   .github: github
-  ai-agents-process: claude-process
   btclib-org.github.io: website
 
 # The institutions that support the work, credited in the footer beside
