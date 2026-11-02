@@ -1,19 +1,24 @@
 {%- comment -%} btclib:begin the provenance of this file
-This file is jekyll-theme-minimal's own `_layouts/default.html` with
-blocks added to it, each fenced between a begin line and an end line
-carrying a marker of this tree's own. The theme offers an include point
-for `head` and for nothing else, so a sidebar that links the
-organization's repositories and a footer that credits the organization's
-supporters cost a copy of the whole layout rather than an include of two
-fragments. This paragraph is fenced the same way, being no more the
-theme's than they are.
+This file is jekyll-theme-minimal's own `_layouts/default.html` less one
+comment, with blocks added to it, each fenced between a begin line and
+an end line carrying a marker of this tree's own. The theme offers an
+include point for `head` and for nothing else, so a sidebar that links
+the organization's repositories and a footer that credits the
+organization's supporters cost a copy of the whole layout rather than an
+include of two fragments. This paragraph is fenced the same way, being
+no more the theme's than they are.
+
+The comment left out is the theme's conditional comment for Internet
+Explorer below 9. It loads a script from another origin, for browsers
+nobody runs.
 
 A copy of a gem's file is a fact about that gem recorded outside it, and
 `Gemfile`'s `jekyll-theme-minimal` line is one dependabot moves. So the
-copy is gated rather than trusted: `.github/scripts/check-theme-copies.sh`
-removes every fenced block and compares what is left with the layout in
-the installed gem, and `website.yml` runs it in the job where bundler has
-already resolved that gem. A theme upgrade that changes this layout then arrives
+copy is gated rather than trusted:
+`.github/scripts/check-theme-copies.sh` removes every fenced block and
+compares what is left with the layout in the installed gem, less that
+comment, and `website.yml` runs it in the job where bundler has already
+resolved that gem. A theme upgrade that changes this layout then arrives
 as a red check on dependabot's own pull request, rather than as a page
 serving the chrome of a release nobody runs any more.
 
@@ -42,9 +47,6 @@ btclib:end {%- endcomment -%}
 
 {% seo %}
     <link rel="stylesheet" href="{{ "/assets/css/style.css?v=" | append: site.github.build_revision | relative_url }}">
-    <!--[if lt IE 9]>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <![endif]-->
     {% include head-custom.html %}
   </head>
   <body>

@@ -93,7 +93,9 @@ theme, and the two plugins the layout uses.
 added to it: the sidebar's list of the organization's repositories, the
 footer's credit to the institutions that support the work, and a header
 saying what the file is. The whole layout is copied because the theme
-offers an include point for `head` and for nothing else.
+offers an include point for `head` and for nothing else. The one thing
+left out of it is the theme's comment for Internet Explorer below 9,
+because of the script it loads.
 
 `assets/` is what that layout points at: `css/style.scss`, which is the
 theme's own stylesheet with the rules those blocks need appended, and
@@ -104,8 +106,9 @@ inside a gem `Gemfile` pins, so a bump of that pin can leave either
 copy behind a theme that moved under it — silently, the site building
 either way. That is why `website.yml` runs
 `.github/scripts/check-theme-copies.sh`, which removes every fenced block
-from the layout and requires the remainder to be the installed gem's file
-byte for byte, and requires the stylesheet to open with the gem's own.
+from the layout and requires the remainder to be the installed gem's file,
+less that comment, byte for byte, and requires the stylesheet to open with
+the gem's own.
 
 The rest is what section 2 of
 [the organization's standard](https://github.com/btclib-org/.github)
@@ -138,10 +141,8 @@ Its facts are the project's own, read from its `pyproject.toml`,
 `README.md` and `SECURITY.md`. When one of those changes, its page here is
 updated by hand. The sidebar of every page links the project to its page.
 
-btclib-org/.github#1362 plans to serve btclib.org under a
-`Content-Security-Policy`. The pages carry no inline script or style, no
-`style` attribute, no event handler and no load from another origin.
-`.github/scripts/check-built-pages.sh` reads the built HTML for each of
-those, and `website.yml` runs it. It allows same-origin loads only, which
-is stricter than the policy: the policy also admits scripts from
-cdnjs.cloudflare.com and `data:` images.
+btclib.org is served under a `Content-Security-Policy`. The pages carry
+no inline script or style, no `style` attribute, no event handler and no
+load from another origin. `.github/scripts/check-built-pages.sh` reads the
+built HTML for each of those, and `website.yml` runs it. Its header gives
+the policy the pages are held to.

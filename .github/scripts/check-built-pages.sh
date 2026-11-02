@@ -1,30 +1,30 @@
 #!/bin/sh
-# Every built page holds under a check that allows same-origin loads only.
+# Every built page passes a check for inline code and loads from elsewhere.
 #
-# btclib.org may be served with
+# The pages are held to
 #
-#   Content-Security-Policy: default-src 'self'; script-src 'self'
-#     https://cdnjs.cloudflare.com; style-src 'self'; img-src 'self' data:;
-#     font-src 'self'; object-src 'none'; base-uri 'self';
-#     form-action 'self'; frame-ancestors 'none'
+#   Content-Security-Policy: default-src 'self'; script-src 'self';
+#     style-src 'self'; img-src 'self' data:; font-src 'self';
+#     object-src 'none'; base-uri 'self'; form-action 'self';
+#     frame-ancestors 'none'
 #
 # which refuses an inline script, an inline style, a `style` attribute,
 # an event handler and a load from an origin it does not name. This check
-# is stricter than the policy: it refuses every load from another origin,
-# where the policy also admits scripts from cdnjs.cloudflare.com and
-# `data:` images. It reads the built HTML, because the page source can
-# look clean and the layout still emit one.
+# looks for those in the shapes listed below, and lets a `data:` image
+# through as the policy does. It reads the built HTML, because the page
+# source can look clean and the layout still emit one.
 #
 # What it reads, in every `*.html` under the site: an inline script or
 # style element, a `style` attribute, an `on*` handler, a `javascript:`
-# address, a form, and a `src`, `srcset`, `poster`, `data` or `href` that
-# starts with a scheme or `//` on an element that loads something or sets
-# a `base` -- a plain `a` is a link a reader follows, and is not read.
+# address, a form, and a `src`, `srcset`, `poster`, `data`, `href` or
+# `xlink:href` that starts with `http://`, `https://` or `//`, in a
+# double-quoted attribute, on an element `loaders` names or a `link` with
+# a `rel` named below -- a plain `a` is a link a reader follows, and is
+# not read.
 #
 # Two things the layout, which is the theme's, emits are not findings:
-# HTML comments, which a browser never loads -- the theme's IE 9 shim
-# is inside one -- and the JSON-LD block of `{% seo %}`, a data block
-# that no browser runs.
+# HTML comments, which a browser never loads, and the JSON-LD block of
+# `{% seo %}`, a data block that no browser runs.
 #
 # Separately, `_config.yml`'s `projects` says which pages must exist, at
 # the path `project_paths` gives where it gives one.

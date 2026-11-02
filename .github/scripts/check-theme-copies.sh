@@ -4,7 +4,8 @@
 # Two files here shadow files inside the jekyll-theme-minimal gem, a
 # file of a given name in the tree taking precedence over the gem's:
 #
-#   _layouts/default.html    the layout, with fenced blocks added
+#   _layouts/default.html    the layout, less one comment, with fenced
+#                            blocks added
 #   assets/css/style.scss    the stylesheet, with rules appended
 #
 # Each is a fact about that gem recorded outside the gem, and the gem
@@ -18,6 +19,11 @@
 # sit inside it and are fenced, so they are removed and the remainder
 # compared; the stylesheet's are appended, so what is compared is the
 # file's opening bytes.
+#
+# The one comment is the gem's conditional comment for Internet Explorer
+# below 9, which loads a script from another origin. It is left out of
+# the gem's side of the comparison: everything else in the gem's layout
+# has to be here, and a copy that carries the comment again fails.
 #
 # That needs the gems resolved, which is why this runs in website.yml and
 # not in the lint gate, where uv is the only toolchain. Run from the
@@ -34,6 +40,11 @@ STYLESHEET=assets/css/style.scss
 # is left undefined by POSIX, where a bracket expression is not
 BEGIN_RE='^[[:space:]]*([{]%- comment -%[}] )?btclib:begin'
 END_RE='^[[:space:]]*([{]%- comment -%[}] )?btclib:end'
+
+# the lines of the gem's layout this tree leaves out, as a sed command. A
+# first line with no last one removes the rest of the file, which reports
+# below as a difference rather than passing
+IE_COMMENT='/<!--\[if lt IE 9\]>/,/<!\[endif\]-->/d'
 
 for f in "$LAYOUT" "$STYLESHEET"; do
     if [ ! -f "$f" ]; then
@@ -58,11 +69,11 @@ status=0
 # which is the wrong finding, and the one a reader would chase into the
 # gem rather than into this tree.
 #
-# What this cannot see is a block dropped whole, both its fences with it,
-# which leaves the count even and the remainder equal to the gem's file.
-# The layout's own header says how a block is carried across a theme
-# upgrade for that reason: by grepping the copy being replaced for the
-# marker, not by remembering a number
+# What this cannot see is a block dropped whole, both its fences with
+# it, which leaves the count even and the remainder equal to the gem's
+# file, less that comment. The layout's own header says how a block is
+# carried across a theme upgrade for that reason: by grepping the copy
+# being replaced for the marker, not by remembering a number
 begins=$(grep -cE "$BEGIN_RE" "$LAYOUT" || true)
 ends=$(grep -cE "$END_RE" "$LAYOUT" || true)
 if [ "$begins" -lt 1 ] || [ "$begins" != "$ends" ]; then
@@ -70,16 +81,20 @@ if [ "$begins" -lt 1 ] || [ "$begins" != "$ends" ]; then
     exit 1
 fi
 
+gem_layout=$(mktemp)
+trap 'rm -f "$gem_layout"' EXIT
+sed "$IE_COMMENT" "$gem_path/$LAYOUT" > "$gem_layout"
+
 # the end line is removed too: the test below it runs after the print,
 # so the line that closes a block is still inside it
 if ! awk "
     /$BEGIN_RE/ { skip = 1 }
     !skip       { print }
     /$END_RE/   { skip = 0 }
-" "$LAYOUT" | diff -u "$gem_path/$LAYOUT" -; then
-    echo "::error::$LAYOUT is not $GEM's layout plus its fenced blocks"
-    echo "The diff above reads the gem's file as - and this tree's,"
-    echo "stripped of its fenced blocks, as +."
+" "$LAYOUT" | diff -u "$gem_layout" -; then
+    echo "::error::$LAYOUT is not $GEM's layout, less its IE comment, plus its fenced blocks"
+    echo "The diff above reads the gem's file, without that comment, as -"
+    echo "and this tree's, stripped of its fenced blocks, as +."
     status=1
 fi
 

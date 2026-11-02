@@ -539,18 +539,19 @@ question names it.
   that job's `if`, its permissions or the `github-pages` environment is
   read against `REPOSITORY.md`'s record of that environment.
 - **Does the diff edit a theme file outside this tree's own part of
-  it?** `_layouts/default.html` is `jekyll-theme-minimal`'s layout with
-  fenced blocks added and `assets/css/style.scss` is its stylesheet with
-  rules appended, so the bytes that are the gem's are the layout outside
-  a fence and the stylesheet up to and including its import — not
+  it?** `_layouts/default.html` is `jekyll-theme-minimal`'s layout, less
+  the comment `.github/scripts/check-theme-copies.sh` names, with fenced
+  blocks added and `assets/css/style.scss` is its stylesheet with rules
+  appended, so the bytes that are the gem's are the layout outside a
+  fence and the stylesheet up to and including its import — not
   everything above the appended rules, this tree's own comment sitting
-  between the two. `.github/scripts/check-theme-copies.sh` refuses a
-  change to them. When the theme moves, carry this tree's fenced blocks
-  across to the new gem copy. What that script cannot see is a fenced block dropped
-  whole, the fences going with it; `website.yml` asserts in the built
-  page the two blocks a visitor is shown, which leaves the header saying
-  what the file is — so a diff that shortens the layout is read for
-  that.
+  between the two. That script refuses a change to them. When the theme
+  moves, carry this tree's fenced blocks across to the new gem copy and
+  leave that comment out. What that script cannot see is a fenced block
+  dropped whole, the fences going with it; `website.yml` asserts in the
+  built page the two blocks a visitor is shown, which leaves the header
+  saying what the file is — so a diff that shortens the layout is read
+  for that.
 - **Does a claim about what Pages serves come from `gh api`?** The build
   type, the source branch and the custom domain are settings outside the
   tree; `REPOSITORY.md` is where they are read back, and a sentence about
