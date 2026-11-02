@@ -133,9 +133,8 @@ read and understood by the person who submits it.
 
 Each project in `_config.yml`'s `projects` has a page at
 `btclib.org/<project>/`: the `index.md` of the directory of that name.
-`.github` and `btclib-org.github.io`, which GitHub Pages cannot serve at their
-names, are at `/github/` and `/website/`, from `_config.yml`'s
-`project_paths`. A page says what the project is and how to install it, and
+A page at another path has it from `_config.yml`'s `project_paths`, which
+says why. A page says what the project is and how to install it, and
 links its documentation, source, releases, changelog, security policy and license.
 Its facts are the project's own, read from its `pyproject.toml`,
 `README.md` and `SECURITY.md`. When one of those changes, its page here is

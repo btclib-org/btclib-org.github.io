@@ -21,8 +21,8 @@ Nothing is released: the scripts are run from a checkout, with uv as the only
 tool to install.
 
 ```shell
-git clone https://github.com/btclib-org/btclib-benchmarks.git
-cd btclib-benchmarks
+git clone https://github.com/btclib-org/benchmarks.git
+cd benchmarks
 uv sync --locked
 uv run python scripts/03-libraries.py
 ```
@@ -32,11 +32,11 @@ comparand ran before any number, and writes its run to `results/`.
 
 ## Links
 
-- [Source](https://github.com/btclib-org/btclib-benchmarks)
-- [Results](https://github.com/btclib-org/btclib-benchmarks/tree/main/results)
-- [Changelog](https://github.com/btclib-org/btclib-benchmarks/blob/main/CHANGELOG.md)
-- [Issues](https://github.com/btclib-org/btclib-benchmarks/issues)
-- [Contributing](https://github.com/btclib-org/btclib-benchmarks/blob/main/CONTRIBUTING.md)
-- [Security policy](https://github.com/btclib-org/btclib-benchmarks/security/policy)
-- [Report a vulnerability, privately](https://github.com/btclib-org/btclib-benchmarks/security/advisories/new)
-- License: MIT, in [LICENSE](https://github.com/btclib-org/btclib-benchmarks/blob/main/LICENSE)
+- [Source](https://github.com/btclib-org/benchmarks)
+- [Results](https://github.com/btclib-org/benchmarks/tree/main/results)
+- [Changelog](https://github.com/btclib-org/benchmarks/blob/main/CHANGELOG.md)
+- [Issues](https://github.com/btclib-org/benchmarks/issues)
+- [Contributing](https://github.com/btclib-org/benchmarks/blob/main/CONTRIBUTING.md)
+- [Security policy](https://github.com/btclib-org/benchmarks/security/policy)
+- [Report a vulnerability, privately](https://github.com/btclib-org/benchmarks/security/advisories/new)
+- License: MIT, in [LICENSE](https://github.com/btclib-org/benchmarks/blob/main/LICENSE)
