@@ -63,9 +63,9 @@ projects:
   - bip32-descriptors
   - bip39-slip39
   - bitcoin-core-rpc
-  - bitcoin-node-tests
   - btclib
   - btclib-benchmarks
+  - btclib-functional-tests
   - btclib-node
   - btclib-org.github.io
   - btclib-secp256k1

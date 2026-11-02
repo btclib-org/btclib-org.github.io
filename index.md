@@ -7,7 +7,7 @@
 layout: default
 source_repository: btclib-org/.github
 source_path: profile/README.md
-source_commit: 3c9dd8ef94ded885f1bb60ee0b65391bc1aea8c1
+source_commit: 5d7b1d707ffb75b8faf784489dcdf237b3099c91
 ---
 # btclib.org
 
@@ -58,9 +58,9 @@ whenever that makes them clearer.
 
 - **[btclib-node](https://github.com/btclib-org/btclib-node)** — a
   bitcoin full node in Python, built on btclib.
-- **[bitcoin-node-tests](https://github.com/btclib-org/bitcoin-node-tests)**
-  — Bitcoin Core's functional tests rewritten on btclib, to test any
-  node against bitcoind.
+- **[btclib-functional-tests](https://github.com/btclib-org/btclib-functional-tests)**
+  — Bitcoin Core's functional tests rewritten on btclib, with bitcoind
+  as the oracle.
 - **[bbt](https://github.com/btclib-org/bbt)** — the course material:
   spreadsheets, notebooks, scripts and a regtest lab.
 - **[portanode](https://github.com/btclib-org/portanode)** — Bitcoin
@@ -81,13 +81,13 @@ whenever that makes them clearer.
 An arrow points at what a package depends on, which is on a row above
 it, and a dashed one at what only an extra of the package installs. An
 arrow is drawn only where the package does not already install its
-target through the arrows that are drawn, so `btclib-node` has none to
-`bitcoin-core-rpc`, which `btclib-wallet` brings. `btclib-node` keeps
+target through the arrows that are drawn, so `btclib-benchmarks` has
+none to `btclib`, which `bip32-descriptors` brings. `btclib-node` keeps
 its own to `btclib` all the same, asking it for the `secp256k1` extra,
-which `btclib-wallet` installs `btclib` without. A grey dashed box is a C
-library and not a package of the organization: the dotted line to it
-says `btclib-secp256k1` bundles it, built in rather than installed beside
-it.
+which `bip32-descriptors` installs `btclib` without. A grey dashed box
+is a C library and not a package of the organization: the dotted line to
+it says `btclib-secp256k1` bundles it, built in rather than installed
+beside it.
 
 ## Tested against other people's vectors
 

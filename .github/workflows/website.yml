@@ -35,10 +35,10 @@ on:
     # what a Jekyll build reads, and nothing else. index.md is the homepage,
     # LICENSE is published as it stands,
     # a root `*.svg` an image derive-homepage.sh writes beside it,
-    # `*/index.md` the page of a project, `*/index.html` the one page
-    # that is a redirect and no project's, _config.yml decides what else in
-    # the root is published at all, _layouts holds the theme layout this
-    # tree carries its own copy of, assets holds the stylesheet and the
+    # `*/index.md` the page of a project, `*/index.html` a page that
+    # forwards an old name and is no project's, _config.yml decides what
+    # else in the root is published at all, _layouts holds the theme layout
+    # this tree carries its own copy of, assets holds the stylesheet and the
     # images that copy points at. Gemfile.lock sits beside Gemfile because
     # bundler resolves and installs from it before jekyll ever runs. The
     # two scripts are here because the job runs them and each can fail on
