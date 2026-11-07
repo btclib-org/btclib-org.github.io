@@ -22,8 +22,8 @@ listed rather than restated in a second place that would have to be kept
 true:
 
 ```shell
-grep -o 'repos/btclib-org/btclib-org\.github\.io[a-z/-]*' REPOSITORY.md \
-  | sort -u
+grep -o 'repos/btclib-org/btclib-org\.github\.io[A-Za-z0-9/{}._-]*' \
+  REPOSITORY.md | sort -u
 ```
 
 When each answer was read is the commit that wrote it: `git blame
@@ -523,12 +523,12 @@ gh api repos/btclib-org/btclib-org.github.io/environments \
 condition is wrong:
 
 ```shell
-env=repos/btclib-org/btclib-org.github.io/environments/github-pages
-gh api "$env" --jq '{deployment_branch_policy}'
+gh api repos/btclib-org/btclib-org.github.io/environments/github-pages \
+  --jq '{deployment_branch_policy}'
 # {"deployment_branch_policy":{"custom_branch_policies":true,
 #  "protected_branches":false}}
-gh api "$env/deployment-branch-policies" \
-  --jq '[.branch_policies[] | {name, type}]'
+gh api --jq '[.branch_policies[] | {name, type}]' \
+  repos/btclib-org/btclib-org.github.io/environments/github-pages/deployment-branch-policies
 # [{"name":"main","type":"branch"}]
 ```
 
