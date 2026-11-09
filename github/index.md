@@ -1,7 +1,7 @@
 ---
 layout: default
 title: .github
-description: The btclib-org repository standard, and the organization profile
+description: The organization's standard, and the btclib-org profile
 ---
 <!-- markdownlint-configure-file {"MD025": {"front_matter_title": ""}} -->
 
@@ -10,7 +10,7 @@ description: The btclib-org repository standard, and the organization profile
 `.github` keeps the standards the btclib-org projects have in common. It states
 them, and it is where they are kept true.
 
-- `README.md` is the repository standard.
+- `README.md` is the organization's standard.
 - `profile/README.md` is the organization's page on github.com, and the source
   of this site's homepage.
 - Its default community health files are what GitHub shows for a public repository
