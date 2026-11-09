@@ -56,7 +56,7 @@ on:
     # request touching none of these cannot change verify's answer, and
     # stale never runs on this event -- its own if: below -- so a list
     # under this key withholds nothing from it and narrows no other
-    # trigger. Section 10 of btclib-org/.github's README.md asks a
+    # trigger. Section 10 of the organization's standard asks a
     # calendar workflow's pull_request for exactly this filter and grants
     # an unfiltered one only for a reason stated in the header; the
     # nearest it names, a required check that would otherwise never run,
