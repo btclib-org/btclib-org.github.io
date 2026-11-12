@@ -252,9 +252,9 @@ repos:
   # the sidebar and the body of one page, which are written in two trees
   # and can only be compared here: _config.yml carries the list the
   # sidebar renders, index.md is generated from btclib-org/.github's
-  # profile/README.md, and a repository the organization adds reaches the
-  # second without reaching the first. The script says what it reads out
-  # of each and why it reads the page rather than the API
+  # profile/README.md, and a repository that file gains reaches the second
+  # without reaching the first. The script says what it reads out of each
+  # and why it reads the page rather than the API
   - repo: local
     hooks:
       - id: projects

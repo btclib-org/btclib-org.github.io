@@ -324,6 +324,11 @@ Each project's page is the `index.md` of the directory named for it in
 `_config.yml`'s `projects`, or of the one `project_paths` gives it, written
 here by hand from that project's own files.
 
+A repository the homepage does not link yet, such as a package before its
+first release, can have its page the same way, in the directory of its name
+and outside `projects`. That page is served, and the sidebar does not link
+it; it joins `projects` as *Changing the homepage* says.
+
 ### The environment and the gates
 
 uv is the only thing that has to be installed; it fetches interpreters
