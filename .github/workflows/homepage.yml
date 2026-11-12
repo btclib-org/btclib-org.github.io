@@ -24,7 +24,7 @@ name: homepage
 # than a gate.
 # CONTRIBUTING.md's "Changing the homepage" is what answers it: the
 # derivation, and _config.yml's projects list where what moved upstream
-# was the organization's set of repositories.
+# was the set of repositories profile/README.md links.
 #
 # The schedule is what runs stale without anybody asking: nothing else
 # here notices that profile/README.md has moved on its own, and neither

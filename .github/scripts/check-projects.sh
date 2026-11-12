@@ -4,7 +4,7 @@
 # The sidebar's list of projects is written in _config.yml; the page's
 # body, which names the same repositories at length, is index.md, and
 # index.md is generated from btclib-org/.github's profile/README.md. So
-# the two live in different trees, and the day the organization gains a
+# the two live in different trees, and the day profile/README.md gains a
 # repository the body gains it upstream while the list here does not.
 # Neither file fails on its own for that: the site builds, the sidebar is
 # short by one, and the page disagrees with itself in a way only a reader
