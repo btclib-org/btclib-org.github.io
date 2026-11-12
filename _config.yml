@@ -7,7 +7,7 @@
 #
 # REPOSITORY.md records that setting and is where it is read back. What
 # it means here is that this file, Gemfile, index.md, _layouts and
-# assets, and the page directory of each project below, are website
+# assets, and the page directory of each repository, are website
 # sources, and that every other file in main's root is a URL
 # under btclib.org whether it was meant to be one or not --
 # which is what the exclude list below is for.
@@ -38,24 +38,23 @@ show_downloads: false
 sass:
   sourcemap: never
 
-# The organization's repositories, linked in the sidebar by
+# The repositories the homepage's body links, linked in the sidebar by
 # _layouts/default.html, each to its page at btclib.org/<name>/: the
 # `index.md` of the directory of that name, which links the repository.
 # So an entry here is a repository name and nothing else, and
 # .github/scripts/check-built-pages.sh requires the built site to hold
 # its page. `project_paths`, below the list, names those that differ.
 #
-# All of them, in the order sort gives, rather than a selection: the
-# page's own body names every one of the organization's repositories, and
-# a sidebar naming some of them would be a second and quieter answer to
-# which repositories there are.
+# All of them, in the order sort gives, rather than a selection: a
+# sidebar naming some of the repositories the body links would be a
+# second and quieter answer to which repositories there are.
 #
 # That body is generated from btclib-org/.github's profile/README.md, so
 # this list and the links the page carries come out of two trees and can
 # drift apart with nothing failing. .github/scripts/check-projects.sh is
 # what refuses that: it reads the btclib-org addresses out of index.md
 # and requires this list to be exactly their set, so a repository the
-# organization adds reaches the sidebar or reaches nothing.
+# body gains reaches the sidebar or reaches nothing.
 projects:
   - .github
   - ai-agents-process
