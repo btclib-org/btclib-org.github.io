@@ -18,3 +18,12 @@ This repository serves <https://btclib.org/>. `index.md` is derived from
 `btclib-org/.github`'s `profile/README.md`; follow CONTRIBUTING.md's
 "Changing the homepage" before updating it. `_config.yml`, `Gemfile`,
 `_layouts/`, and `assets/` control the Jekyll site.
+
+## Code Review Rules
+
+Review against [REVIEWING.md](./REVIEWING.md). Its *The verdict* says
+which review opens with a verdict line and what every other review
+posts.
+
+The heading is the one Codex's GitHub review asks for
+([Customize what Codex reviews](https://learn.chatgpt.com/docs/third-party/github#customize-what-codex-reviews)).
