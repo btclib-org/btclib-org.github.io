@@ -312,7 +312,7 @@ gh api repos/btclib-org/btclib-org.github.io \
          delete_on_merge: .delete_branch_on_merge,
          title: .squash_merge_commit_title,
          message: .squash_merge_commit_message}'
-# {"auto":true,"delete_on_merge":true,"merge":false,
+# {"auto":false,"delete_on_merge":true,"merge":false,
 #  "message":"COMMIT_MESSAGES","rebase":false,"squash":true,
 #  "title":"COMMIT_OR_PR_TITLE"}
 ```
@@ -325,9 +325,8 @@ could have, and that is the one this removes.
 `COMMIT_OR_PR_TITLE` with `COMMIT_MESSAGES` is the pair the standard asks
 for, and which of the two titles lands is its *Merge method* rule.
 
-`allow_auto_merge` is `true`, as section 11 of the standard asks: it is
-what presses the one enabled button once the checks and the review are
-in.
+`allow_auto_merge` is `false`, as section 11 of the standard asks, so no
+pull request can be armed: the merge is explicit.
 
 `delete_branch_on_merge` fires on its own, every landing here being a
 merged pull request, so a branch still standing is one that was closed
