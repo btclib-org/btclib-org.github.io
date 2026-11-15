@@ -43,7 +43,10 @@ unmetered only here.
 ```shell
 gh api repos/btclib-org/btclib-org.github.io \
   --jq '{visibility, has_issues}'
-# {"has_issues":true,"visibility":"public"}
+```
+
+```json
+{"has_issues":true,"visibility":"public"}
 ```
 
 ## Pages, which is btclib.org
@@ -53,8 +56,11 @@ This is the setting the repository exists for:
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/pages \
   --jq '{build_type, source, cname, https_enforced, public}'
-# {"build_type":"workflow","cname":"btclib.org","https_enforced":true,
-#  "public":true,"source":{"branch":"main","path":"/"}}
+```
+
+```json
+{"build_type":"workflow","cname":"btclib.org","https_enforced":true,
+ "public":true,"source":{"branch":"main","path":"/"}}
 ```
 
 `workflow` means Pages serves what `website.yml` deploys and builds
@@ -67,7 +73,10 @@ answering here names both spellings of the domain:
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/pages \
   --jq '.https_certificate | {state, domains}'
-# {"domains":["btclib.org","www.btclib.org"],"state":"approved"}
+```
+
+```json
+{"domains":["btclib.org","www.btclib.org"],"state":"approved"}
 ```
 
 No date is written down, a certificate's own dates rotating at every
@@ -111,7 +120,7 @@ repository's Pages site being the thing it no longer has.
 
 **A readback here asks for an object and not a field**: `{cname}` rather
 than `.cname`, because `gh api --jq '.cname'` prints an **empty line**
-for a JSON `null` and not the word, so a comment reading `# null` beside
+for a JSON `null` and not the word, so an answer reading `null` below
 that spelling transcribes what the reader expected rather than what the
 command answered.
 
@@ -122,7 +131,10 @@ one site and not two copies to keep in step.
 ```shell
 curl -sS -o /dev/null -w '%{http_code} %{url_effective}\n' -L \
   https://btclib-org.github.io/
-# 200 https://btclib.org/
+```
+
+```text
+200 https://btclib.org/
 ```
 
 **Nothing of `btclib-org/btclib` is served under a path of this domain**,
@@ -133,7 +145,10 @@ repository's:
 
 ```shell
 curl -sS -o /dev/null -w '%{http_code}\n' https://btclib.org/btclib/
-# 404
+```
+
+```text
+404
 ```
 
 The apex carries A records to Pages and `www` a `CNAME` to
@@ -144,12 +159,27 @@ repository GitHub serves to a request those records already deliver.
 
 ```shell
 dig +short btclib.org A | sort | tr '\n' ' '
-# 185.199.108.153 185.199.109.153 185.199.110.153 185.199.111.153
+```
+
+```text
+185.199.108.153 185.199.109.153 185.199.110.153 185.199.111.153
+```
+
+```shell
 dig +short www.btclib.org | head -1
-# btclib-org.github.io.
+```
+
+```text
+btclib-org.github.io.
+```
+
+```shell
 curl -sS -o /dev/null -w '%{http_code} %{url_effective}\n' -L \
   https://www.btclib.org/
-# 200 https://btclib.org/
+```
+
+```text
+200 https://btclib.org/
 ```
 
 ## Required checks on main
@@ -166,14 +196,17 @@ gh api repos/btclib-org/btclib-org.github.io/branches/main/protection \
          force_pushes: .allow_force_pushes.enabled,
          deletions: .allow_deletions.enabled,
          conversation_resolution: .required_conversation_resolution.enabled}'
-# {"checks":[{"app_id":15368,"context":"Lint"},
-#            {"app_id":15368,"context":"Dependency review"},
-#            {"app_id":15368,"context":"Sign-off"}],
-#  "conversation_resolution":true,"deletions":false,"enforce_admins":false,
-#  "force_pushes":false,"linear_history":true,
-#  "reviews":{"dismiss_stale_reviews":true,
-#             "required_approving_review_count":1},
-#  "signatures":false,"strict":false}
+```
+
+```json
+{"checks":[{"app_id":15368,"context":"Lint"},
+           {"app_id":15368,"context":"Dependency review"},
+           {"app_id":15368,"context":"Sign-off"}],
+ "conversation_resolution":true,"deletions":false,"enforce_admins":false,
+ "force_pushes":false,"linear_history":true,
+ "reviews":{"dismiss_stale_reviews":true,
+            "required_approving_review_count":1},
+ "signatures":false,"strict":false}
 ```
 
 **`Lint`, `Dependency review` and `Sign-off` are the required checks, and
@@ -221,7 +254,10 @@ alone. `claude-review.yml` is not one either, and its own header says why.
 
 ```shell
 gh api repos/btclib-org/btclib-org.github.io --jq '.default_branch'
-# main
+```
+
+```text
+main
 ```
 
 ```shell
@@ -231,15 +267,18 @@ gh api repos/btclib-org/btclib-org.github.io/rulesets --jq '.[].id' \
     --jq '{name, target, enforcement, refs: .conditions.ref_name.include,
            rules: [.rules[].type],
            bypass: [.bypass_actors[]?.bypass_mode]}'
-# {"bypass":[],"enforcement":"active","name":"main-integrity",
-#  "refs":["refs/heads/main"],
-#  "rules":["required_linear_history","non_fast_forward","deletion"],
-#  "target":"branch"}
-# {"bypass":["pull_request"],"enforcement":"active",
-#  "name":"main-self-merge","refs":["refs/heads/main"],
-#  "rules":["pull_request"],"target":"branch"}
-# {"bypass":[],"enforcement":"active","name":"tag-integrity",
-#  "refs":["refs/tags/v*"],"rules":["required_signatures"],"target":"tag"}
+```
+
+```text
+{"bypass":[],"enforcement":"active","name":"main-integrity",
+ "refs":["refs/heads/main"],
+ "rules":["required_linear_history","non_fast_forward","deletion"],
+ "target":"branch"}
+{"bypass":["pull_request"],"enforcement":"active",
+ "name":"main-self-merge","refs":["refs/heads/main"],
+ "rules":["pull_request"],"target":"branch"}
+{"bypass":[],"enforcement":"active","name":"tag-integrity",
+ "refs":["refs/tags/v*"],"rules":["required_signatures"],"target":"tag"}
 ```
 
 - `main-integrity` — required linear history, no
@@ -258,13 +297,16 @@ gh api repos/btclib-org/btclib-org.github.io/rulesets --jq '.[].id' \
   | xargs -I{} gh api \
     repos/btclib-org/btclib-org.github.io/rulesets/{} \
     --jq '.rules[] | select(.type=="pull_request") | .parameters'
-# {"allowed_merge_methods":["squash"],
-#  "dismiss_stale_reviews_on_push":true,
-#  "dismissal_restriction":{"allowed_actors":[],"enabled":false},
-#  "require_code_owner_review":false,
-#  "require_extra_approval_for_unattributed_changes":true,
-#  "require_last_push_approval":false,"required_approving_review_count":1,
-#  "required_review_thread_resolution":true,"required_reviewers":[]}
+```
+
+```json
+{"allowed_merge_methods":["squash"],
+ "dismiss_stale_reviews_on_push":true,
+ "dismissal_restriction":{"allowed_actors":[],"enabled":false},
+ "require_code_owner_review":false,
+ "require_extra_approval_for_unattributed_changes":true,
+ "require_last_push_approval":false,"required_approving_review_count":1,
+ "required_review_thread_resolution":true,"required_reviewers":[]}
 ```
 
 `tag-integrity` matches no ref: `CONTRIBUTING.md`'s *A version, and no
@@ -283,7 +325,10 @@ lightweight, so the rule does not check a tag's signature
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/commits/main \
   --jq '.commit.verification | {verified, reason}'
-# {"reason":"valid","verified":true}
+```
+
+```json
+{"reason":"valid","verified":true}
 ```
 
 No ruleset over `main` carries `required_signatures`, so nothing refuses
@@ -312,9 +357,12 @@ gh api repos/btclib-org/btclib-org.github.io \
          delete_on_merge: .delete_branch_on_merge,
          title: .squash_merge_commit_title,
          message: .squash_merge_commit_message}'
-# {"auto":false,"delete_on_merge":true,"merge":false,
-#  "message":"COMMIT_MESSAGES","rebase":false,"squash":true,
-#  "title":"COMMIT_OR_PR_TITLE"}
+```
+
+```json
+{"auto":false,"delete_on_merge":true,"merge":false,
+ "message":"COMMIT_MESSAGES","rebase":false,"squash":true,
+ "title":"COMMIT_OR_PR_TITLE"}
 ```
 
 Squash is the only method GitHub can be asked for. The merge commit is
@@ -325,8 +373,8 @@ could have, and that is the one this removes.
 `COMMIT_OR_PR_TITLE` with `COMMIT_MESSAGES` is the pair the standard asks
 for, and which of the two titles lands is its *Merge method* rule.
 
-`allow_auto_merge` is `false`, as section 11 of the standard asks, so no
-pull request can be armed: the merge is explicit.
+`allow_auto_merge` is `false`, [for the reason section 11
+gives][s11-merge].
 
 `delete_branch_on_merge` fires on its own, every landing here being a
 merged pull request, so a branch still standing is one that was closed
@@ -337,7 +385,10 @@ rather than merged.
 ```shell
 gh api repos/btclib-org/btclib-org.github.io \
   --jq '{wiki: .has_wiki, projects: .has_projects, issues: .has_issues}'
-# {"issues":true,"projects":false,"wiki":false}
+```
+
+```json
+{"issues":true,"projects":false,"wiki":false}
 ```
 
 Issues are on: this repository's own tracker is where a defect in the
@@ -352,7 +403,10 @@ about either, so no answer to them is a decision here.
 
 ```shell
 gh api repos/btclib-org/btclib-org.github.io --jq '.topics'
-# ["bitcoin","btclib","github-pages","organization-site"]
+```
+
+```json
+["bitcoin","btclib","github-pages","organization-site"]
 ```
 
 The standard makes a package's `keywords` its topics; there is no package
@@ -366,7 +420,10 @@ has no topics.
 ```shell
 gh api repos/btclib-org/btclib-org.github.io \
   --jq '{description, homepage}'
-# {"description":"The btclib organization website","homepage":null}
+```
+
+```json
+{"description":"The btclib organization website","homepage":null}
 ```
 
 The description is read by the site as well as by github.com:
@@ -391,8 +448,11 @@ here.
 
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/actions/permissions/workflow
-# {"default_workflow_permissions":"read",
-#  "can_approve_pull_request_reviews":false}
+```
+
+```json
+{"default_workflow_permissions":"read",
+ "can_approve_pull_request_reviews":false}
 ```
 
 `read` is the floor every workflow here starts from. `claude-review.yml`
@@ -411,7 +471,10 @@ back afterwards rather than assuming it moved.
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/actions/permissions \
   --jq '{enabled, allowed_actions, sha_pinning_required}'
-# {"allowed_actions":"all","enabled":true,"sha_pinning_required":true}
+```
+
+```json
+{"allowed_actions":"all","enabled":true,"sha_pinning_required":true}
 ```
 
 `sha_pinning_required` is set at the organization level: [section 11 of
@@ -421,9 +484,18 @@ the standard has the reasons for both fields][s11-tokens].
 
 ```shell
 gh api repos/btclib-org/btclib-org.github.io --jq .web_commit_signoff_required
-# true
+```
+
+```text
+true
+```
+
+```shell
 gh api orgs/btclib-org --jq .web_commit_signoff_required
-# true
+```
+
+```text
+true
 ```
 
 Set at the organization level, [for the reason section 11
@@ -434,11 +506,14 @@ gives][s11-sigs].
 ```shell
 gh api repos/btclib-org/btclib-org.github.io \
   --jq '.security_and_analysis'
-# {"dependabot_security_updates":{"status":"enabled"},
-#  "secret_scanning":{"status":"enabled"},
-#  "secret_scanning_non_provider_patterns":{"status":"disabled"},
-#  "secret_scanning_push_protection":{"status":"enabled"},
-#  "secret_scanning_validity_checks":{"status":"disabled"}}
+```
+
+```json
+{"dependabot_security_updates":{"status":"enabled"},
+ "secret_scanning":{"status":"enabled"},
+ "secret_scanning_non_provider_patterns":{"status":"disabled"},
+ "secret_scanning_push_protection":{"status":"enabled"},
+ "secret_scanning_validity_checks":{"status":"disabled"}}
 ```
 
 **The first three are what the standard asks for, and they are on.** All
@@ -458,9 +533,18 @@ updates, the pull requests that answer an alert, at another:
 ```shell
 gh api -i repos/btclib-org/btclib-org.github.io/vulnerability-alerts \
   | head -1
-# HTTP/2.0 204 No Content
+```
+
+```text
+HTTP/2.0 204 No Content
+```
+
+```shell
 gh api repos/btclib-org/btclib-org.github.io/automated-security-fixes
-# {"enabled":true,"paused":false}
+```
+
+```json
+{"enabled":true,"paused":false}
 ```
 
 Version bumps are the other half of what Dependabot does here, and they
@@ -478,7 +562,10 @@ with it.
 
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/private-vulnerability-reporting
-# {"enabled":true}
+```
+
+```json
+{"enabled":true}
 ```
 
 On, as the standard asks of every tier. The policy the Security tab shows
@@ -491,13 +578,28 @@ one publishes nothing.
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/actions/secrets \
   --jq '[.secrets[].name]'
-# []
+```
+
+```json
+[]
+```
+
+```shell
 gh api orgs/btclib-org/actions/secrets/CLAUDE_CODE_OAUTH_TOKEN \
   --jq '.visibility'
-# all
+```
+
+```text
+all
+```
+
+```shell
 gh api orgs/btclib-org/dependabot/secrets/CLAUDE_CODE_OAUTH_TOKEN \
   --jq '.visibility'
-# all
+```
+
+```text
+all
 ```
 
 `claude-review.yml` is the only workflow here that reads a secret, and
@@ -513,7 +615,10 @@ review that silently reviewed nothing.
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/environments \
   --jq '[.environments[].name]'
-# ["github-pages"]
+```
+
+```json
+["github-pages"]
 ```
 
 `github-pages` is GitHub's own, created when Pages was enabled, and
@@ -524,11 +629,20 @@ condition is wrong:
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/environments/github-pages \
   --jq '{deployment_branch_policy}'
-# {"deployment_branch_policy":{"custom_branch_policies":true,
-#  "protected_branches":false}}
+```
+
+```json
+{"deployment_branch_policy":{"custom_branch_policies":true,
+ "protected_branches":false}}
+```
+
+```shell
 gh api --jq '[.branch_policies[] | {name, type}]' \
   repos/btclib-org/btclib-org.github.io/environments/github-pages/deployment-branch-policies
-# [{"name":"main","type":"branch"}]
+```
+
+```json
+[{"name":"main","type":"branch"}]
 ```
 
 There is no `pypi` environment and no trusted publisher, nothing here
@@ -544,7 +658,10 @@ store is read too:
 
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/actions/variables --jq .total_count
-# 0
+```
+
+```text
+0
 ```
 
 ## What is not configured, and why
@@ -554,7 +671,10 @@ gh api repos/btclib-org/btclib-org.github.io/actions/variables --jq .total_count
   ```shell
   gh api repos/btclib-org/btclib-org.github.io/code-scanning/default-setup \
     --jq '{state, languages}'
-  # {"languages":["actions","ruby"],"state":"not-configured"}
+  ```
+
+  ```json
+  {"languages":["actions","ruby"],"state":"not-configured"}
   ```
 
   Section 10 of the standard names the trees that run `codeql`, and this
@@ -591,5 +711,6 @@ one means reading the repository document against this file rather than
 running a command.
 
 [s11-branch]: https://github.com/btclib-org/.github/blob/main/README.md#branch-protection-and-rulesets
+[s11-merge]: https://github.com/btclib-org/.github/blob/main/README.md#merge-method
 [s11-sigs]: https://github.com/btclib-org/.github/blob/main/README.md#signatures
 [s11-tokens]: https://github.com/btclib-org/.github/blob/main/README.md#tokens-publishing-scanning
