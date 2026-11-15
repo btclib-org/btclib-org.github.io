@@ -79,9 +79,13 @@ permissions:
 concurrency:
   # named literally, never through github.workflow. Keyed on the pull
   # request's number rather than on github.head_ref, which two forks each
-  # pushing "patch-1" would share; a run with no pull request falls back
-  # to github.ref
-  group: homepage-${{ github.event.pull_request.number || github.ref }}
+  # pushing "patch-1" would share. A push run is keyed on its commit and
+  # its ref instead, as section 10 of the organization's standard says,
+  # and a schedule or a dispatch falls back to github.ref
+  group: >-
+    homepage-${{ github.event_name == 'push'
+    && format('{0}-{1}', github.sha, github.ref)
+    || github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
 jobs:
