@@ -147,18 +147,19 @@ curl -sS -o /dev/null -w '%{http_code} %{url_effective}\n' -L \
 200 https://btclib.org/
 ```
 
-**Nothing of `btclib-org/btclib` is served under a path of this domain**,
-that repository having no Pages site. Where it has one, GitHub serves it
-under this domain and moves its `html_url` there without being asked,
-which is what makes the domain the organization's rather than this
-repository's:
+**`btclib-org/btclib` has no Pages site**, so nothing of that repository
+is served under this domain. Where it has one, GitHub serves it under
+this domain and moves its `html_url` there without being asked, which is
+what makes the domain the organization's rather than this repository's.
+`https://btclib.org/btclib/` serves this tree's own page,
+`btclib/index.md`, so a request there does not tell; the API does:
 
 ```shell
-curl -sS -o /dev/null -w '%{http_code}\n' https://btclib.org/btclib/
+gh api repos/btclib-org/btclib --jq '{has_pages}'
 ```
 
 ```text
-404
+{"has_pages":false}
 ```
 
 **btclib.org is a Cloudflare zone**, and btclib-org/.github's
