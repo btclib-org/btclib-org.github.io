@@ -7,7 +7,7 @@
 layout: default
 source_repository: btclib-org/.github
 source_path: profile/README.md
-source_commit: 76965633d09b390a5760b5201e3cf3e82022fe81
+source_commit: 2277078cfc313edef5c8e63dbd9b9218e29a546d
 ---
 # btclib.org
 
@@ -97,9 +97,9 @@ and re-checked weekly. Coverage is held at 100%.
 
 ## Contributing
 
-Development is LLM-based: humans are welcome, as long as they are
-comfortable with agentic development ;-). A contribution must have been
-read and understood by the person who submits it.
+Software development in btclib-org is mainly LLM-driven, but human
+beings are welcome too. A contribution must have been read and
+understood by the person who submits it.
 [`CONTRIBUTING.md`](https://github.com/btclib-org/.github/blob/main/CONTRIBUTING.md#working-with-an-llm)
 has the rules.
 
