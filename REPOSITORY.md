@@ -67,8 +67,10 @@ gh api repos/btclib-org/btclib-org.github.io/pages \
 nothing itself.
 
 **`https_enforced` is `true`, and a certificate is what that field is
-about.** GitHub issues one for a custom domain on its own, and the one
-answering here names both spellings of the domain:
+about.** GitHub requests one for a custom domain from Let's Encrypt on
+its own, once a check of the domain's DNS succeeds ([*Securing your
+GitHub Pages site with HTTPS*][pages-https]). The one answering here
+names both spellings of the domain:
 
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/pages \
@@ -85,13 +87,15 @@ renewal. What the dates say and the endpoint does not is that its
 certificate was issued for this repository rather than inherited with the
 name. `TZ=UTC` is there so that the two answers are in one zone, `x509`
 printing GMT and a commit date carrying whatever offset it was written
-in. The `DNS:` line beside them is the certificate's `subjectAltName`,
-the same pair of names the endpoint gives, read from what is actually
-served rather than from the setting:
+in. The `issuer` line beside them names Let's Encrypt, and the `DNS:`
+line is the certificate's `subjectAltName`, the same pair of names the
+endpoint gives, both read from what is actually served rather than from
+the setting:
 
 ```shell
 echo | openssl s_client -connect btclib.org:443 -servername btclib.org \
-  2>/dev/null | openssl x509 -noout -dates -text | grep -e '^not' -e 'DNS:'
+  2>/dev/null | openssl x509 -noout -issuer -dates -text \
+  | grep -e '^issuer' -e '^not' -e 'DNS:'
 TZ=UTC git log -1 --format=%cd --date=iso-local \
   $(git log --diff-filter=A --format=%H -- CNAME)
 ```
@@ -100,6 +104,12 @@ TZ=UTC git log -1 --format=%cd --date=iso-local \
 macOS ships is a LibreSSL, which has no such option and exits `1` on it.
 A command recorded here is for whoever reads the file, not for whichever
 build happened to be first on one `PATH`.
+
+**The endpoint reads the certificate Pages holds, and `openssl` the one
+a client is served.** They are one certificate because the records below
+are DNS only, so the client reaches Pages itself. Through a proxied
+record, the proxy answers with a certificate of its own, and `openssl`
+reads that one.
 
 The tree holds no `CNAME`; the commit that added it dates the claim.
 
@@ -151,10 +161,22 @@ curl -sS -o /dev/null -w '%{http_code}\n' https://btclib.org/btclib/
 404
 ```
 
-The apex carries A records to Pages and `www` a `CNAME` to
+**btclib.org is a Cloudflare zone**, and btclib-org/.github's
+`REPOSITORY.md` records its settings in [*btclib.org on
+Cloudflare*][cloudflare]:
+
+```shell
+dig +short NS btclib.org | sort | tr '\n' ' '
+```
+
+```text
+asa.ns.cloudflare.com. scott.ns.cloudflare.com.
+```
+
+The apex carries A and AAAA records to Pages and `www` a `CNAME` to
 `btclib-org.github.io`, which is the target GitHub's documentation asks
-for and not the apex. Neither record is this repository's to set: the
-zone is at the registrar, and what a `CNAME` here decides is which
+for and not the apex. None of these records is this repository's to
+set: they are the zone's, and what a `CNAME` here decides is which
 repository GitHub serves to a request those records already deliver.
 
 ```shell
@@ -163,6 +185,14 @@ dig +short btclib.org A | sort | tr '\n' ' '
 
 ```text
 185.199.108.153 185.199.109.153 185.199.110.153 185.199.111.153
+```
+
+```shell
+dig +short btclib.org AAAA | sort | tr '\n' ' '
+```
+
+```text
+2606:50c0:8000::153 2606:50c0:8001::153 2606:50c0:8002::153 2606:50c0:8003::153
 ```
 
 ```shell
@@ -180,6 +210,33 @@ curl -sS -o /dev/null -w '%{http_code} %{url_effective}\n' -L \
 
 ```text
 200 https://btclib.org/
+```
+
+**These records are DNS only, not proxied**, so a request reaches Pages
+and GitHub answers it. Proxied, they would answer `dig` with
+Cloudflare's addresses in place of GitHub's above, and this `curl` with
+`server: cloudflare`:
+
+```shell
+curl -sI https://btclib.org/ | grep -i '^server'
+```
+
+```text
+server: GitHub.com
+```
+
+They stay DNS only so that Pages can renew its certificate: with them
+proxied, the Pages endpoint's `.https_certificate.state` answered
+`bad_authz`, not `approved`. Where a zone has CAA records, one of them
+has to allow Let's Encrypt ([GitHub's troubleshooting][pages-caa]), and
+one here does:
+
+```shell
+dig +short CAA btclib.org | grep -F 'issue "letsencrypt.org"'
+```
+
+```text
+0 issue "letsencrypt.org"
 ```
 
 ## Required checks on main
@@ -710,6 +767,9 @@ The price is that a change to any of those is invisible here, and finding
 one means reading the repository document against this file rather than
 running a command.
 
+[cloudflare]: https://github.com/btclib-org/.github/blob/main/REPOSITORY.md#btcliborg-on-cloudflare
+[pages-caa]: https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/troubleshooting-custom-domains-and-github-pages#https-errors
+[pages-https]: https://docs.github.com/en/pages/getting-started-with-github-pages/securing-your-github-pages-site-with-https#troubleshooting-certificate-provisioning-certificate-not-yet-created-error
 [s11-branch]: https://github.com/btclib-org/.github/blob/main/README.md#branch-protection-and-rulesets
 [s11-merge]: https://github.com/btclib-org/.github/blob/main/README.md#merge-method
 [s11-sigs]: https://github.com/btclib-org/.github/blob/main/README.md#signatures
