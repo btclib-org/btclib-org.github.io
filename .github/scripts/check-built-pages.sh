@@ -14,6 +14,18 @@
 # through as the policy does. It reads the built HTML, because the page
 # source can look clean and the layout still emit one.
 #
+# btclib.org does not serve this policy. Its records are DNS only, so
+# GitHub Pages answers, and Pages sets no Content-Security-Policy header.
+# REPOSITORY.md's *Pages, which is btclib.org* says why the records are
+# DNS only.
+#
+# The pages are held to the policy all the same, because a load from
+# another origin sends that origin the visitor's address. This check
+# reads no stylesheet, so a load a stylesheet asks for is not read.
+#
+# Holding them to it also keeps them free of inline code, so a policy
+# served for them would need no 'unsafe-inline'.
+#
 # What it reads, in every `*.html` under the site: an inline script or
 # style element, a `style` attribute, an `on*` handler, a `javascript:`
 # address, a form, and a `src`, `srcset`, `poster`, `data`, `href` or
