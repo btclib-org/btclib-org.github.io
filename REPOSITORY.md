@@ -158,7 +158,7 @@ what makes the domain the organization's rather than this repository's.
 gh api repos/btclib-org/btclib --jq '{has_pages}'
 ```
 
-```text
+```json
 {"has_pages":false}
 ```
 
