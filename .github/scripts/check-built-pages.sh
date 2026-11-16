@@ -141,16 +141,24 @@ fi
 # here-documents, not a pipe, so that report sets this shell's status,
 # and a read loop, so that a name is neither split nor globbed
 while IFS= read -r file; do
-    # each escape, comment, quoted string and unquoted url() target is
-    # read whole, so that nothing inside one is read as another. A string
-    # ends at its closing quote, at the end of the file, or before a line
-    # break (CR, LF, FF or CRLF) that no backslash escapes; an unquoted
-    # target ends at the first `)` that no backslash escapes, or at the end
-    # of the file
-    if ! targets=$(perl -0777 -e '
+    # a byte-order mark decides the encoding, as it does in a browser:
+    # UTF-16 in either byte order is decoded and a UTF-8 mark dropped, and
+    # a file with none is read as bytes. Then each escape, comment, quoted
+    # string and unquoted url() target is read whole, so that nothing
+    # inside one is read as another. A hex escape takes up to six digits
+    # and the one space, tab or line break after them. A string ends at
+    # its closing quote, at the end of the file, or before a line break
+    # (CR, LF, FF or CRLF) that no backslash escapes; an unquoted target
+    # ends at the first `)` that no backslash escapes, or at the end of
+    # the file
+    if ! targets=$(perl -0777 -MEncode=decode -e '
         open my $in, "<", $ARGV[0] or die "$ARGV[0]: $!\n";
         defined($_ = <$in>) or die "$ARGV[0]: $!\n";
-        while (m{\\.|/\*.*?(?:\*/|\z)|"((?:[^"\\\n\r\f]|\\(?:\r\n|.|\z))*)(?:"|(?=[\n\r\f])|\z)|\x27((?:[^\x27\\\n\r\f]|\\(?:\r\n|.|\z))*)(?:\x27|(?=[\n\r\f])|\z)|url\(\s*((?:[^"\x27\s)\\]|\\.)(?:[^)\\]|\\.)*)}gis) {
+        if (s/\A\xFE\xFF//) { $_ = decode("UTF-16BE", $_); binmode STDOUT, ":encoding(UTF-8)" }
+        elsif (s/\A\xFF\xFE//) { $_ = decode("UTF-16LE", $_); binmode STDOUT, ":encoding(UTF-8)" }
+        else { s/\A\xEF\xBB\xBF// }
+        my $e = qr{\\(?:[0-9a-f]{1,6}(?:\r\n|[ \t\n\r\f])?|\r\n|.|\z)}is;
+        while (m{$e|/\*.*?(?:\*/|\z)|"((?:[^"\\\n\r\f]|$e)*)(?:"|(?=[\n\r\f])|\z)|\x27((?:[^\x27\\\n\r\f]|$e)*)(?:\x27|(?=[\n\r\f])|\z)|url\(\s*((?:[^"\x27\s)\\]|$e)(?:[^)\\]|$e)*)}gis) {
             my $t = $1 // $2 // $3 // "";
             print "$1\n" if $t =~ m{^\s*((?:https?:)?//\S*)}i;
         }' "$file"); then
