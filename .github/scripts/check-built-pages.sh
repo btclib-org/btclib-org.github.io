@@ -145,11 +145,12 @@ while IFS= read -r file; do
     # read whole, so that nothing inside one is read as another. A string
     # ends at its closing quote, at the end of the file, or before a line
     # break (CR, LF, FF or CRLF) that no backslash escapes; an unquoted
-    # target ends at its `)`
+    # target ends at the first `)` that no backslash escapes, or at the end
+    # of the file
     if ! targets=$(perl -0777 -e '
         open my $in, "<", $ARGV[0] or die "$ARGV[0]: $!\n";
         defined($_ = <$in>) or die "$ARGV[0]: $!\n";
-        while (m{\\.|/\*.*?(?:\*/|\z)|"((?:[^"\\\n\r\f]|\\(?:\r\n|.|\z))*)(?:"|(?=[\n\r\f])|\z)|\x27((?:[^\x27\\\n\r\f]|\\(?:\r\n|.|\z))*)(?:\x27|(?=[\n\r\f])|\z)|url\(\s*([^"\x27\s)](?:[^)\\]|\\.)*)}gis) {
+        while (m{\\.|/\*.*?(?:\*/|\z)|"((?:[^"\\\n\r\f]|\\(?:\r\n|.|\z))*)(?:"|(?=[\n\r\f])|\z)|\x27((?:[^\x27\\\n\r\f]|\\(?:\r\n|.|\z))*)(?:\x27|(?=[\n\r\f])|\z)|url\(\s*((?:[^"\x27\s)\\]|\\.)(?:[^)\\]|\\.)*)}gis) {
             my $t = $1 // $2 // $3 // "";
             print "$1\n" if $t =~ m{^\s*((?:https?:)?//\S*)}i;
         }' "$file"); then
