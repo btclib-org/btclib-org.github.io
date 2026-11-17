@@ -105,9 +105,10 @@ updated by hand. The sidebar of every page links the project to its page.
 btclib.org is served with no `Content-Security-Policy`. The pages carry
 no inline script or style, no `style` attribute, no event handler and no
 load from another origin. `.github/scripts/check-built-pages.sh` reads the
-built HTML for each of those, and `website.yml` runs it. Its header gives
-the policy the pages are held to all the same, why they are, and why
-btclib.org does not serve it.
+built HTML for each of those and the built stylesheets for a load from
+another origin, and `website.yml` runs it. Its header gives the policy the
+pages are held to all the same, why they are, and why btclib.org does not
+serve it.
 
 ## Status
 
