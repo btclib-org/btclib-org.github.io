@@ -29,13 +29,16 @@
 # that one with no state satisfying both.
 #
 # What is absent is absent for a measured reason rather than an
-# oversight. `git ls-files '*.py'` is empty, which is why no python hook
-# is here; there is no project and no `uv.lock`, so `uv-lock` has nothing
+# oversight. `git ls-files '*.py'` lists only
+# .github/scripts/check_link_destinations.py, the copy section 14 of the
+# organization's standard owes every tree. btclib-org/.github lints and
+# tests its canonical copy, so no hook here lints Python: no ruff and no
+# mypy. There is no project and no `uv.lock`, so `uv-lock` has nothing
 # to keep in step; and `git ls-files '*.json'` is empty, which is why the
-# json hooks are not here. A hook is added here the day the tree grows the
-# file it reads -- the two toml hooks below are that rule already
-# applied, the tree's one toml being .typos.toml and .taplo.toml
-# arriving with it.
+# json hooks are not here. A hook is added here the day the tree grows
+# the file it reads -- the two toml hooks below are that rule already
+# applied, the tree's one toml being .typos.toml and .taplo.toml arriving
+# with it.
 #
 # What no hook here reads is the site build: jekyll wants a ruby and the
 # gems `Gemfile` names, which CONTRIBUTING.md's last section gives and
@@ -85,6 +88,16 @@ repos:
         language: pygrep
         entry: '^ *rev: "?v?([0-9]+|[0-9][0-9.]*(a|b|rc|dev)[0-9]+)"?$'
         files: ^\.pre-commit-config\.yaml$
+  # section 4's leading-dash-path is the rule, and says why each key of
+  # the stanza is what it is
+  - repo: local
+    hooks:
+      - id: leading-dash-path
+        name: a path does not begin with a dash
+        language: fail
+        entry: "a hook reads a path beginning with - as its own option: rename it"
+        files: ^-
+        types: []
   # the shell scripts in the tree, which is a question for
   # `git ls-files '*.sh'` rather than a list written here
   # to be falsified by the next one. The actionlint hook below installs a
@@ -176,7 +189,7 @@ repos:
   # it runs ahead of markdownlint-cli2 below on purpose: that hook's
   # `--fix` repairs the very seam this hook exists to name
   - repo: https://github.com/btclib-org/.github
-    rev: f88870c9246bf313eb7f200c358b49b0938d89a3  # frozen: v2026.11.14
+    rev: be094615529fe484b2f6b635cb38dd5f0068fd93  # frozen: v2026.11.20
     hooks:
       - id: check-changelog
         args: [--grandfathered, "37"]
@@ -191,22 +204,26 @@ repos:
         args: [--fix]
   # how a link destination is spelled, which markdownlint has no rule
   # for. Section 4 of the organization's standard is the rule, why the
-  # prefix and not the extension, and what this cannot see; there is no
-  # shared hook repository to write it in once, so it is the same hook in
-  # each repository, `pinned-rev` above being that arrangement already
+  # prefix and not the extension, what the script reads and what it
+  # cannot see, and why each tree runs its own copy, which section 14
+  # lists. The pin is the standard's, the version of its test group
   - repo: local
     hooks:
       - id: local-link-prefix
-        name: a local markdown link destination begins with ./
-        language: pygrep
-        # one line, and no literal space in it -- "\x20" is the space the
-        # reference branch allows -- so yamllint reads the value as a
-        # single unbreakable word and its 100-column rule exempts it. A
-        # block scalar rather than a quoted one for the same reason a
-        # folded scalar was rejected: folding joins lines with a space,
-        # which would land inside the regex
-        entry: |-
-          (?<![`!\[])(?:!?\[(?:[^]]|\]\([^)]*\))*\]\(|^\x20{0,3}\[[^]]+\]:\s*)(?!\./|#|[A-Za-z][A-Za-z0-9+.-]*:)[^)\s]
+        name: a local markdown link destination begins with ./ or ../
+        entry: python .github/scripts/check_link_destinations.py --prefixed --
+        language: python
+        additional_dependencies: [markdown-it-py==4.3.0]
+        types: [markdown]
+        exclude: ^README\.md$
+      # the root README.md links a file of the tree absolutely: section 2
+      # of the organization's standard is the rule, at every tier
+      - id: readme-absolute-link
+        name: the root README.md links a file of the tree absolutely
+        entry: python .github/scripts/check_link_destinations.py --absolute --
+        language: python
+        additional_dependencies: [markdown-it-py==4.3.0]
+        files: ^README\.md$
         types: [markdown]
       # a line that ends inside a word, at that word's own hyphen.
       # Section 4 of the organization's standard is the rule: what such a
@@ -232,8 +249,11 @@ repos:
       # around its `=`, so a line carrying one is another language's
       # value; and a quote inside a quote of the other kind is a nested
       # program's -- both read off one line, which is also where the
-      # three blind spots come from. Same `\x20` as above, and the same
-      # reason.
+      # three blind spots come from. The value is one line with no
+      # literal space in it, `\x20` being the space, so that yamllint
+      # reads it as a single unbreakable word, which its line-length rule
+      # exempts; and a block scalar, since a folded one joins its lines
+      # with a space, which would land inside the regex.
       # `CHANGELOG.md` and `RELEASE_NOTES.md` are out of reach because
       # section 9 makes them append-only: a refused shape in an entry
       # that has landed has no repair, and there would be no green state

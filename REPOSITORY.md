@@ -305,6 +305,8 @@ pull request, and what it reports is that another repository moved, which is
 nothing a merge here should wait on. `links.yml`'s is a weekly question about
 the internet that no branch here introduced, its filter being its own file
 alone. `claude-review.yml` is not one either, and its own header says why.
+`sign-off-comment.yml` runs on a completed run of `lint` and only writes a
+comment: the `Sign-off` job is what gates.
 
 ## Branch protection and the rulesets
 
@@ -513,12 +515,18 @@ gh api repos/btclib-org/btclib-org.github.io/actions/permissions/workflow
  "can_approve_pull_request_reviews":false}
 ```
 
-`read` is the floor every workflow here starts from. `claude-review.yml`
-is the only one whose job elevates it — `pull-requests: write` to post a
-comment and `id-token: write` for the OIDC token the action mints at
-startup, on the `claude-review` job that calls `btclib-org/.github`'s
-`reusable-claude-review.yml`. `lint.yml`, `website.yml`, `homepage.yml`
-and `links.yml` read the tree and the network and write nothing back.
+`read` is the floor every workflow here starts from, and a job that
+needs more elevates it on its own. The `claude-review` job of
+`claude-review.yml`, which calls `btclib-org/.github`'s
+`reusable-claude-review.yml`, takes `pull-requests: write` to post the
+review, its reactions and the mention reply, and `id-token: write` for
+the OIDC token the action mints at startup. The `sign-off-comment` job
+of `sign-off-comment.yml`, which calls `reusable-sign-off-comment.yml`,
+takes `pull-requests: write` to post its one comment. `website.yml`'s
+`deploy` job takes `pages: write` and `id-token: write` to publish the
+site. `lint.yml`, `homepage.yml`, `links.yml` and
+`verified-signatures.yml` read the tree and the network and write
+nothing back.
 
 **What this call cannot say is whether that value is this repository's
 own or the organization's**, there being no endpoint that answers.
@@ -709,10 +717,11 @@ being published.
 ## Variables
 
 **A switch this repository does not set.** `claude-review.yml` calls
-`btclib-org/.github`'s `reusable-claude-review.yml`, whose jobs guard on
-`vars.CLAUDE_REVIEW_ENABLED`; a variable set here would take precedence
-over one of the same name on the organization, so the repository's own
-store is read too:
+`btclib-org/.github`'s `reusable-claude-review.yml`, whose review and
+mention jobs guard on `vars.CLAUDE_REVIEW_ENABLED`; the job that clears
+a new head's reactions runs whatever it says. A variable set here would
+take precedence over one of the same name on the organization, so the
+repository's own store is read too:
 
 ```shell
 gh api repos/btclib-org/btclib-org.github.io/actions/variables --jq .total_count
